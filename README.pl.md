@@ -1,6 +1,6 @@
 # **CuteDancer**
 
-_Animacje, paczka, dokumentacja: [Krysiek](https://github.com/Krysiek)  
+_Animacje, paczka: [Krysiek](https://github.com/Krysiek)  
 Konfiguracja Sender/Receiver, wsparcie i testy: [Luc4r](https://github.com/Luc4r)_
 
 [🇬🇧 For English - click here](/README.md)
@@ -27,13 +27,13 @@ Stworzone na bazie modelu Taiduma, ale będą również działać na innych avat
 
 ## Pobieranie
 
--- TODO create release
+[Pobierz najnowszą wersję tutaj](https://github.com/Krysiek/CuteDancer/releases)
 
 ## Instalacja
 
 ### 1. Zaimportuj paczkę do [Unity](https://unity.com/)
 
-Przeciągnij plik `CuteDancer-v2-0.unitypackage` do Unity lub wybierz z menu `Assets` -> `Import package` -> `Custom package...`
+Przeciągnij pobrany plik `CuteDancer.unitypackage` do Unity lub wybierz z menu `Assets` -> `Import package` -> `Custom package...`
 
 Wszystkie potrzebne pliki będą znajdowały się w katalogu `CuteDancer` w głównym folderze `Assets`.
 
@@ -44,7 +44,11 @@ Wszystkie potrzebne pliki będą znajdowały się w katalogu `CuteDancer` w gł�
 
 ### 2. a. Modyfikowanie animacji
 
-**Ten krok jest opcjonalny - wykonaj instrukcję tylko jeśli `Hips` nie jest pierwszą kością wewnątrz obiektu `Armature`**
+_________________
+
+🟡 **Ten krok jest opcjonalny - wykonaj instrukcję tylko jeśli `Hips` nie jest pierwszą kością wewnątrz obiektu `Armature`** 🟡
+
+_________________
 
 W przypadku, gdy Twój avatar korzysta z innej struktury wewnątrz obiektu `Armature`, **musisz** zmodyfikować część animacji, żeby cała paczka działała poprawnie.
 - Otwórz folder `CuteDancer/AnimsToggle` (z głównego folderu `Assets`)
@@ -61,7 +65,7 @@ W przypadku, gdy Twój avatar korzysta z innej struktury wewnątrz obiektu `Arma
 
 ![step 3a](/docs/images/step3a.png)
 
-- Dla wszystkich receiverów i senderów ustaw `Root Transform` na `Hips` Twojego avatara (nie jest to wymagane, ale powinno poprawić działanie z space moverem itp.)
+- Dla wszystkich receiverów i senderów ustaw `Root Transform` na `Hips` Twojego avatara (nie jest to wymagane, ale powinno poprawić działanie ze space moverem itp.)
     - Znowu - jeśli Twój avatar nie ma kości `Hips` wybierz pierwszą kość wewnątrz obiektu `Armature`
 
 ![step 3b](/docs/images/step3b.png)

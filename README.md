@@ -1,6 +1,6 @@
 # **CuteDancer**
 
-_Animations, package, docs: [Krysiek](https://github.com/Krysiek)  
+_Animations, package: [Krysiek](https://github.com/Krysiek)  
 Sender/Receiver config, support and tests: [Luc4r](https://github.com/Luc4r)_
 
 [🇵🇱 Język Polski - kliknij tutaj](/README.pl.md)
@@ -27,13 +27,13 @@ I created them on Taidum model, but they will work on all other avatars.
 
 ## Download
 
--- TODO create release
+[Download the newest version here](https://github.com/Krysiek/CuteDancer/releases)
 
 ## Installation
 
 ### 1. Import package to [Unity](https://unity.com/)
 
-Drag & drop `CuteDancer-v2-0.unitypackage` file to Unity editor or select from Unity's top menu: `Assets` -> `Import package` -> `Custom package...`
+Drag & drop `CuteDancer.unitypackage` file to Unity editor or select from Unity's top menu: `Assets` -> `Import package` -> `Custom package...`
 
 All necessary files will be placed in the `CuteDancer` directory in your main `Assets` folder.
 
@@ -44,7 +44,11 @@ All necessary files will be placed in the `CuteDancer` directory in your main `A
 
 ### 2. a. Updating animations
 
-**This step is optional, proceed if your first bone under `Armature` is different than `Hips`**
+_________________
+
+🟡 **This step is optional, proceed if your first bone under `Armature` is different than `Hips`** 🟡
+
+_________________
 
 As mentioned before - your avatar may not have the `Hips` bone in the correct spot (or using a different name for it, f.e. `Pelvis`). In that case you will **need** to update some animations for the package to work.   
 - Open `CuteDancer/AnimsToggle` folder (from your main `Assets` folder)
