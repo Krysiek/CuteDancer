@@ -1,29 +1,29 @@
-# CuteDancer
+# **CuteDancer**
 
-_Animacje, paczka, dokumentacja: Krysiek  
-Konfiguracja Sender/Receiver, wsparcie i testy: Luc4r_
+_Animacje, paczka, dokumentacja: [Krysiek](https://github.com/Krysiek)  
+Konfiguracja Sender/Receiver, wsparcie i testy: [Luc4r](https://github.com/Luc4r)_
 
 [🇬🇧 For English - click here](/docs/README.md)
 
 ## Opis CuteDancer
 
-CuteDancer jest paczką .unitypackage dedykowaną dla avatarów VRChat. Zawiera animacje tańców, które mogą być odgrywane równocześnie z innymi graczami mającymi tę paczkę zainstalowaną na swoich avatarach.
+CuteDancer jest paczką .unitypackage dedykowaną dla avatarów [VRChat](https://hello.vrchat.com/). Zawiera animacje tańców, które mogą być odgrywane równocześnie z innymi graczami mającymi tę paczkę zainstalowaną na swoich avatarach.
 
 ![promo anim](/docs/images/cutedancer.gif)
 
 ### Jak to działa?
 
-Dzięki komponentom "contacs" dodanym niedawno do VRChata możliwe jest wysyłanie sygnałów między avatarami. Gdy jeden avatar zaczyna tańczyć, aktywowany jest odpowiedni "sender", a "receiver" na avatarze innych graczy aktywuje daną animację. Istnieje możliwość wyłączenia "receivera" w razie potrzeby.
+Dzięki komponentom `contacs` możliwe jest wysyłanie sygnałów między avatarami. Gdy jeden avatar zaczyna tańczyć, aktywowany jest odpowiedni `sender`, a `receiver` na avatarze innych graczy aktywuje daną animację. Istnieje możliwość wyłączenia `receiver`a w razie potrzeby.
 
 ### Załączone animacje
 
 Na ten moment paczka zawiera 3 tańce:
-- SAR Dance - domyślny taniec z gry Super Animal Royale
+- SAR Dance - domyślny taniec z gry [Super Animal Royale](https://animalroyale.com/)
 - Coincidance - taniec potrząsania barkiem (z memicznego teledysku)
 - Badger badger - taniec wzorowany klasyczną animacją flashową
 
-Wszystkie powyższe animacje stworzył od podstaw Krysiek przy użyciu programu [Cascadeur](https://cascadeur.com/).  
-Tworzyłem je na modelu Taiduma, ale będą również działać na innych avatarach.
+Wszystkie powyższe animacje stworzył od podstaw [Krysiek](https://github.com/Krysiek) przy użyciu programu [Cascadeur](https://cascadeur.com/).  
+Stworzone na bazie modelu Taiduma, ale będą również działać na innych avatarach.
 
 ## Pobieranie
 
@@ -31,58 +31,82 @@ Tworzyłem je na modelu Taiduma, ale będą również działać na innych avatar
 
 ## Instalacja
 
-### 1. Zaimportuj paczkę do Unity
+### 1. Zaimportuj paczkę do [Unity](https://unity.com/)
 
-Przeciągnij plik CuteDancer-v2-0.unitypackage do Unity lub wybierz z menu Assets -> Import package -> Custom package...
+Przeciągnij plik `CuteDancer-v2-0.unitypackage` do Unity lub wybierz z menu `Assets` -> `Import package` -> `Custom package...`
 
-Wszystkie potrzebne pliki będą znajdowały się w katalogu CuteDancer w assetach.
+Wszystkie potrzebne pliki będą znajdowały się w katalogu `CuteDancer` w głównym folderze `Assets`.
 
-### 2. Prefab Music przenieś do Avatar -> Armature -> Hips
+### 2. Prefab `Music` przenieś do `[Avatar]` -> `Armature` -> `Hips`
+- Jeśli Twój avatar nie ma kości `Hips`, przenieś prefab `Music` na jej odpowiednik (pierwsze dziecko obiektu `Armature`) - to będzie wymagało drobnych zmian w animacjach, ale więcej na ten temat w punkcie  [2. a.](#2-a-modyfikowanie-animacji)
 
 ![step 2](/docs/images/step2.png)
 
-### 3. Prefab CuteDancerContact przenieś na Avatar
+### 2. a. Modyfikowanie animacji
+
+**Ten krok jest opcjonalny - wykonaj instrukcję tylko jeśli `Hips` nie jest pierwszą kością wewnątrz obiektu `Armature`**
+
+W przypadku, gdy Twój avatar korzysta z innej struktury wewnątrz obiektu `Armature`, **musisz** zmodyfikować część animacji, żeby cała paczka działała poprawnie.
+- Otwórz folder `CuteDancer/AnimsToggle` (z głównego folderu `Assets`)
+- Trzeba zaktualizować wszystkie animacje z tego folderu oprócz `Contact_ON`/`Contact_OFF`. Aby to zrobić:
+    - Kliknij na wybraną animację - dla przykładu zacznijmy od `MusicAll_OFF`
+    - Otwórz zakładkę `Animation` (jeśli jej nie widzisz, wybierz `Window` -> `Animation` -> `Animation` z górnego menu Unity)
+    - Kliknij na tekst `Music : Game Object.Is Active`, a gdy się podświetli kliknij jeszcze raz - po ~sekundzie powinien zmienić się na pole tekstowe, które zawiera ścieżkę do brakującego obiektu (`Armature/Hips/Music`). Podmień `Hips` na pierwszą kość obiektu `Armature` w Twoim avatarze
+    - Gotowe, ta animacja powinna już działać! Teraz powtórz te same kroki dla pozostałych animacji z tego folderu (`MusicAll_ON` będzie wymagało dokładnie takich samych kroków, a w pozostałych animacjach mamy dwie wartości zamiast jednej - `...Music` i `...Sender` - nas interesują tylko te z końcówką `...Music`, bo tylko one zawierają część `Hips`, którą musisz podmienić) 
+
+![step 2a - 1](/docs/images/step2a1.png)
+![step 2a - 2](/docs/images/step2a2.png)
+
+### 3. Prefab `CuteDancerContact` przenieś na swój główny obiekt `[Avatar]`
 
 ![step 3a](/docs/images/step3a.png)
 
+- Dla wszystkich receiverów i senderów ustaw `Root Transform` na `Hips` Twojego avatara (nie jest to wymagane, ale powinno poprawić działanie z space moverem itp.)
+    - Znowu - jeśli Twój avatar nie ma kości `Hips` wybierz pierwszą kość wewnątrz obiektu `Armature`
+
 ![step 3b](/docs/images/step3b.png)
 
-Dla wszystkich receiverów i senderów ustaw Root Transform na Hips twojego avatara (nie jest to wymagane, ale powinno poprawić działanie z space moverem itp.)
+### 4. Wzorując się na `VRCParams_Example` dodaj do `VRC Expressions Parameters` używanego przez Twój avatar:
 
-### 4. Wzorując się na VRCParams_Example dodaj do VRCParams używanego przez Twój avatar:
-
-- VRCEmote (jeśli nie istnieje)
-- CuteDancerContactOff
-- CuteDancerMusicOff
+- `VRCEmote` (jeśli nie istnieje) z polem `Type` ustawionym na `Int`
+- `CuteDancerContactOff` z polem `Type` ustawionym na `Bool`
+- `CuteDancerMusicOff` z polem `Type` ustawionym na `Bool`
 
 ![step 4a](/docs/images/step4a.png)
 
 ![step 4b](/docs/images/step4b.png)
 
-### 5. Użyj VRCMenu_CuteDancer jako submenu w swoim avatarze
+### 5. Użyj `VRCMenu_CuteDancer` jako submenu w `VRC Expressions Menu` używanym przez Twój avatar
 
 ![step 5a](/docs/images/step5a.png)
 
 ![step 5b](/docs/images/step5b.png)
 
-### 6. Przenieś warstwy kontrolera Action i FX z przykładowych plików
+### 6. Przenieś warstwy kontrolera `Action` i `FX` z przykładowych plików
 
+Pliki z przykładem to `Ctrl_Action_Example` i `Ctrl_FX_Example`.
 
-Pliki z przykładem to Ctrl_Action_Example i Ctrl_FX_Example.
+Warstwy możesz przenieść ręcznie używając `Ctrl+C` i `Ctrl+V` lub użyć do tego automatycznego skryptu zawartego w tej paczce.
 
-Warstwy możesz przenieść ręcznie używając Ctrl+C i Ctrl+V lub użyć do tego automatycznego skryptu.
+_________________
 
 🛑 **PAMIĘTAJ O ZROBIENIU KOPII ZAPASOWEJ SWOICH KONTROLERÓW ACTION I FX** 🛑
 
-Wybierz z górnego menu Tools -> CuteDancer Setup
+_________________
 
-Do pola Action przeciągnij kontroler Action używany przez Twój avatar
-Do pola FX przeciągnij kontroler FX używany przez Twój avatar
+Wybierz z górnego menu Unity `Tools` -> `CuteDancer Setup`
 
-Kliknij Add layers to my avatar.
+Do pola `Action` przeciągnij kontroler `Action` używany przez Twój avatar.   
+Do pola `FX` przeciągnij kontroler `FX` używany przez Twój avatar.
+
+Kliknij `Add layers to my avatar`.
+
+![step 6](/docs/images/step6.png)
+
+_________________
 
 ⚠️ Uwaga: Jeśli w przyszłości chcesz mieć możliwość usunięcia warstw - nie zmieniaj ich nazw w swoich kontrolerach! ⚠️
 
-![step 6](/docs/images/step6.png)
+_________________
 
 ### 7. Gotowe, zbuduj i wgraj avatar, tańce powinny działać :)
