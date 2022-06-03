@@ -3,7 +3,7 @@
 _Animacje, paczka, dokumentacja: [Krysiek](https://github.com/Krysiek)  
 Konfiguracja Sender/Receiver, wsparcie i testy: [Luc4r](https://github.com/Luc4r)_
 
-[🇬🇧 For English - click here](/docs/README.md)
+[🇬🇧 For English - click here](/README.md)
 
 ## Opis CuteDancer
 
@@ -13,7 +13,7 @@ CuteDancer jest paczką .unitypackage dedykowaną dla avatarów [VRChat](https:/
 
 ### Jak to działa?
 
-Dzięki komponentom `contacs` możliwe jest wysyłanie sygnałów między avatarami. Gdy jeden avatar zaczyna tańczyć, aktywowany jest odpowiedni `sender`, a `receiver` na avatarze innych graczy aktywuje daną animację. Istnieje możliwość wyłączenia `receiver`a w razie potrzeby.
+Dzięki komponentom `contacts` możliwe jest wysyłanie sygnałów między avatarami. Gdy jeden avatar zaczyna tańczyć, aktywowany jest odpowiedni `sender`, a `receiver` na avatarze innych graczy aktywuje daną animację. Istnieje możliwość wyłączenia `receiver`a w razie potrzeby.
 
 ### Załączone animacje
 
@@ -99,14 +99,18 @@ Wybierz z górnego menu Unity `Tools` -> `CuteDancer Setup`
 Do pola `Action` przeciągnij kontroler `Action` używany przez Twój avatar.   
 Do pola `FX` przeciągnij kontroler `FX` używany przez Twój avatar.
 
+Możesz wybraż je z listy (w tym celu kliknij na okrągły przycisk po prawej stronie pola wyboru kontrolera) albo przeciągnać je z zakładki `Project`.
+
 Kliknij `Add layers to my avatar`.
 
 ![step 6](/docs/images/step6.png)
 
 _________________
 
-⚠️ Uwaga: Jeśli w przyszłości chcesz mieć możliwość usunięcia warstw - nie zmieniaj ich nazw w swoich kontrolerach! ⚠️
+⚠️ Uwaga: Jeśli w przyszłości chcesz mieć możliwość usunięcia warstw (lub łatwiejszą aktualizację paczki) - nie zmieniaj ich nazw w swoich kontrolerach! ⚠️
 
 _________________
 
-### 7. Gotowe, zbuduj i wgraj avatar, tańce powinny działać :)
+### 7. Gotowe!
+
+Wgraj avatar i tańcz razem z innymi :)
