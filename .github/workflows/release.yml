@@ -1,0 +1,32 @@
+name: Rlease package
+
+on:
+  create:
+    tags:
+      - "v*.*"
+  workflow_dispatch:
+
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      ASSETS_FOLDER: CuteDancer
+      UNITYPACKAGE: CuteDancer_${{ github.ref_name }}.unitypackage
+    steps:
+    - uses: actions/checkout@v3
+
+    - run: |
+        echo "Assets/${{ env.ASSETS_FOLDER }}.meta" > metaList
+        find "Assets/${{ env.ASSETS_FOLDER }}/" -name \*.meta >> metaList
+        sed -i -e "s/<dev version>/$GITHUB_REF_NAME/g" "Assets/${{ env.ASSETS_FOLDER }}/README.txt"
+    - uses: pCYSl5EDgo/create-unitypackage@v1
+      with:
+        package-path: ${{ env.UNITYPACKAGE }}
+        include-files: metaList
+
+    - uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: ${{ env.UNITYPACKAGE }}
+        draft: true
