@@ -3,11 +3,11 @@
 _Animacje, paczka, dokumentacja: Krysiek  
 Konfiguracja Sender/Receiver, wsparcie i testy: Luc4r_
 
-[🇵🇱 For English - click here](/docs/README.md)
+[🇬🇧 For English - click here](/docs/README.md)
 
 ## Opis CuteDancer
 
-CuteDancer jest paczką .unitypackage dedykowaną dla avatarów VRChat. Zawiera animację tańców, które mogą być odgrywane równocześnie z innymi graczami mającymi tę paczkę zainstalowaną na swoich avatarach.
+CuteDancer jest paczką .unitypackage dedykowaną dla avatarów VRChat. Zawiera animacje tańców, które mogą być odgrywane równocześnie z innymi graczami mającymi tę paczkę zainstalowaną na swoich avatarach.
 
 ![promo anim](/docs/images/cutedancer.gif)
 
@@ -33,7 +33,7 @@ Tworzyłem je na modelu Taiduma, ale będą również działać na innych avatar
 
 ### 1. Zaimportuj paczkę do Unity
 
-Przeciągnij plik CuteDancer-v2.0.unitypackage do Unity lub wybierz z menu Assets -> Import package -> Custom package...
+Przeciągnij plik CuteDancer-v2-0.unitypackage do Unity lub wybierz z menu Assets -> Import package -> Custom package...
 
 Wszystkie potrzebne pliki będą znajdowały się w katalogu CuteDancer w assetach.
 

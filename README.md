@@ -3,7 +3,7 @@
 _Animations, package, doc: Krysiek  
 Sender/Receiver config, support and tests: Luc4r_
 
-[🇵🇱 Język Polski - kliknij tutaj](/docs/README.pl.md)
+[🇵🇱 Język Polski - kliknij tutaj](/README.pl.md)
 
 ## About CuteDancer
 
@@ -33,7 +33,7 @@ I created them on Taidum model, but they will work on all other avatars.
 
 ### 1. Import package to Unity
 
-Drag & drop file CuteDancer-v2.0.unitypackage to Unity editor or select from menu: Assets -> Import package -> Custom package...
+Drag & drop file CuteDancer-v2-0.unitypackage to Unity editor or select from menu: Assets -> Import package -> Custom package...
 
 All necessary files will be placed in CuteDancer directory in your assets.
 
@@ -88,4 +88,4 @@ Click: Add layers to my avatar.
 
 ![step 6](/docs/images/step6.png)
 
-### 7. Finished! Upload an avatar - dances should work :)
+### 7. Finished! Upload the avatar - dances should work :)
