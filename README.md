@@ -7,7 +7,7 @@ Sender/Receiver config, support and tests: [Luc4r](https://github.com/Luc4r)_
 
 ## About CuteDancer
 
-CuteDancer is a unitypackage dedicated to use on [VRChat](https://hello.vrchat.com/) avatars. It contains dance animations that can be played in sync together with other players who have the package installed on their avatars.
+CuteDancer is a .unitypackage dedicated to use on [VRChat](https://hello.vrchat.com/) avatars. It contains dance animations that can be played in sync together with other players who have the package installed on their avatars.
 
 ![promo anim](/docs/images/cutedancer.gif)
 
@@ -18,7 +18,7 @@ It uses new contacts components added recently to VRChat. When one avatar starts
 ### Included dances
 
 At the moment the package contains 3 dances:
-- SAR Dance - default dance from Super Animal Royale game
+- SAR Dance - default dance from [Super Animal Royale](https://animalroyale.com/) game
 - Coincidance - shoulder shake meme dance
 - Badger badger - simple badger dance
 
@@ -38,11 +38,26 @@ Drag & drop `CuteDancer-v2-0.unitypackage` file to Unity editor or select from U
 All necessary files will be placed in the `CuteDancer` directory in your main `Assets` folder.
 
 ### 2. Drag & drop `Music` prefab to Hierarchy: `[Avatar]` -> `Armature` -> `Hips`
-- If your avatar doesn't have `Hips` bone just drop `Music` prefab on the first bone under `Armature` (this will require modyfing animations a bit, more on step [6. a.](#6-a-updating-animations))
+- If your avatar doesn't have `Hips` bone just drop `Music` prefab on the first bone under `Armature` (this will require modyfing animations a bit, more on step [2. a.](#6-a-updating-animations))
 
 ![step 2](/docs/images/step2.png)
 
-### 3. Drag & drop `CuteDancerContact` prefab on your `[Avatar]`
+### 2. a. Updating animations
+
+**This step is optional, proceed if your first bone under `Armature` is different than `Hips`**
+
+As mentioned before - your avatar may not have the `Hips` bone in the correct spot (or using a different name for it, f.e. `Pelvis`). In that case you will **need** to update some animations for the package to work.   
+- Open `CuteDancer/AnimsToggle` folder (from your main `Assets` folder)
+- All animations but `Contact_ON`/`Contact_OFF` need to be updated.
+    - Let's start with `MusicAll_OFF` animation - click on it
+    -  Open the `Animation` tab (in case you don't see it select `Window` -> `Animation` -> `Animation` from Unity's top menu)
+    - Click on the `Music : Game Object.Is Active` label and then click again - after a second, it should switch to the text field which contains path to the missing object (`Armature/Hips/Music`). Change `Hips` to whatever your first bone under `Armature` is named
+    - Done, this animation should work properly! Now repeat these steps for other animations from this folder (`MusicAll_ON` will be the exact same steps, for other animations there are two fields - `...Music` and `...Sender` - you only need to update `...Music` one since it contains `Hips` part which you need to replace)
+
+![step 2a - 1](/docs/images/step2a1.png)
+![step 2a - 2](/docs/images/step2a2.png)
+
+### 3. Drag & drop `CuteDancerContact` prefab on your main `[Avatar]` object
 
 ![step 3a](/docs/images/step3a.png)
 
@@ -96,19 +111,6 @@ _________________
 ⚠️ Warning: If you want to remove layers later (or have an easier time updating the package in the future) - don't change CuteDance's layer names in your controllers! ⚠️
 
 _________________
-
-### 6. a. Updating animations
-
-As mentioned before - your avatar may not have the `Hips` bone in the correct spot (or using a different name for it, f.e. `Pelvis`). In that case you will **need** to update some animations for the package to work.   
-- Open `CuteDancer/AnimsToggle` folder (from your main `Assets` folder)
-- All animations but `Contact_ON`/`Contact_OFF` need to be updated.
-    - Let's start with `MusicAll_OFF` animation - click on it
-    -  Open the `Animation` tab (in case you don't see it select `Window` -> `Animation` -> `Animation` from Unity's top menu)
-    - Click on the `Music : Game Object.Is Active` label and then click again - after a second, it should switch to the text field which contains path to the missing object (`Armature/Hips/Music`). Change `Hips` to whatever your first bone under `Armature` is named
-    - Done, this animation should work properly! Now repeat these steps for other animations from this folder (`MusicAll_ON` will be the exact same steps, for other animations there are two fields - `...Music` and `...Sender` - you only need to update `...Music` one since it contains `Hips` part which you need to replace)
-
-![step 6a - 1](/docs/images/step6a1.png)
-![step 6a - 2](/docs/images/step6a2.png)
 
 ### 7. **Finished!**
 
