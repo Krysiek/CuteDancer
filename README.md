@@ -38,7 +38,7 @@ Drag & drop `CuteDancer-v2-0.unitypackage` file to Unity editor or select from U
 All necessary files will be placed in the `CuteDancer` directory in your main `Assets` folder.
 
 ### 2. Drag & drop `Music` prefab to Hierarchy: `[Avatar]` -> `Armature` -> `Hips`
-- If your avatar doesn't have `Hips` bone just drop `Music` prefab on the first bone under `Armature` (this will require modyfing animations a bit, more on step [2. a.](#6-a-updating-animations))
+- If your avatar doesn't have `Hips` bone just drop `Music` prefab on the first bone under `Armature` (this will require modyfing animations a bit, more on step [2. a.](#2-a-updating-animations))
 
 ![step 2](/docs/images/step2.png)
 
