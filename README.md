@@ -1,7 +1,8 @@
 # **CuteDancer**
 
 _Animations, package: [Krysiek](https://github.com/Krysiek)  
-Sender/Receiver config, support and tests: [Luc4r](https://github.com/Luc4r)_
+Sender/Receiver config, support and tests: [Luc4r](https://github.com/Luc4r)  
+Animators optimization, tests: [Jack'lul](https://github.com/jacklul)_
 
 [🇵🇱 Język Polski - kliknij tutaj](/README.pl.md)
 
@@ -9,7 +10,7 @@ Sender/Receiver config, support and tests: [Luc4r](https://github.com/Luc4r)_
 
 CuteDancer is a .unitypackage dedicated to use on [VRChat](https://hello.vrchat.com/) avatars. It contains dance animations that can be played in sync together with other players who have the package installed on their avatars.
 
-![promo anim](/docs/images/cutedancer.gif)
+![promo anim](docs/images/cutedancer.gif)
 
 ### How does it work?
 
@@ -40,7 +41,7 @@ All necessary files will be placed in the `CuteDancer` directory in your main `A
 ### 2. Drag & drop `Music` prefab to Hierarchy: `[Avatar]` -> `Armature` -> `Hips`
 - If your avatar doesn't have `Hips` bone just drop `Music` prefab on the first bone under `Armature` (this will require modyfing animations a bit, more on step [2. a.](#2-a-updating-animations))
 
-![step 2](/docs/images/step2.png)
+![step 2](docs/images/step2.png)
 
 ### 2. a. Updating animations
 
@@ -58,17 +59,17 @@ As mentioned before - your avatar may not have the `Hips` bone in the correct sp
     - Click on the `Music : Game Object.Is Active` label and then click again - after a second, it should switch to the text field which contains path to the missing object (`Armature/Hips/Music`). Change `Hips` to whatever your first bone under `Armature` is named
     - Done, this animation should work properly! Now repeat these steps for other animations from this folder (`MusicAll_ON` will be the exact same steps, for other animations there are two fields - `...Music` and `...Sender` - you only need to update `...Music` one since it contains `Hips` part which you need to replace)
 
-![step 2a - 1](/docs/images/step2a1.png)
-![step 2a - 2](/docs/images/step2a2.png)
+![step 2a - 1](docs/images/step2a1.png)
+![step 2a - 2](docs/images/step2a2.png)
 
 ### 3. Drag & drop `CuteDancerContact` prefab on your main `[Avatar]` object
 
-![step 3a](/docs/images/step3a.png)
+![step 3a](docs/images/step3a.png)
 
 - For all receivers and senders, set `Root Transform` to `Hips` (not necessary, but it should work better with space movers etc.)  
    - Again - if your avatar doesn't have `Hips` bone just select the first bone under `Armature`
 
-![step 3b](/docs/images/step3b.png)
+![step 3b](docs/images/step3b.png)
 
 ### 4. Add new parameters to your `VRC Expressions Parameters`:
 
@@ -78,14 +79,14 @@ As mentioned before - your avatar may not have the `Hips` bone in the correct sp
 
 You can check out the `VRCParams_Example` file as an example.
 
-![step 4a](/docs/images/step4a.png)
+![step 4a](docs/images/step4a.png)
 
-![step 4b](/docs/images/step4b.png)
+![step 4b](docs/images/step4b.png)
 
 ### 5. Use `VRCMenu_CuteDancer` as a submenu in your `VRC Expressions Menu`
 
-![step 5a](/docs/images/step5a.png)
-![step 5b](/docs/images/step5b.png)
+![step 5a](docs/images/step5a.png)
+![step 5b](docs/images/step5b.png)
 
 ### 6. Transfer layers to `Action` and `FX` controllers from example files
 
@@ -108,7 +109,7 @@ You can either select them from the list (click the circle button on the right s
 
 Click: `Add layers to my avatar`.
 
-![step 6](/docs/images/step6.png)
+![step 6](docs/images/step6.png)
 
 _________________
 

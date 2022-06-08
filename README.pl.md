@@ -1,7 +1,8 @@
 # **CuteDancer**
 
 _Animacje, paczka: [Krysiek](https://github.com/Krysiek)  
-Konfiguracja Sender/Receiver, wsparcie i testy: [Luc4r](https://github.com/Luc4r)_
+Konfiguracja Sender/Receiver, wsparcie i testy: [Luc4r](https://github.com/Luc4r)  
+Optymalizacja animatorów, testy: [Jack'lul](https://github.com/jacklul)_
 
 [🇬🇧 For English - click here](/README.md)
 
@@ -9,7 +10,7 @@ Konfiguracja Sender/Receiver, wsparcie i testy: [Luc4r](https://github.com/Luc4r
 
 CuteDancer jest paczką .unitypackage dedykowaną dla avatarów [VRChat](https://hello.vrchat.com/). Zawiera animacje tańców, które mogą być odgrywane równocześnie z innymi graczami mającymi tę paczkę zainstalowaną na swoich avatarach.
 
-![promo anim](/docs/images/cutedancer.gif)
+![promo anim](docs/images/cutedancer.gif)
 
 ### Jak to działa?
 
@@ -40,7 +41,7 @@ Wszystkie potrzebne pliki będą znajdowały się w katalogu `CuteDancer` w gł�
 ### 2. Prefab `Music` przenieś do `[Avatar]` -> `Armature` -> `Hips`
 - Jeśli Twój avatar nie ma kości `Hips`, przenieś prefab `Music` na jej odpowiednik (pierwsze dziecko obiektu `Armature`) - to będzie wymagało drobnych zmian w animacjach, ale więcej na ten temat w punkcie  [2. a.](#2-a-modyfikowanie-animacji)
 
-![step 2](/docs/images/step2.png)
+![step 2](docs/images/step2.png)
 
 ### 2. a. Modyfikowanie animacji
 
@@ -58,17 +59,17 @@ W przypadku, gdy Twój avatar korzysta z innej struktury wewnątrz obiektu `Arma
     - Kliknij na tekst `Music : Game Object.Is Active`, a gdy się podświetli kliknij jeszcze raz - po ~sekundzie powinien zmienić się na pole tekstowe, które zawiera ścieżkę do brakującego obiektu (`Armature/Hips/Music`). Podmień `Hips` na pierwszą kość obiektu `Armature` w Twoim avatarze
     - Gotowe, ta animacja powinna już działać! Teraz powtórz te same kroki dla pozostałych animacji z tego folderu (`MusicAll_ON` będzie wymagało dokładnie takich samych kroków, a w pozostałych animacjach mamy dwie wartości zamiast jednej - `...Music` i `...Sender` - nas interesują tylko te z końcówką `...Music`, bo tylko one zawierają część `Hips`, którą musisz podmienić) 
 
-![step 2a - 1](/docs/images/step2a1.png)
-![step 2a - 2](/docs/images/step2a2.png)
+![step 2a - 1](docs/images/step2a1.png)
+![step 2a - 2](docs/images/step2a2.png)
 
 ### 3. Prefab `CuteDancerContact` przenieś na swój główny obiekt `[Avatar]`
 
-![step 3a](/docs/images/step3a.png)
+![step 3a](docs/images/step3a.png)
 
 - Dla wszystkich receiverów i senderów ustaw `Root Transform` na `Hips` Twojego avatara (nie jest to wymagane, ale powinno poprawić działanie ze space moverem itp.)
     - Znowu - jeśli Twój avatar nie ma kości `Hips` wybierz pierwszą kość wewnątrz obiektu `Armature`
 
-![step 3b](/docs/images/step3b.png)
+![step 3b](docs/images/step3b.png)
 
 ### 4. Wzorując się na `VRCParams_Example` dodaj do `VRC Expressions Parameters` używanego przez Twój avatar:
 
@@ -76,15 +77,15 @@ W przypadku, gdy Twój avatar korzysta z innej struktury wewnątrz obiektu `Arma
 - `CuteDancerContactOff` z polem `Type` ustawionym na `Bool`
 - `CuteDancerMusicOff` z polem `Type` ustawionym na `Bool`
 
-![step 4a](/docs/images/step4a.png)
+![step 4a](docs/images/step4a.png)
 
-![step 4b](/docs/images/step4b.png)
+![step 4b](docs/images/step4b.png)
 
 ### 5. Użyj `VRCMenu_CuteDancer` jako submenu w `VRC Expressions Menu` używanym przez Twój avatar
 
-![step 5a](/docs/images/step5a.png)
+![step 5a](docs/images/step5a.png)
 
-![step 5b](/docs/images/step5b.png)
+![step 5b](docs/images/step5b.png)
 
 ### 6. Przenieś warstwy kontrolera `Action` i `FX` z przykładowych plików
 
@@ -107,7 +108,7 @@ Możesz wybraż je z listy (w tym celu kliknij na okrągły przycisk po prawej s
 
 Kliknij `Add layers to my avatar`.
 
-![step 6](/docs/images/step6.png)
+![step 6](docs/images/step6.png)
 
 _________________
 
