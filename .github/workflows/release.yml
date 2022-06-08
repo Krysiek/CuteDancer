@@ -20,6 +20,7 @@ jobs:
         echo "Assets/${{ env.ASSETS_FOLDER }}.meta" > metaList
         find "Assets/${{ env.ASSETS_FOLDER }}/" -name \*.meta >> metaList
         sed -i -e "s/<dev version>/$GITHUB_REF_NAME/g" "Assets/${{ env.ASSETS_FOLDER }}/README.txt"
+        sed -i -e "s/<dev version>/$GITHUB_REF_NAME/g" "Assets/${{ env.ASSETS_FOLDER }}/Editor/CuteScript.cs"
     - uses: pCYSl5EDgo/create-unitypackage@v1
       with:
         package-path: ${{ env.UNITYPACKAGE }}
