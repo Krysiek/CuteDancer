@@ -12122,7 +12122,7 @@ AnimatorStateMachine:
     m_Position: {x: 600, y: 360, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 37191146652816504}
-    m_Position: {x: 20, y: 160, z: 0}
+    m_Position: {x: -10, y: 160, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2152534891204349993}
     m_Position: {x: 600, y: 300, z: 0}
@@ -12140,8 +12140,8 @@ AnimatorStateMachine:
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 40, y: 0, z: 0}
-  m_EntryPosition: {x: 40, y: 70, z: 0}
+  m_AnyStatePosition: {x: 10, y: 0, z: 0}
+  m_EntryPosition: {x: 10, y: 70, z: 0}
   m_ExitPosition: {x: 1200, y: 70, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 37191146652816504}
@@ -12271,7 +12271,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0
+  m_ExitTime: 0.1
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -12923,7 +12923,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layer: 0
   goalWeight: 1
-  blendDuration: 0
+  blendDuration: 0.25
   debugString: 
   outputParamHash: 0
 --- !u!1101 &7590332085476852861
