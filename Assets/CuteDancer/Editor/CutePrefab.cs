@@ -13,7 +13,7 @@ namespace VRF
         string avatarName = "Avatar";
         GameObject avatar;
 
-        static string MUSIC_PREFAB = "Assets/CuteDancer/Music.prefab";
+        static string MUSIC_PREFAB = "Assets/CuteDancer/CuteDancerMusic.prefab";
         static string CONTACT_PREFAB = "Assets/CuteDancer/CuteDancerContact.prefab";
 
         enum Status
@@ -26,11 +26,11 @@ namespace VRF
 
             GUIStyle labelStyle = new GUIStyle(EditorStyles.largeLabel);
             labelStyle.wordWrap = true;
-            GUILayout.Label("Please drag & drop prefabs:", labelStyle);
-            GUILayout.Label($"- 'Music' to '{avatarName} -> Armature -> Hips'", labelStyle);
-            GUILayout.Label($"- 'CuteDancerContact' to '{avatarName}'", labelStyle);
+            GUILayout.Label("Please drag & drop prefabs to root of your avatar:\n" +
+                            "- CuteDancerMusic\n" +
+                            "- CuteDancerContact",
+                        labelStyle);
             labelStyle.fontStyle = FontStyle.Italic;
-            GUILayout.Label("If you need more details, check README", labelStyle);
         }
 
         public void RenderStatus()
@@ -89,7 +89,7 @@ namespace VRF
 
             string musicGuid = AssetDatabase.AssetPathToGUID(MUSIC_PREFAB);
 
-            Transform musicInstance = avatar.transform.Find("Armature/Hips/Music");
+            Transform musicInstance = avatar.transform.Find("CuteDancerMusic");
 
             if (musicInstance)
             {
@@ -118,7 +118,7 @@ namespace VRF
             {
                 return Status.ADDED;
             }
-            
+
 
             // RecursiveFindChild(avatar.transform, contactGuid);
 
@@ -129,7 +129,7 @@ namespace VRF
         {
             foreach (Transform child in parent)
             {
-                
+
                 // var ptype = PrefabUtility.GetCorrespondingObjectFromOriginalSource(child.gameObject);
                 // Debug.Log(child.name +"---"+ ptype);
 
