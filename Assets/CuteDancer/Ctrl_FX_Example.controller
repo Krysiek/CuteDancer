@@ -3044,7 +3044,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0
+  m_TransitionDuration: 0.1
   m_TransitionOffset: 0
   m_ExitTime: 0
   m_HasExitTime: 0
@@ -7258,6 +7258,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: VRCEmote
     m_EventTreshold: 202
+  - m_ConditionMode: 1
+    m_ConditionEvent: CuteDancerSync
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 319636277506950216}
   m_Solo: 0
@@ -8067,10 +8070,13 @@ AnimatorStateTransition:
     m_ConditionEvent: CuteDancerMusicOff
     m_EventTreshold: 0
   - m_ConditionMode: 2
+    m_ConditionEvent: SARDefaultDance
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
     m_ConditionEvent: ShoulderShakeDance
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: SARDefaultDance
+    m_ConditionEvent: BadgerDance
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -805814512913970909}
@@ -8498,6 +8504,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: VRCEmote
     m_EventTreshold: 204
+  - m_ConditionMode: 1
+    m_ConditionEvent: CuteDancerSync
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 3967370456204333873}
   m_Solo: 0
@@ -10225,6 +10234,31 @@ MonoBehaviour:
   parameters: []
   localOnly: 0
   debugString: 
+--- !u!1101 &-2379389162412076254
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 3
+    m_ConditionEvent: VRCEmote
+    m_EventTreshold: 206
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 7943680859225517269}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1102 &-2372920019751952360
 AnimatorState:
   serializedVersion: 6
@@ -10383,7 +10417,10 @@ AnimatorStateTransition:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_Conditions: []
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: CuteDancerSync
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7943680859225517269}
   m_Solo: 0
@@ -10392,8 +10429,8 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0.6
-  m_HasExitTime: 1
+  m_ExitTime: 0.1
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -13613,7 +13650,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0
+  m_TransitionDuration: 0.1
   m_TransitionOffset: 0
   m_ExitTime: 0
   m_HasExitTime: 0
@@ -13961,6 +13998,12 @@ AnimatorController:
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
   - m_Name: CuteDancerContactOff
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: CuteDancerSync
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -18431,7 +18474,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0
+  m_TransitionDuration: 0.1
   m_TransitionOffset: 0
   m_ExitTime: 0
   m_HasExitTime: 0
@@ -18946,6 +18989,7 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -2256996252449407787}
+  - {fileID: 7936825358744864902}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -28310,6 +28354,31 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1101 &4267298170388495897
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 4
+    m_ConditionEvent: VRCEmote
+    m_EventTreshold: 200
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 7943680859225517269}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1102 &4286605276742770540
 AnimatorState:
   serializedVersion: 6
@@ -29633,6 +29702,8 @@ AnimatorState:
   - {fileID: -3560593691822956027}
   - {fileID: -4215485003804769552}
   - {fileID: 8017096396548462236}
+  - {fileID: -2379389162412076254}
+  - {fileID: 4267298170388495897}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -34462,6 +34533,31 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1101 &7936825358744864902
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 2
+    m_ConditionEvent: CuteDancerSync
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 7943680859225517269}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1102 &7940043340053979660
 AnimatorState:
   serializedVersion: 6
@@ -34720,6 +34816,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: VRCEmote
     m_EventTreshold: 203
+  - m_ConditionMode: 1
+    m_ConditionEvent: CuteDancerSync
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1920179896849293619}
   m_Solo: 0
