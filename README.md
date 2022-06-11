@@ -32,91 +32,72 @@ I created them on Taidum model, but they will work on all other avatars.
 
 ## Installation
 
-### 1. Import package to [Unity](https://unity.com/)
+https://user-images.githubusercontent.com/54168895/173168780-17e84099-d3df-47c0-89eb-c4ad40ba456c.mp4
+
+### 1. **Import package to [Unity](https://unity.com/)**
 
 Drag & drop `CuteDancer.unitypackage` file to Unity editor or select from Unity's top menu: `Assets` -> `Import package` -> `Custom package...`
 
 All necessary files will be placed in the `CuteDancer` directory in your main `Assets` folder.
 
-### 2. Drag & drop `Music` prefab to Hierarchy: `[Avatar]` -> `Armature` -> `Hips`
-- If your avatar doesn't have `Hips` bone just drop `Music` prefab on the first bone under `Armature` (this will require modyfing animations a bit, more on step [2. a.](#2-a-updating-animations))
+### 2. **Open CuteDancer Setup window**
 
-![step 2](docs/images/step2.png)
+Select (from Unity's top menu): `Tools` -> `CuteDancer Setup`.
 
-### 2. a. Updating animations
+The `CuteDancer Script` will help you automate some boring setup and will verify if everything is installed correctly.\*
 
-_________________
+___
+_\* As long as you stick with default installation settings and prefabs placement in the hierarchy. Changes made to prefabs, animations, parameters or layers can fool the assumes that you are experienced Unity user and you are aware of what you are doing. For installation description for advanced users [click here](docs/ADVANCED.md)._
+___
 
-🟡 **This step is optional, proceed if your first bone under `Armature` is different than `Hips`** 🟡
+### 3. **Select your avatar in the `CuteDancer Script` window**
 
-_________________
+Drag & drop your avatar from Scene or click the circle button on the right side of the field and choose your avatar from the list.
 
-As mentioned before - your avatar may not have the `Hips` bone in the correct spot (or using a different name for it, f.e. `Pelvis`). In that case you will **need** to update some animations for the package to work.   
-- Open `CuteDancer/AnimsToggle` folder (from your main `Assets` folder)
-- All animations but `Contact_ON`/`Contact_OFF` need to be updated.
-    - Let's start with `MusicAll_OFF` animation - click on it
-    -  Open the `Animation` tab (in case you don't see it select `Window` -> `Animation` -> `Animation` from Unity's top menu)
-    - Click on the `Music : Game Object.Is Active` label and then click again - after a second, it should switch to the text field which contains path to the missing object (`Armature/Hips/Music`). Change `Hips` to whatever your first bone under `Armature` is named
-    - Done, this animation should work properly! Now repeat these steps for other animations from this folder (`MusicAll_ON` will be the exact same steps, for other animations there are two fields - `...Music` and `...Sender` - you only need to update `...Music` one since it contains `Hips` part which you need to replace)
+### 4. **Drag & drop `CuteDancerContact` and `CuteDancerMusic` prefabs on your main `[Avatar]` object**
 
-![step 2a - 1](docs/images/step2a1.png)
-![step 2a - 2](docs/images/step2a2.png)
+Check if prefabs are detected in the `CuteDancer Setup` window (if the window does not refresh, move the mouse cursor above it).
 
-### 3. Drag & drop `CuteDancerContact` prefab on your main `[Avatar]` object
+### 5. **Add new parameters to your `VRC Expressions Parameters`**
 
-![step 3a](docs/images/step3a.png)
+Once you loaded your avatar in the CuteDancer Script window, the `Expression Parameters` field should be filled automatically.
+___
+ℹ️ If your avatar does not have an expression parameters and menu, [follow official documentation to create them](https://docs.vrchat.com/docs/expression-menu-and-controls#creating-an-expression-menu). ℹ️
+___
 
-- For all receivers and senders, set `Root Transform` to `Hips` (not necessary, but it should work better with space movers etc.)  
-   - Again - if your avatar doesn't have `Hips` bone just select the first bone under `Armature`
+Click `Add expression parameters` button.
 
-![step 3b](docs/images/step3b.png)
+### 5. **Add `VRCMenu_CuteDancer` as a submenu to your `VRC Expressions Menu`**
 
-### 4. Add new parameters to your `VRC Expressions Parameters`:
+Once you loaded your avatar in the CuteDancer Script window, the `Expression Menu` field should be filled automatically.
 
-- `VRCEmote` (if doesn't exist) with `Type` set to `Int`
-- `CuteDancerContactOff`, with `Type` set to `Bool`
-- `CuteDancerMusicOff`, with `Type` set to `Bool`
+Click `Add expression submenu` button.
 
-You can check out the `VRCParams_Example` file as an example.
+### 6. **Add layers to `Action` and `FX` controllers**
 
-![step 4a](docs/images/step4a.png)
+Once you loaded your avatar in the CuteDancer Script window, the `Action` and `FX` fields should be filled automatically.
 
-![step 4b](docs/images/step4b.png)
+___
+ℹ️ If your avatar does not contain `Action` or `FX` controllers, create them. ℹ️  
+Click right mouse buttom in `Project` window and select `Create -> Animator Controller`. Click your avatar on the scene. In the `Inspector` window in `VRC Avatar Descriptor` navigate to `Playable Layers` section and add missing `Action` or `FX` controllers. After that, reload your avatar in the `CuteDancer Setup` window. More information about controllers you will find [in the official documentation](https://docs.vrchat.com/docs/playable-layers).
+___
 
-### 5. Use `VRCMenu_CuteDancer` as a submenu in your `VRC Expressions Menu`
-
-![step 5a](docs/images/step5a.png)
-![step 5b](docs/images/step5b.png)
-
-### 6. Transfer layers to `Action` and `FX` controllers from example files
-
-Example controllers are named accordingly: `Ctrl_Action_Example` and `Ctrl_FX_Example`.
-
-You can transfer layers manually by selecting all blocks and using `Ctrl+C` and `Ctrl+V`, or you can use an automatic script included in the package.
-
-_________________
-
-🛑 **REMEMBER TO BACKUP YOUR ACTION AND FX CONTROLLERS BEFORE USING THE SCRIPT** 🛑
-
-_________________
-
-Select (from Unity's top menu): `Tools` -> `CuteDancer Setup`
-
-In first field, select `Action controller` used by your avatar.   
-In second field, select `FX controller` used by your avatar.
-
-You can either select them from the list (click the circle button on the right side of controller select field) or drag & drop them from `Project` tab.
-
-Click: `Add layers to my avatar`.
-
-![step 6](docs/images/step6.png)
-
-_________________
-
-⚠️ Warning: If you want to remove layers later (or have an easier time updating the package in the future) - don't change CuteDance's layer names in your controllers! ⚠️
-
-_________________
+Click: `Add animator layers` button.
 
 ### 7. **Finished!**
 
 Upload the avatar and enjoy dancing with your friends :)
+
+## Updating package
+
+If you are updating `CuteDancer` from version 1.1 and earlier, remove the `Music` prefab from `[Avatar] -> Armature -> Hips`. Then install the new package and follow the steps below.
+
+As long as you sticked with default installation settings update should be simple:
+
+- Select (from Unity's top menu): `Tools` -> `CuteDancer Setup`.
+
+- Select your avatar in `Avatar` field.
+
+- Verify if Music and Contacts prefabs are detected correctly.
+
+- In every section click `Remove` button and then an `Add` button.
