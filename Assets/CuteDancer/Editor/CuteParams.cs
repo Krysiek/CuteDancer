@@ -104,6 +104,9 @@ namespace VRF
 
             Debug.Log("Updating expression parameters asset.");
             expressionParams.parameters = paramsList.ToArray();
+            EditorUtility.SetDirty(expressionParams);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
 
         void HandleRemove()
@@ -137,6 +140,9 @@ namespace VRF
 
             Debug.Log("Updating expression parameters asset.");
             expressionParams.parameters = paramsList.ToArray();
+            EditorUtility.SetDirty(expressionParams);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
 
         void DoBackup()

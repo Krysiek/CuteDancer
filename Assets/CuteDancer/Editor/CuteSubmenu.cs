@@ -118,6 +118,9 @@ namespace VRF
 
             Debug.Log("Adding expression menu control to menu [name=" + expressionMenu.name + "]");
             expressionMenu.controls.Add(menuEntry);
+            EditorUtility.SetDirty(expressionMenu);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
 
         void HandleRemove()
@@ -132,12 +135,15 @@ namespace VRF
             }
 
             DoBackup();
-            
+
             ExpressionsMenu cuteMenu = AssetDatabase.LoadAssetAtPath(CUTE_MENU, typeof(ExpressionsMenu)) as ExpressionsMenu;
             int ix = expressionMenu.controls.FindIndex(menuEntry => menuEntry.subMenu == cuteMenu);
-            
+
             Debug.Log("Removing expression menu control from menu [name=" + expressionMenu.name + "]");
             expressionMenu.controls.RemoveAt(ix);
+            EditorUtility.SetDirty(expressionMenu);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
 
         void DoBackup()
