@@ -47,7 +47,7 @@ Select (from Unity's top menu): `Tools` -> `CuteDancer Setup`.
 The `CuteDancer Script` will help you automate some boring setup and will verify if everything is installed correctly.\*
 
 ___
-_\* As long as you stick with default installation settings and prefabs placement in the hierarchy. Changes made to prefabs, animations, parameters or layers can fool the assumes that you are experienced Unity user and you are aware of what you are doing. For installation description for advanced users [click here](docs/ADVANCED.md)._
+_\* As long as you stick with default installation settings and prefabs placement in the hierarchy. Changes made to prefabs, animations, parameters or layers can fool the script and assumes that you are experienced Unity user aware of what you are doing. For installation description for advanced users [click here](docs/README.old.md)._
 ___
 
 ### 3. **Select your avatar in the `CuteDancer Script` window**
@@ -92,7 +92,7 @@ Upload the avatar and enjoy dancing with your friends :)
 
 If you are updating `CuteDancer` from version 1.1 and earlier, remove the `Music` prefab from `[Avatar] -> Armature -> Hips`. Then install the new package and follow the steps below.
 
-As long as you sticked with default installation settings update should be simple:
+As long as you left the default installation settings, update should be simple:
 
 - Select (from Unity's top menu): `Tools` -> `CuteDancer Setup`.
 

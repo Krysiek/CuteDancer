@@ -47,7 +47,7 @@ Wybierz z górnego menu Unity: `Tools` -> `CuteDancer Setup`.
 Okno `CuteDancer Script` pomoże Ci zautomatyzować pewne nudne czynności oraz pozwoli zweryfikować, czy paczka została zainstalowana poprawnie.\*
 
 ___
-_\* Pod warunkiem, że pozostawisz prefaby na swoim miejscu i nie będziesz modyfikował innych ustawień. Zmiany wprowadzone do prefabów, animacji, parametrów, menu czy warstw animatora mogą zmylić skrypt. Jeśli jesteś doświadczonym użytkownikiem Unity i jesteś świadomy tego co robisz, możesz zajrzeć do [instrukcji dla zaawansowanych](docs/ADVANCED.pl.md)._
+_\* Pod warunkiem, że pozostawisz prefaby na swoim miejscu i nie będziesz modyfikował innych ustawień. Zmiany wprowadzone do prefabów, animacji, parametrów, menu czy warstw animatora mogą zmylić skrypt. Jeśli jesteś doświadczonym użytkownikiem Unity i jesteś świadomy tego co robisz, możesz zajrzeć do [instrukcji dla zaawansowanych](docs/README.old.md)._
 ___
 
 ### 3. **Wybierz twój avatar w oknie `CuteDancer Script`**
