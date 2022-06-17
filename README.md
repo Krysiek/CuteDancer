@@ -8,7 +8,7 @@ Animators optimization, tests: [Jack'lul](https://github.com/jacklul)_
 
 ## About CuteDancer
 
-CuteDancer is a .unitypackage dedicated to use on [VRChat](https://hello.vrchat.com/) avatars. It contains dance animations that can be played in sync together with other players who have the package installed on their avatars.
+CuteDancer is a .unitypackage dedicated to use on [VRChat](https://hello.vrchat.com/) avatars. It contains dance animations that can be played in sync together with other players who have the package installed on their avatars. [You can try it on public avatars here.](https://vrchat.com/home/world/wrld_deb6ff93-c907-4d16-92d0-911758135c70)
 
 ![promo anim](docs/images/cutedancer.gif)
 
