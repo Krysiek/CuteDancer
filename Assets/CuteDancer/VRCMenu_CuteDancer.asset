@@ -43,6 +43,16 @@ MonoBehaviour:
     subMenu: {fileID: 0}
     subParameters: []
     labels: []
+  - name: Zufolo Impazzito
+    icon: {fileID: 2800000, guid: 6fda995db9208a74383295754e3ecfaf, type: 3}
+    type: 102
+    parameter:
+      name: VRCEmote
+    value: 205
+    style: 0
+    subMenu: {fileID: 0}
+    subParameters: []
+    labels: []
   - name: Disable Contact
     icon: {fileID: 2800000, guid: e2f2ce48b8f50c94b87f06a36a82f696, type: 3}
     type: 102
