@@ -484,7 +484,7 @@ GameObject:
   - component: {fileID: 6603728756640048005}
   - component: {fileID: 2381515906641011564}
   m_Layer: 0
-  m_Name: ZufoloImpazzitoDance
+  m_Name: ZufoloImpazzitoDanceMusic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
