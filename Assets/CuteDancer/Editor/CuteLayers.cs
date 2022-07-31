@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.Animations;
 using AvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
+using CustomAnimLayer = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor.CustomAnimLayer;
+using AnimLayerType = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor.AnimLayerType;
 
 namespace VRF
 {
@@ -10,12 +12,13 @@ namespace VRF
     {
         enum Status
         {
-            FORM, EMPTY, ADDED, UNKNOWN
+            FORM, MISSING_ACTION, MISSING_FX, EMPTY, ADDED, UNKNOWN
         }
 
         static string ACTION_CTRL = "Assets/CuteDancer/Ctrl_Action_Example.controller";
         static string FX_CTRL = "Assets/CuteDancer/Ctrl_FX_Example.controller";
 
+        AvatarDescriptor avatar;
         AnimatorController actionCtrl;
         AnimatorController fxCtrl;
 
@@ -55,6 +58,10 @@ namespace VRF
                 case Status.EMPTY:
                     CuteInfoBox.RenderInfoBox(CuteIcons.WARN, "Layers are not added.");
                     break;
+                case Status.MISSING_ACTION:
+                case Status.MISSING_FX:
+                    CuteInfoBox.RenderInfoBox(CuteIcons.WARN, "Layers are not added (missing controllers will be created).");
+                    break;
                 case Status.ADDED:
                     CuteInfoBox.RenderInfoBox(CuteIcons.OK, "Layers are added.");
                     break;
@@ -66,6 +73,7 @@ namespace VRF
 
         public void SetAvatar(AvatarDescriptor avatarDescriptor)
         {
+            avatar = avatarDescriptor;
             actionCtrl = Array.Find(avatarDescriptor.baseAnimationLayers, layer => layer.type == AvatarDescriptor.AnimLayerType.Action).animatorController as AnimatorController;
             fxCtrl = Array.Find(avatarDescriptor.baseAnimationLayers, layer => layer.type == AvatarDescriptor.AnimLayerType.FX).animatorController as AnimatorController;
         }
@@ -85,6 +93,18 @@ namespace VRF
                 case Status.UNKNOWN:
                     EditorUtility.DisplayDialog("CuteScript", "Option disabled.", "OK");
                     return;
+                case Status.MISSING_ACTION:
+                    if (!CreateController(AvatarDescriptor.AnimLayerType.Action, $"{avatar.name}-Action"))
+                    {
+                        return;
+                    }
+                    goto case Status.MISSING_FX;
+                case Status.MISSING_FX:
+                    if (!CreateController(AvatarDescriptor.AnimLayerType.FX, $"{avatar.name}-FX"))
+                    {
+                        return;
+                    }
+                    break;
             }
 
             DoBackup();
@@ -147,9 +167,17 @@ namespace VRF
 
         Status Validate()
         {
-            if (!actionCtrl || !fxCtrl)
+            if (!avatar)
             {
                 return Status.FORM;
+            }
+            if (!actionCtrl)
+            {
+                return Status.MISSING_ACTION;
+            }
+            if (!fxCtrl)
+            {
+                return Status.MISSING_FX;
             }
 
             AnimatorController srcActionCtrl = AssetDatabase.LoadAssetAtPath(ACTION_CTRL, typeof(AnimatorController)) as AnimatorController;
@@ -180,6 +208,35 @@ namespace VRF
                     return false;
                 }
             }
+            return true;
+        }
+
+        bool CreateController(AnimLayerType type, string name)
+        {
+            var ok = EditorUtility.DisplayDialog("CuteScript", $"It seems your avatar does not have {(AnimLayerType)type} animator. Empty one will be created and assigned to your avatar.\n\nNew animator will be saved under path:\nAssets/{name}.controller", "OK", "Cancel");
+            if (!ok)
+            {
+                EditorUtility.DisplayDialog("CuteScript", "Operation aborted. Layers are NOT added!", "OK");
+                return false;
+            }
+
+            var emptyCtrl = UnityEditor.Animations.AnimatorController.CreateAnimatorControllerAtPath($"Assets/{name}.controller");
+            CustomAnimLayer animLayer = new CustomAnimLayer();
+            animLayer.isEnabled = true;
+            animLayer.type = type;
+            animLayer.animatorController = emptyCtrl;
+            animLayer.mask = null;
+            animLayer.isDefault = false;
+
+            int index = Array.FindIndex(avatar.baseAnimationLayers, layer => layer.type == type);
+
+            avatar.baseAnimationLayers[index] = animLayer;
+
+            EditorUtility.SetDirty(avatar);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            SetAvatar(avatar); // refresh local vars
+
             return true;
         }
 
