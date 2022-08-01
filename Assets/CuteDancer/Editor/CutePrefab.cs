@@ -18,52 +18,54 @@ namespace VRF
 
         enum Status
         {
-            FORM, EMPTY, ADDED, MISMATCH
+            FORM, EMPTY, ADDED, ADDED_PARTIAL, DIFFERENCE
         }
+
+        Status validationStatus = Status.FORM;
 
         public void RenderForm()
         {
+            validationStatus = Validate();
 
             GUIStyle labelStyle = new GUIStyle(EditorStyles.largeLabel);
             labelStyle.wordWrap = true;
-            GUILayout.Label("Please drag & drop prefabs to root of your avatar:\n" +
-                            "- CuteDancerMusic\n" +
-                            "- CuteDancerContact",
+            GUILayout.Label("Add prefabs using the button below or drag & drop them to the root of your avatar",
                         labelStyle);
             labelStyle.fontStyle = FontStyle.Italic;
+
+            GUILayout.BeginHorizontal();
+
+            if (validationStatus == Status.ADDED_PARTIAL || validationStatus == Status.DIFFERENCE)
+            {
+                CuteButtons.RenderButton("Update prefabs", CuteIcons.ADD, HandleUpdate);
+            }
+            else
+            {
+                CuteButtons.RenderButton("Add prefabs", CuteIcons.ADD, HandleAdd, validationStatus == Status.FORM || validationStatus == Status.ADDED);
+            }
+            CuteButtons.RenderButton("Remove", CuteIcons.REMOVE, HandleRemove, validationStatus == Status.FORM || validationStatus == Status.EMPTY, GUILayout.Width(150));
+
+            GUILayout.EndHorizontal();
         }
 
         public void RenderStatus()
         {
-            switch (ValidateMusic())
+            switch (validationStatus)
             {
                 case Status.FORM:
                     CuteInfoBox.RenderInfoBox(CuteIcons.INFO, "Avatar not selected.");
                     break;
                 case Status.EMPTY:
-                    CuteInfoBox.RenderInfoBox(CuteIcons.WARN, "Music prefab is not added.");
+                    CuteInfoBox.RenderInfoBox(CuteIcons.WARN, "Prefabs are not added.");
                     break;
                 case Status.ADDED:
-                    CuteInfoBox.RenderInfoBox(CuteIcons.OK, "Music prefab is added.");
+                    CuteInfoBox.RenderInfoBox(CuteIcons.OK, "Prefab are added.");
                     break;
-                case Status.MISMATCH:
-                    CuteInfoBox.RenderInfoBox(CuteIcons.WARN, "Music prefab found on the avatar, but the path is different.\nMake sure animations are updated. See README, section 'Updating animations', for more details.");
+                case Status.ADDED_PARTIAL:
+                    CuteInfoBox.RenderInfoBox(CuteIcons.WARN, "Some of required prefabs are missing.");
                     break;
-            }
-
-            switch (ValidateContact())
-            {
-                case Status.FORM:
-                    CuteInfoBox.RenderInfoBox(CuteIcons.INFO, "Avatar not selected.");
-                    break;
-                case Status.EMPTY:
-                    CuteInfoBox.RenderInfoBox(CuteIcons.WARN, "CuteDancerContact prefab is not added.");
-                    break;
-                case Status.ADDED:
-                    CuteInfoBox.RenderInfoBox(CuteIcons.OK, "CuteDancerContact prefab is added.");
-                    break;
-                case Status.MISMATCH:
-                    CuteInfoBox.RenderInfoBox(CuteIcons.WARN, "CuteDancerContact prefab found on the avatar, but the path is different.\nMake sure animations are updated. See README, section 'Updating animations', for more details.");
+                case Status.DIFFERENCE:
+                    CuteInfoBox.RenderInfoBox(CuteIcons.WARN, "Prefabs on the avatar are out of date. Press update button to fix it.");
                     break;
             }
         }
@@ -80,73 +82,87 @@ namespace VRF
             avatarName = "Avatar";
         }
 
-        Status ValidateMusic()
+        Status Validate()
         {
             if (!avatar)
             {
                 return Status.FORM;
             }
 
-            string musicGuid = AssetDatabase.AssetPathToGUID(MUSIC_PREFAB);
-
             Transform musicInstance = avatar.transform.Find("CuteDancerMusic");
+            Transform contactInstance = avatar.transform.Find("CuteDancerContact");
+
+            if (musicInstance && contactInstance)
+            {
+                if (IsPrefabModified(musicInstance.gameObject) || IsPrefabModified(contactInstance.gameObject))
+                {
+                    return Status.DIFFERENCE;
+                }
+
+                return Status.ADDED;
+            }
+
+            if (!musicInstance && !contactInstance)
+            {
+                return Status.EMPTY;
+            }
+
+            return Status.ADDED_PARTIAL;
+        }
+
+        bool IsPrefabModified(GameObject instance)
+        {
+            var status = PrefabUtility.GetPrefabInstanceStatus(instance);
+            var isModified = PrefabUtility.HasPrefabInstanceAnyOverrides(instance, false);
+            if (status != PrefabInstanceStatus.Connected || isModified)
+            {
+                Debug.Log($"Prefab {instance.name} is modified.");
+                return true;
+            }
+            return false;
+        }
+
+        void HandleAdd()
+        {
+            Transform musicInstance = avatar.transform.Find("CuteDancerMusic");
+            if (!musicInstance)
+            {
+                var musicPrefab = AssetDatabase.LoadAssetAtPath(MUSIC_PREFAB, typeof(GameObject));
+                var musicPrefabInstance = PrefabUtility.InstantiatePrefab(musicPrefab, avatar.transform);
+                EditorUtility.SetDirty(musicPrefabInstance);
+            }
+
+            Transform contactInstance = avatar.transform.Find("CuteDancerContact");
+            if (!contactInstance)
+            {
+                var contactPrefab = AssetDatabase.LoadAssetAtPath(CONTACT_PREFAB, typeof(GameObject));
+                var contactPrefabInstance = PrefabUtility.InstantiatePrefab(contactPrefab, avatar.transform);
+                EditorUtility.SetDirty(contactPrefabInstance);
+            }
+        }
+
+        void HandleRemove()
+        {
+            Transform musicInstance = avatar.transform.Find("CuteDancerMusic");
+            Transform contactInstance = avatar.transform.Find("CuteDancerContact");
 
             if (musicInstance)
             {
-                return Status.ADDED;
+                UnityEngine.Object.DestroyImmediate(musicInstance.gameObject);
             }
-
-            // RecursiveFindChild
-            // AssetDatabase.LoadAssetAtPath(CUTE_MENU, typeof(ExpressionsMenu)) as ExpressionsMenu;
-            // PrefabUtility.GetPrefabAssetType
-
-            return Status.EMPTY;
-        }
-
-        Status ValidateContact()
-        {
-            if (!avatar)
-            {
-                return Status.FORM;
-            }
-
-            string contactGuid = AssetDatabase.AssetPathToGUID(CONTACT_PREFAB);
-
-            Transform contactInstance = avatar.transform.Find("CuteDancerContact");
-
             if (contactInstance)
             {
-                return Status.ADDED;
+                UnityEngine.Object.DestroyImmediate(contactInstance.gameObject);
             }
 
-
-            // RecursiveFindChild(avatar.transform, contactGuid);
-
-            return Status.EMPTY;
+            EditorUtility.SetDirty(avatar);
         }
 
-        Transform RecursiveFindChild(Transform parent, string childName)
+        void HandleUpdate()
         {
-            foreach (Transform child in parent)
-            {
-
-                // var ptype = PrefabUtility.GetCorrespondingObjectFromOriginalSource(child.gameObject);
-                // Debug.Log(child.name +"---"+ ptype);
-
-                if (child.name == childName)
-                {
-                    return child;
-                }
-                else
-                {
-                    Transform found = RecursiveFindChild(child, childName);
-                    if (found != null)
-                    {
-                        return found;
-                    }
-                }
-            }
-            return null;
+            // yolo
+            HandleRemove();
+            HandleAdd();
         }
     }
 }
