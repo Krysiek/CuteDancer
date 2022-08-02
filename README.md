@@ -18,12 +18,13 @@ It uses new contacts components added recently to VRChat. When one avatar starts
 
 ### Included dances
 
-At the moment the package contains 3 dances:
+At the moment the package contains 4 dances:
 - SAR Dance - default dance from [Super Animal Royale](https://animalroyale.com/) game
 - Coincidance - shoulder shake meme dance
 - Badger badger - simple badger dance
+- Zufolo Impazzito - dance based on [this meme](https://www.reddit.com/r/doodoofard/comments/w6lhnl/dance/)
 
-All above dance animations were created from scratch by [Krysiek](https://github.com/Krysiek) using [Cascadeur](https://cascadeur.com/).  
+All above dance animations were created from scratch by [Krysiek](https://github.com/Krysiek) using [Cascadeur](https://cascadeur.com/) or [Blender](https://www.blender.org/).  
 I created them on Taidum model, but they will work on all other avatars.
 
 ## Download
@@ -36,9 +37,7 @@ https://user-images.githubusercontent.com/54168895/173168780-17e84099-d3df-47c0-
 
 ### 1. **Import package to [Unity](https://unity.com/)**
 
-Drag & drop `CuteDancer.unitypackage` file to Unity editor or select from Unity's top menu: `Assets` -> `Import package` -> `Custom package...`
-
-All necessary files will be placed in the `CuteDancer` directory in your main `Assets` folder.
+Drag & drop `CuteDancer.unitypackage` file to Unity editor or select from Unity's top menu: `Assets` -> `Import package` -> `Custom package...`.
 
 ### 2. **Open CuteDancer Setup window**
 
@@ -47,57 +46,30 @@ Select (from Unity's top menu): `Tools` -> `CuteDancer Setup`.
 The `CuteDancer Script` will help you automate some boring setup and will verify if everything is installed correctly.\*
 
 ___
-_\* As long as you stick with default installation settings and prefabs placement in the hierarchy. Changes made to prefabs, animations, parameters or layers can fool the script and assumes that you are experienced Unity user aware of what you are doing. For installation description for advanced users [click here](docs/README.old.md)._
+_\* If you don't want to use a "magic tool" you can still use it for checking installation status. For manual installation description for advanced users [click here](docs/README.old.md)._
 ___
 
 ### 3. **Select your avatar in the `CuteDancer Script` window**
 
 Drag & drop your avatar from Scene or click the circle button on the right side of the field and choose your avatar from the list.
 
-### 4. **Drag & drop `CuteDancerContact` and `CuteDancerMusic` prefabs on your main `[Avatar]` object**
+### 4. **Click `Add` button in each section**
 
-Check if prefabs are detected in the `CuteDancer Setup` window (if the window does not refresh, move the mouse cursor above it).
-
-### 5. **Add new parameters to your `VRC Expressions Parameters`**
-
-Once you loaded your avatar in the CuteDancer Script window, the `Expression Parameters` field should be filled automatically.
+Click accordingly:
+- `Add prefabs`
+- `Add expression parameters`
+- `Add expression submenu`
+- `Add animator layers`
 ___
-ℹ️ If your avatar does not have an expression parameters and menu, [follow official documentation to create them](https://docs.vrchat.com/docs/expression-menu-and-controls#creating-an-expression-menu). ℹ️
+ℹ️ If your avatar does not have an expression parameters, expression menu or playable layers configured, you will see a prompt to create the missing asset. In this case click `Create it` and remember to save the project. ℹ️
 ___
-
-Click `Add expression parameters` button.
-
-### 5. **Add `VRCMenu_CuteDancer` as a submenu to your `VRC Expressions Menu`**
-
-Once you loaded your avatar in the CuteDancer Script window, the `Expression Menu` field should be filled automatically.
-
-Click `Add expression submenu` button.
-
-### 6. **Add layers to `Action` and `FX` controllers**
-
-Once you loaded your avatar in the CuteDancer Script window, the `Action` and `FX` fields should be filled automatically.
-
-___
-ℹ️ If your avatar does not contain `Action` or `FX` controllers, create them. ℹ️  
-Click right mouse buttom in `Project` window and select `Create -> Animator Controller`. Click your avatar on the scene. In the `Inspector` window in `VRC Avatar Descriptor` navigate to `Playable Layers` section and add missing `Action` or `FX` controllers. After that, reload your avatar in the `CuteDancer Setup` window. More information about controllers you will find [in the official documentation](https://docs.vrchat.com/docs/playable-layers).
+ℹ️ Backup note: each operation creates one backup file per day. You can find them next to the original modified files. ℹ️
 ___
 
-Click: `Add animator layers` button.
-
-### 7. **Finished!**
+### 5. **Finished!**
 
 Upload the avatar and enjoy dancing with your friends :)
 
 ## Updating package
 
-If you are updating `CuteDancer` from version 1.1 and earlier, remove the `Music` prefab from `[Avatar] -> Armature -> Hips`. Then install the new package and follow the steps below.
-
-As long as you left the default installation settings, update should be simple:
-
-- Select (from Unity's top menu): `Tools` -> `CuteDancer Setup`.
-
-- Select your avatar in `Avatar` field.
-
-- Verify if Music and Contacts prefabs are detected correctly.
-
-- In every section click `Remove` button and then an `Add` button.
+If you are updating `CuteDancer` from version 1.1 and earlier, remove the `CuteDancer` directory from `Assets`. Remove all missing prefabs from avatar. Then install the new package and proceed with installation instructions above.

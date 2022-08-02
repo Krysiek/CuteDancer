@@ -1,7 +1,4 @@
 # **CuteDancer - Manual installation**
-_________________
-⚠️ Some images in this manual may be outdated! ⚠️
-_________________
 
 ## Manual installation
 
@@ -12,7 +9,9 @@ Drag & drop `CuteDancer.unitypackage` file to Unity editor or select from Unity'
 All necessary files will be placed in the `CuteDancer` directory in your main `Assets` folder.
 
 ### 2. Drag & drop `CuteDancerMusic` prefab on your main `[Avatar]` object
-
+_________________
+⚠️ Image is outdated! ⚠️
+_________________
 ![step 2](images/step2.png)
 
 ### 2.a. Modyfing animations
@@ -35,10 +34,6 @@ If you want to change placement of the prefab in the hierarchy, e.g. place it un
 ### 3. Drag & drop `CuteDancerContact` prefab on your main `[Avatar]` object
 
 ![step 3a](images/step3a.png)
-
-- For all receivers and senders, you can set `Root Transform` to `Hips` - it is not necessary, but it should work better with space movers etc.
-
-![step 3b](images/step3b.png)
 
 ### 4. Add new parameters to your `VRC Expressions Parameters`:
 

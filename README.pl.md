@@ -18,12 +18,13 @@ Dzięki komponentom `contacts` możliwe jest wysyłanie sygnałów między avata
 
 ### Załączone animacje
 
-Na ten moment paczka zawiera 3 tańce:
+Na ten moment paczka zawiera 4 tańce:
 - SAR Dance - domyślny taniec z gry [Super Animal Royale](https://animalroyale.com/)
 - Coincidance - taniec potrząsania barkiem (z memicznego teledysku)
 - Badger badger - taniec wzorowany klasyczną animacją flashową
+- Zufolo Impazzito - taniec wzorowany [tym memem](https://www.reddit.com/r/doodoofard/comments/w6lhnl/dance/)
 
-Wszystkie powyższe animacje stworzył od podstaw [Krysiek](https://github.com/Krysiek) przy użyciu programu [Cascadeur](https://cascadeur.com/).  
+Wszystkie powyższe animacje stworzył od podstaw [Krysiek](https://github.com/Krysiek) przy użyciu programu [Cascadeur](https://cascadeur.com/) lub [Blender](https://www.blender.org/).  
 Stworzone na bazie modelu Taiduma, ale będą również działać na innych avatarach.
 
 ## Pobieranie
@@ -45,59 +46,31 @@ Wszystkie potrzebne pliki znajdziesz w katalogu `CuteDancer` w głównym folderz
 Wybierz z górnego menu Unity: `Tools` -> `CuteDancer Setup`.
 
 Okno `CuteDancer Script` pomoże Ci zautomatyzować pewne nudne czynności oraz pozwoli zweryfikować, czy paczka została zainstalowana poprawnie.\*
-
 ___
-_\* Pod warunkiem, że pozostawisz prefaby na swoim miejscu i nie będziesz modyfikował innych ustawień. Zmiany wprowadzone do prefabów, animacji, parametrów, menu czy warstw animatora mogą zmylić skrypt. Jeśli jesteś doświadczonym użytkownikiem Unity i jesteś świadomy tego co robisz, możesz zajrzeć do [instrukcji dla zaawansowanych](docs/README.old.md)._
+_\* Nawet jeśli nie chcesz korzystać ze skryptu, który "robi magię", to wciąż możesz użyć go żeby sprawdzić, czy paczka została dodana poprawnie. Instrukcja instalacji ręcznej dla zaawansowanych użytkowników [jest tutaj](docs/README.old.md)._
 ___
 
 ### 3. **Wybierz twój avatar w oknie `CuteDancer Script`**
 
 Przeciągnij i upuść avatar ze sceny lub kliknij kółko po prawej stronie pola i wybierz avatar z listy.
 
-### 4. **Przeciągnij i upuść prefaby `CuteDancerContact` i `CuteDancerMusic` na główny obiekt Twojego avatara**
+### 4. **Kliknij przycisk `Add` w każdej z sekcji**
 
-Sprawdź czy prefaby zostały wykryte w oknie `CuteDancer Setup` (jeśli okno nie chce się odświeżyć, poruszaj nad nim myszką).
-
-### 5. **Dodaj nowe parametry do `VRC Expressions Parameters`**
-
-Po wybraniu avatara, pole `Expression Parameters` powinno zostać wypełnione automatycznie.
+Kliknij kolejno:
+- `Add prefabs`
+- `Add expression parameters`
+- `Add expression submenu`
+- `Add animator layers`
 ___
-ℹ️ Jeśli Twój avatar nie posiada parametrów i menu expresji [sprawdź jak je utworzyć](https://docs.vrchat.com/docs/expression-menu-and-controls#creating-an-expression-menu). ℹ️
+ℹ️ Jeśli twój avatar nie posiada expression parameters, expression menu albo wymaganych animatorów, zobaczysz okno z pytaniem, czy chcesz utworzyć brakujący asset. W takim przypadku kliknij `Create it` i pamiętaj o zapisaniu projektu. ℹ️
 ___
-
-Kliknij przycisk `Add expression parameters`.
-
-### 5. **Użyj `VRCMenu_CuteDancer` jako submenu w swoim menu ekpresji**
-
-Pole `Expression Menu` również powinno zostać wypełnione automatycznie.
-
-Kliknij przycik `Add expression submenu`.
-
-### 6. **Dodaj warstwy kontrolerów `Action` i `FX`**
-
-Pola `Action` i `FX` powinny również zostać uzupełnione automatycznie.
-
-___
-ℹ️ Jeśli Twój avatar nie posiada kontrolerów `Action` lub `FX`, stwórz je. ℹ️  
-Kliknij prawym przyciskiem w oknie `Project` i wybierz `Create -> Animator Controller`. Kliknij Twój avatar na scenie. W inspektorze w `VRC Avatar Descriptor` w sekcji `Playable Layers` podepnij brakujące kontrolery. Następnie wczytaj ponownie avatar w oknie `CuteDancer Setup`. Więcej informacji o kontrolerach znajdziesz [w oficjalnej dokumentacji](https://docs.vrchat.com/docs/playable-layers).
+ℹ️ Informacja o backupie: każda operacja modyfikująca assety tworzy kopię pliku przed modyfikacją raz w ciągu dnia. Pliki te znajdziesz obok oryginalnych plików. ℹ️
 ___
 
-Kliknij przycik `Add animator layers`.
-
-### 7. **Gotowe!**
+### 5. **Gotowe!**
 
 Wgraj swój avatar i tańcz razem z przyjaciółmi :)
 
 ## Aktualizowanie paczki
 
-Jeżeli aktualizujesz `CuteDancer` z wersji 1.1 lub starszej, usuń prefab `Music` z `[Avatar] -> Armature -> Hips`. Następnie zainstaluj paczkę i wykonaj poniższe kroki.
-
-Jeżeli pozostałeś przy domyślnych ustawieniach paczki, aktualizacja będzie banalnie prosta:
-
-- Z górnego menu Unity wybierz: `Tools` -> `CuteDancer Setup`.
-
-- Wybierz Twój avatar w polu `Avatar`.
-
-- Upewnij się, że prefaby CuteDancerMusic i CuteDancerContacts są wykryte poprawnie.
-
-- W każdej z sekcji kliknij przycisk `Remove` a następnie `Add`.
+Jeżeli aktualizujesz `CuteDancer` z wersji 1.1 lub starszej, usuń katalog `CuteDancer` z Assetów. Następnie usuń wszystkie brakujące prefaby na avatarze (status missing). Następnie zainstaluj paczkę według instrukcji powyżej.
