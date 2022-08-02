@@ -16,13 +16,16 @@ namespace VRF
 
         enum Status
         {
-            FORM, EMPTY, ADDED, FULL
+            FORM, EMPTY, ADDED, FULL, MISSING
         }
 
+        Status validStat = Status.FORM;
+        AvatarDescriptor avatar;
         ExpressionsMenu expressionMenu;
 
         public void RenderForm()
         {
+            validStat = Validate();
 
             GUIStyle labelStyle = new GUIStyle(EditorStyles.largeLabel);
             labelStyle.wordWrap = true;
@@ -32,18 +35,12 @@ namespace VRF
 
             GUILayout.Space(10);
 
-            GUIStyle buttonStyle = new GUIStyle(EditorStyles.miniButton);
-            buttonStyle.fixedHeight = 30;
-
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button(new GUIContent("Add expression submenu", CuteIcons.ADD), buttonStyle))
-            {
-                HandleAdd();
-            }
-            if (GUILayout.Button(new GUIContent("Remove", CuteIcons.REMOVE), buttonStyle, GUILayout.Width(150)))
-            {
-                HandleRemove();
-            }
+
+            CuteButtons.RenderButton("Add expression submenu", CuteIcons.ADD, HandleAdd,
+                validStat == Status.FORM || validStat == Status.ADDED || validStat == Status.FULL);
+            CuteButtons.RenderButton("Remove", CuteIcons.REMOVE, HandleRemove, validStat != Status.ADDED, GUILayout.Width(150));
+
             GUILayout.EndHorizontal();
         }
 
@@ -60,6 +57,9 @@ namespace VRF
                 case Status.EMPTY:
                     CuteInfoBox.RenderInfoBox(CuteIcons.WARN, "CuteDancer submenu is not added.");
                     break;
+                case Status.MISSING:
+                    CuteInfoBox.RenderInfoBox(CuteIcons.WARN, "CuteDancer submenu is not added (missing expression menu asset will be created).");
+                    break;
                 case Status.FULL:
                     CuteInfoBox.RenderInfoBox(CuteIcons.ERROR, "No slots available in selected expression menu.\nPlease select another menu or remove unused control from the menu.");
                     break;
@@ -68,19 +68,25 @@ namespace VRF
 
         public void SetAvatar(AvatarDescriptor avatarDescriptor)
         {
+            avatar = avatarDescriptor;
             expressionMenu = avatarDescriptor.expressionsMenu;
         }
 
         public void ClearForm()
         {
+            avatar = null;
             expressionMenu = null;
         }
 
         Status Validate()
         {
-            if (expressionMenu == null)
+            if (avatar == null)
             {
                 return Status.FORM;
+            }
+            if (expressionMenu == null)
+            {
+                return Status.MISSING;
             }
             ExpressionsMenu cuteMenu = AssetDatabase.LoadAssetAtPath(CUTE_MENU, typeof(ExpressionsMenu)) as ExpressionsMenu;
             if (expressionMenu.controls.Exists(menuEntry => menuEntry.subMenu == cuteMenu))
@@ -96,13 +102,9 @@ namespace VRF
 
         void HandleAdd()
         {
-            switch (Validate())
+            if (!expressionMenu && !CreateExpressionMenu())
             {
-                case Status.ADDED:
-                case Status.FORM:
-                case Status.FULL:
-                    EditorUtility.DisplayDialog("CuteScript", "Option disabled.", "OK");
-                    return;
+                return;
             }
 
             DoBackup();
@@ -125,15 +127,6 @@ namespace VRF
 
         void HandleRemove()
         {
-            switch (Validate())
-            {
-                case Status.EMPTY:
-                case Status.FORM:
-                case Status.FULL:
-                    EditorUtility.DisplayDialog("CuteScript", "Option disabled.", "OK");
-                    return;
-            }
-
             DoBackup();
 
             ExpressionsMenu cuteMenu = AssetDatabase.LoadAssetAtPath(CUTE_MENU, typeof(ExpressionsMenu)) as ExpressionsMenu;
@@ -149,6 +142,29 @@ namespace VRF
         void DoBackup()
         {
             CuteBackup.CreateBackup(AssetDatabase.GetAssetPath(expressionMenu));
+        }
+
+        bool CreateExpressionMenu()
+        {
+            var path = $"Assets/{avatar.name}-ExpressionMenu.asset";
+            var ok = EditorUtility.DisplayDialog("CuteScript", $"It seems your avatar does not have expression menu. Empty one will be created and assigned to your avatar.\n\nNew asset will be saved under path:\n{path}", "Create it!", "Cancel");
+            if (!ok)
+            {
+                EditorUtility.DisplayDialog("CuteScript", "Operation aborted. Expresion Menu is NOT added!", "OK");
+                return false;
+            }
+
+            var emptyMenu = ScriptableObject.CreateInstance(typeof(ExpressionsMenu)) as ExpressionsMenu;
+            emptyMenu.controls = new List<ExpressionsMenu.Control>();
+
+            AssetDatabase.CreateAsset(emptyMenu, path);
+            expressionMenu = AssetDatabase.LoadAssetAtPath<ExpressionsMenu>(path);
+            
+            avatar.expressionsMenu = expressionMenu;
+            EditorUtility.SetDirty(expressionMenu);
+            EditorUtility.SetDirty(avatar);
+
+            return true;
         }
     }
 }

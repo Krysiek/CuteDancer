@@ -11,7 +11,6 @@ namespace VRF
     public class CutePrefab : CuteGroup
     {
         string avatarName = "Avatar";
-        GameObject avatar;
 
         static string MUSIC_PREFAB = "Assets/CuteDancer/CuteDancerMusic.prefab";
         static string CONTACT_PREFAB = "Assets/CuteDancer/CuteDancerContact.prefab";
@@ -21,36 +20,37 @@ namespace VRF
             FORM, EMPTY, ADDED, ADDED_PARTIAL, DIFFERENCE
         }
 
-        Status validationStatus = Status.FORM;
+        GameObject avatar;
+        Status validStat = Status.FORM;
 
         public void RenderForm()
         {
-            validationStatus = Validate();
+            validStat = Validate();
 
             GUIStyle labelStyle = new GUIStyle(EditorStyles.largeLabel);
             labelStyle.wordWrap = true;
-            GUILayout.Label("Add prefabs using the button below or drag & drop them to the root of your avatar",
+            GUILayout.Label("Add music and contact prefabs using the button below or drag & drop them to the root of your avatar",
                         labelStyle);
             labelStyle.fontStyle = FontStyle.Italic;
 
             GUILayout.BeginHorizontal();
 
-            if (validationStatus == Status.ADDED_PARTIAL || validationStatus == Status.DIFFERENCE)
+            if (validStat == Status.ADDED_PARTIAL || validStat == Status.DIFFERENCE)
             {
                 CuteButtons.RenderButton("Update prefabs", CuteIcons.ADD, HandleUpdate);
             }
             else
             {
-                CuteButtons.RenderButton("Add prefabs", CuteIcons.ADD, HandleAdd, validationStatus == Status.FORM || validationStatus == Status.ADDED);
+                CuteButtons.RenderButton("Add prefabs", CuteIcons.ADD, HandleAdd, validStat == Status.FORM || validStat == Status.ADDED);
             }
-            CuteButtons.RenderButton("Remove", CuteIcons.REMOVE, HandleRemove, validationStatus == Status.FORM || validationStatus == Status.EMPTY, GUILayout.Width(150));
+            CuteButtons.RenderButton("Remove", CuteIcons.REMOVE, HandleRemove, validStat == Status.FORM || validStat == Status.EMPTY, GUILayout.Width(150));
 
             GUILayout.EndHorizontal();
         }
 
         public void RenderStatus()
         {
-            switch (validationStatus)
+            switch (validStat)
             {
                 case Status.FORM:
                     CuteInfoBox.RenderInfoBox(CuteIcons.INFO, "Avatar not selected.");

@@ -15,13 +15,17 @@ namespace VRF
 
         enum Status
         {
-            FORM, EMPTY, ADDED
+            FORM, EMPTY, ADDED, MISSING
         }
 
+        Status validStat = Status.FORM;
+        AvatarDescriptor avatar;
         ExpressionParameters expressionParams;
 
         public void RenderForm()
         {
+            validStat = Validate();
+
             GUIStyle labelStyle = new GUIStyle(EditorStyles.largeLabel);
             labelStyle.wordWrap = true;
 
@@ -30,24 +34,20 @@ namespace VRF
 
             GUILayout.Space(10);
 
-            GUIStyle buttonStyle = new GUIStyle(EditorStyles.miniButton);
-            buttonStyle.fixedHeight = 30;
-
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button(new GUIContent("Add expression parameters", CuteIcons.ADD), buttonStyle))
-            {
-                HandleAdd();
-            }
-            if (GUILayout.Button(new GUIContent("Remove", CuteIcons.REMOVE), buttonStyle, GUILayout.Width(150)))
-            {
-                HandleRemove();
-            }
+
+            CuteButtons.RenderButton("Add expression parameters", CuteIcons.ADD, HandleAdd,
+                validStat == Status.ADDED || validStat == Status.FORM);
+            CuteButtons.RenderButton("Remove", CuteIcons.REMOVE, HandleRemove,
+                validStat != Status.ADDED,
+                GUILayout.Width(150));
+
             GUILayout.EndHorizontal();
         }
 
         public void RenderStatus()
         {
-            switch (Validate())
+            switch (validStat)
             {
                 case Status.FORM:
                     CuteInfoBox.RenderInfoBox(CuteIcons.INFO, "Please select expression parameters asset.");
@@ -58,27 +58,29 @@ namespace VRF
                 case Status.ADDED:
                     CuteInfoBox.RenderInfoBox(CuteIcons.OK, "Expression parameters are added.");
                     break;
+                case Status.MISSING:
+                    CuteInfoBox.RenderInfoBox(CuteIcons.WARN, "Expression parameters are not added (missing expression parameters asset will be created).");
+                    break;
             }
         }
 
-        public void SetAvatar(AvatarDescriptor avatar)
+        public void SetAvatar(AvatarDescriptor avatarDescriptor)
         {
-            expressionParams = avatar.expressionParameters;
+            avatar = avatarDescriptor;
+            expressionParams = avatarDescriptor.expressionParameters;
         }
 
         public void ClearForm()
         {
+            avatar = null;
             expressionParams = null;
         }
 
         void HandleAdd()
         {
-            switch (Validate())
+            if (!expressionParams && !CreateExpressionParams())
             {
-                case Status.ADDED:
-                case Status.FORM:
-                    EditorUtility.DisplayDialog("CuteScript", "Option disabled.", "OK");
-                    return;
+                return;
             }
 
             DoBackup();
@@ -111,14 +113,6 @@ namespace VRF
 
         void HandleRemove()
         {
-            switch (Validate())
-            {
-                case Status.EMPTY:
-                case Status.FORM:
-                    EditorUtility.DisplayDialog("CuteScript", "Option disabled.", "OK");
-                    return;
-            }
-
             DoBackup();
 
             ExpressionParameters paramsRef = AssetDatabase.LoadAssetAtPath(PARAMS_REF, typeof(ExpressionParameters)) as ExpressionParameters;
@@ -152,9 +146,13 @@ namespace VRF
 
         Status Validate()
         {
-            if (expressionParams == null)
+            if (!avatar)
             {
                 return Status.FORM;
+            }
+            if (!expressionParams)
+            {
+                return Status.MISSING;
             }
             ExpressionParameters paramsRef = AssetDatabase.LoadAssetAtPath(PARAMS_REF, typeof(ExpressionParameters)) as ExpressionParameters;
 
@@ -172,6 +170,29 @@ namespace VRF
                 return Status.EMPTY;
             }
             return Status.ADDED;
+        }
+
+        bool CreateExpressionParams()
+        {
+            var path = $"Assets/{avatar.name}-ExpressionParams.asset";
+            var ok = EditorUtility.DisplayDialog("CuteScript", $"It seems your avatar does not have expression parameters. Empty one will be created and assigned to your avatar.\n\nNew asset will be saved under path:\n{path}", "Create it!", "Cancel");
+            if (!ok)
+            {
+                EditorUtility.DisplayDialog("CuteScript", "Operation aborted. Expresion Params are NOT added!", "OK");
+                return false;
+            }
+
+            var emptyParams = new ExpressionParameters();
+            emptyParams.parameters = new ExpressionParameters.Parameter[0];
+
+            AssetDatabase.CreateAsset(emptyParams, path);
+            expressionParams = AssetDatabase.LoadAssetAtPath<ExpressionParameters>(path);
+
+            avatar.expressionParameters = expressionParams;
+            EditorUtility.SetDirty(expressionParams);
+            EditorUtility.SetDirty(avatar);
+
+            return true;
         }
     }
 }

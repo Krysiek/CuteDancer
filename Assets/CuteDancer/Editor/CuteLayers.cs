@@ -12,18 +12,21 @@ namespace VRF
     {
         enum Status
         {
-            FORM, MISSING_ACTION, MISSING_FX, EMPTY, ADDED, UNKNOWN
+            FORM, EMPTY, ADDED, MISSING, DIFFERENCE, UNKNOWN
         }
 
         static string ACTION_CTRL = "Assets/CuteDancer/Ctrl_Action_Example.controller";
         static string FX_CTRL = "Assets/CuteDancer/Ctrl_FX_Example.controller";
 
+        Status validStat = Status.FORM;
         AvatarDescriptor avatar;
         AnimatorController actionCtrl;
         AnimatorController fxCtrl;
 
         public void RenderForm()
         {
+            validStat = Validate();
+
             GUIStyle labelStyle = new GUIStyle(EditorStyles.largeLabel);
             labelStyle.wordWrap = true;
 
@@ -33,24 +36,27 @@ namespace VRF
 
             GUILayout.Space(10);
 
-            GUIStyle buttonStyle = new GUIStyle(EditorStyles.miniButton);
-            buttonStyle.fixedHeight = 30;
-
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button(new GUIContent("Add animator layers", CuteIcons.ADD), buttonStyle))
+
+            if (validStat == Status.DIFFERENCE)
             {
-                HandleAdd();
-            };
-            if (GUILayout.Button(new GUIContent("Remove", CuteIcons.REMOVE), buttonStyle, GUILayout.Width(150)))
+                CuteButtons.RenderButton("Update animator layers", CuteIcons.ADD, HandleUpdate);
+            }
+            else
             {
-                HandleRemove();
-            };
+                CuteButtons.RenderButton("Add animator layers", CuteIcons.ADD, HandleAdd,
+                                !(validStat == Status.EMPTY || validStat == Status.MISSING));
+            }
+
+            CuteButtons.RenderButton("Remove", CuteIcons.REMOVE, HandleRemove,
+                !(validStat == Status.ADDED || validStat == Status.UNKNOWN), GUILayout.Width(150));
+
             GUILayout.EndHorizontal();
         }
 
         public void RenderStatus()
         {
-            switch (Validate())
+            switch (validStat)
             {
                 case Status.FORM:
                     CuteInfoBox.RenderInfoBox(CuteIcons.INFO, "Please select animator controllers.");
@@ -58,15 +64,17 @@ namespace VRF
                 case Status.EMPTY:
                     CuteInfoBox.RenderInfoBox(CuteIcons.WARN, "Layers are not added.");
                     break;
-                case Status.MISSING_ACTION:
-                case Status.MISSING_FX:
+                case Status.MISSING:
                     CuteInfoBox.RenderInfoBox(CuteIcons.WARN, "Layers are not added (missing controllers will be created).");
                     break;
                 case Status.ADDED:
                     CuteInfoBox.RenderInfoBox(CuteIcons.OK, "Layers are added.");
                     break;
+                case Status.DIFFERENCE:
+                    CuteInfoBox.RenderInfoBox(CuteIcons.WARN, "Layers are out of date. Press update button to fix it.");
+                    break;
                 case Status.UNKNOWN:
-                    CuteInfoBox.RenderInfoBox(CuteIcons.ERROR, "Layers are in mixed state. Please edit them manually.");
+                    CuteInfoBox.RenderInfoBox(CuteIcons.ERROR, "Layers are in mixed state. You can still try to remove any existing layers using Remove button and re-add them.");
                     break;
             }
         }
@@ -80,31 +88,21 @@ namespace VRF
 
         public void ClearForm()
         {
+            avatar = null;
             actionCtrl = null;
             fxCtrl = null;
         }
 
         void HandleAdd()
         {
-            switch (Validate())
+            if (!actionCtrl && !CreateController(AvatarDescriptor.AnimLayerType.Action, $"{avatar.name}-Action"))
             {
-                case Status.ADDED:
-                case Status.FORM:
-                case Status.UNKNOWN:
-                    EditorUtility.DisplayDialog("CuteScript", "Option disabled.", "OK");
-                    return;
-                case Status.MISSING_ACTION:
-                    if (!CreateController(AvatarDescriptor.AnimLayerType.Action, $"{avatar.name}-Action"))
-                    {
-                        return;
-                    }
-                    goto case Status.MISSING_FX;
-                case Status.MISSING_FX:
-                    if (!CreateController(AvatarDescriptor.AnimLayerType.FX, $"{avatar.name}-FX"))
-                    {
-                        return;
-                    }
-                    break;
+                return;
+            }
+
+            if (!fxCtrl && !CreateController(AvatarDescriptor.AnimLayerType.FX, $"{avatar.name}-FX"))
+            {
+                return;
             }
 
             DoBackup();
@@ -120,13 +118,12 @@ namespace VRF
 
         void HandleRemove()
         {
-            switch (Validate())
+            if (validStat == Status.UNKNOWN)
             {
-                case Status.EMPTY:
-                case Status.FORM:
-                case Status.UNKNOWN:
-                    EditorUtility.DisplayDialog("CuteScript", "Option disabled.", "OK");
+                if (!EditorUtility.DisplayDialog("CuteScript", "The script will try to remove CuteDance layers from your animators if any exists.\n\nThey are matched by name though, so it may not help.", "Let's try", "Cancel"))
+                {
                     return;
+                }
             }
 
             DoBackup();
@@ -143,6 +140,13 @@ namespace VRF
             {
                 this.RemoveLayer(fxCtrl, srcFxCtrl.layers[i].name);
             }
+        }
+
+        void HandleUpdate()
+        {
+            // yolo
+            HandleRemove();
+            HandleAdd();
         }
 
         void RemoveLayer(AnimatorController controller, string name)
@@ -171,26 +175,26 @@ namespace VRF
             {
                 return Status.FORM;
             }
-            if (!actionCtrl)
+            if (!actionCtrl || !fxCtrl)
             {
-                return Status.MISSING_ACTION;
-            }
-            if (!fxCtrl)
-            {
-                return Status.MISSING_FX;
+                return Status.MISSING;
             }
 
             AnimatorController srcActionCtrl = AssetDatabase.LoadAssetAtPath(ACTION_CTRL, typeof(AnimatorController)) as AnimatorController;
             AnimatorController srcFxCtrl = AssetDatabase.LoadAssetAtPath(FX_CTRL, typeof(AnimatorController)) as AnimatorController;
 
-            bool actionValid = CheckLayersExists(actionCtrl, srcActionCtrl);
-            bool fxValid = CheckLayersExists(fxCtrl, srcFxCtrl);
+            bool actionHasLayers = CheckLayersExists(actionCtrl, srcActionCtrl, out bool actionDiffs);
+            bool fxHasLayers = CheckLayersExists(fxCtrl, srcFxCtrl, out bool fxDiffs);
 
-            if (actionValid && fxValid)
+            if (actionHasLayers && fxHasLayers)
             {
+                if (actionDiffs || fxDiffs)
+                {
+                    return Status.DIFFERENCE;
+                }
                 return Status.ADDED;
             }
-            if (!actionValid && !fxValid)
+            if (!actionHasLayers && !fxHasLayers)
             {
                 return Status.EMPTY;
             }
@@ -198,22 +202,49 @@ namespace VRF
 
         }
 
-        bool CheckLayersExists(AnimatorController controller, AnimatorController refCtrl)
+        bool CheckLayersExists(AnimatorController controller, AnimatorController refCtrl, out bool diffs)
         {
+            diffs = false;
             for (int i = 0; i < refCtrl.layers.Length; i++)
             {
                 string layerName = refCtrl.layers[i].name;
-                if (!Array.Exists(controller.layers, l => l.name == layerName))
+                AnimatorControllerLayer layer = Array.Find(controller.layers, l => l.name == layerName);
+                if (layer == null)
                 {
                     return false;
+                }
+                if (!CompareLayers(layer, refCtrl.layers[i]))
+                {
+                    diffs = true;
                 }
             }
             return true;
         }
 
+        bool CompareLayers(AnimatorControllerLayer layer, AnimatorControllerLayer refLayer)
+        {
+            if (refLayer.stateMachine.states.Length != layer.stateMachine.states.Length)
+            {
+                Debug.Log($"States count is different [layerName={layer.name}, dest={layer.stateMachine.states.Length}, ref={refLayer.stateMachine.states.Length}]");
+                return false;
+            }
+            for (int i = 0; i < refLayer.stateMachine.states.Length; i++)
+            {
+                var state = layer.stateMachine.states[i].state;
+                var refState = refLayer.stateMachine.states[i].state;
+                if (refLayer.stateMachine.states.Length != layer.stateMachine.states.Length)
+                {
+                    Debug.Log($"Transitions count is different [layerName={layer.name}, stateName={state.name}, dest={state.transitions.Length}, ref={refState.transitions.Length}]");
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         bool CreateController(AnimLayerType type, string name)
         {
-            var ok = EditorUtility.DisplayDialog("CuteScript", $"It seems your avatar does not have {(AnimLayerType)type} animator. Empty one will be created and assigned to your avatar.\n\nNew animator will be saved under path:\nAssets/{name}.controller", "OK", "Cancel");
+            var ok = EditorUtility.DisplayDialog("CuteScript", $"It seems your avatar does not have {(AnimLayerType)type} animator. Empty one will be created and assigned to your avatar.\n\nNew animator will be saved under path:\nAssets/{name}.controller", "Create it!", "Cancel");
             if (!ok)
             {
                 EditorUtility.DisplayDialog("CuteScript", "Operation aborted. Layers are NOT added!", "OK");
