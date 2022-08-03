@@ -33,7 +33,9 @@ Stworzone na bazie modelu Taiduma, ale będą również działać na innych avat
 
 ## Instalacja
 
-https://user-images.githubusercontent.com/54168895/173168780-17e84099-d3df-47c0-89eb-c4ad40ba456c.mp4
+Poniższy film przedstawia typową instalację dla 3 różnych przypadków. Szczegółowa instrukcja pod filmem.
+
+https://user-images.githubusercontent.com/54168895/182499824-b87969a1-47ed-4541-a98c-be268e594142.mp4
 
 ### 1. **Zaimportuj paczkę do [Unity](https://unity.com/)**
 
