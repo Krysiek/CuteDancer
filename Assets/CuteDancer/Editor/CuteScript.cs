@@ -36,15 +36,28 @@ namespace VRF
             GUIStyle titleStyle = new GUIStyle();
             titleStyle.fontSize = 20;
             titleStyle.fontStyle = FontStyle.Bold;
-            titleStyle.alignment = TextAnchor.MiddleCenter;
-            titleStyle.normal.textColor = EditorStyles.boldLabel.normal.textColor;
-            titleStyle.margin.top = 15;
-            titleStyle.margin.bottom = 15;
+            titleStyle.alignment = TextAnchor.MiddleLeft;
+            titleStyle.normal.textColor = Color.white; // EditorStyles.boldLabel.normal.textColor;
+            titleStyle.margin.left = 30;
+
 
             GUIStyle labelStyle = new GUIStyle(EditorStyles.largeLabel);
             labelStyle.wordWrap = true;
 
-            GUILayout.Label("CuteDancer <dev version>", titleStyle);
+            var border = new Texture2D(1, 1);
+            border.SetPixel(0, 0, new Color(0.17f, 0.1f, 0.3f));
+            border.wrapMode = TextureWrapMode.Repeat;
+            border.filterMode = FilterMode.Point;
+            border.Apply();
+            GUI.DrawTexture(new Rect(4, 4, Screen.width - 8, 88), border);
+            GUI.DrawTexture(new Rect(6, 6, Screen.width - 12, 84), CuteIcons.TOP_BANNER, ScaleMode.ScaleAndCrop);
+
+            GUILayout.Space(28);
+            GUILayout.Label("CuteDancer Script", titleStyle);
+            titleStyle.fontSize = 12;
+            titleStyle.fontStyle = FontStyle.Italic;
+            GUILayout.Label("<dev version>", titleStyle);
+            GUILayout.Space(28);
 
             GUILayout.Label("Select your main avatar object from scene.\n" +
                 "The script will fill fields in sections below basing on data found on your avatar.\nMissing assets will be created automatically.", labelStyle);
