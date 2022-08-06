@@ -161,6 +161,7 @@ namespace VRF
             expressionMenu = AssetDatabase.LoadAssetAtPath<ExpressionsMenu>(path);
             
             avatar.expressionsMenu = expressionMenu;
+            avatar.customExpressions = true;
             EditorUtility.SetDirty(expressionMenu);
             EditorUtility.SetDirty(avatar);
 

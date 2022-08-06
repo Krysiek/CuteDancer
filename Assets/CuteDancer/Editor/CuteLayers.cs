@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.Animations;
 using AvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
+using VRCAnimatorLayerControl = VRC.SDK3.Avatars.Components.VRCAnimatorLayerControl;
 using CustomAnimLayer = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor.CustomAnimLayer;
 using AnimLayerType = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor.AnimLayerType;
 
@@ -23,6 +24,9 @@ namespace VRF
         AnimatorController actionCtrl;
         AnimatorController fxCtrl;
 
+        bool actionWD = false;
+        bool fxWD = false;
+
         public void RenderForm()
         {
             validStat = Validate();
@@ -31,8 +35,10 @@ namespace VRF
             labelStyle.wordWrap = true;
 
             GUILayout.Label("Select Action and FX controllers used by your avatar.", EditorStyles.largeLabel);
-            actionCtrl = EditorGUILayout.ObjectField("Action", actionCtrl, typeof(AnimatorController), false, GUILayout.ExpandWidth(true)) as AnimatorController;
-            fxCtrl = EditorGUILayout.ObjectField("FX", fxCtrl, typeof(AnimatorController), false, GUILayout.ExpandWidth(true)) as AnimatorController;
+            var newActionCtrl = EditorGUILayout.ObjectField("Action", actionCtrl, typeof(AnimatorController), false, GUILayout.ExpandWidth(true)) as AnimatorController;
+            actionWD = EditorGUILayout.Toggle(new GUIContent("Write Defaults", "VRChat default is OFF, but most avatars has this setting set to ON."), actionWD);
+            var newFxCtrl = EditorGUILayout.ObjectField("FX", fxCtrl, typeof(AnimatorController), false, GUILayout.ExpandWidth(true)) as AnimatorController;
+            fxWD = EditorGUILayout.Toggle(new GUIContent("Write Defaults", "VRChat default is OFF, but most avatars has this setting set to ON."), fxWD);
 
             GUILayout.Space(10);
 
@@ -48,7 +54,7 @@ namespace VRF
                                 !(validStat == Status.EMPTY || validStat == Status.MISSING));
             }
 
-            CuteButtons.RenderButton("Remove", CuteIcons.REMOVE, HandleRemove,
+            CuteButtons.RenderButton("Remove", CuteIcons.REMOVE, () => HandleRemove(),
                 !(validStat == Status.ADDED || validStat == Status.UNKNOWN), GUILayout.Width(150));
 
             GUILayout.EndHorizontal();
@@ -84,6 +90,15 @@ namespace VRF
             avatar = avatarDescriptor;
             actionCtrl = Array.Find(avatarDescriptor.baseAnimationLayers, layer => layer.type == AvatarDescriptor.AnimLayerType.Action).animatorController as AnimatorController;
             fxCtrl = Array.Find(avatarDescriptor.baseAnimationLayers, layer => layer.type == AvatarDescriptor.AnimLayerType.FX).animatorController as AnimatorController;
+
+            if (actionCtrl)
+            {
+                actionWD = CuteAnimators.IsAnimatorUsingWD(actionCtrl);
+            }
+            if (fxCtrl)
+            {
+                fxWD = CuteAnimators.IsAnimatorUsingWD(fxCtrl);
+            }
         }
 
         public void ClearForm()
@@ -110,13 +125,26 @@ namespace VRF
             AnimatorController srcActionCtrl = AssetDatabase.LoadAssetAtPath(ACTION_CTRL, typeof(AnimatorController)) as AnimatorController;
             AnimatorController srcFxCtrl = AssetDatabase.LoadAssetAtPath(FX_CTRL, typeof(AnimatorController)) as AnimatorController;
 
+            Array.ForEach(srcActionCtrl.layers, l => Array.ForEach(l.stateMachine.states, s => s.state.writeDefaultValues = actionWD));
+            Array.ForEach(srcFxCtrl.layers, l => Array.ForEach(l.stateMachine.states, s => s.state.writeDefaultValues = fxWD));
+
             Debug.Log("Merging controllers [source=" + srcActionCtrl.name + ", desitnation=" + actionCtrl.name + "]");
             VRF.VRLabs.AV3Manager.AnimatorCloner.MergeControllers(actionCtrl, srcActionCtrl);
             Debug.Log("Merging controllers [source=" + srcFxCtrl.name + ", desitnation=" + fxCtrl.name + "]");
             VRF.VRLabs.AV3Manager.AnimatorCloner.MergeControllers(fxCtrl, srcFxCtrl);
+
+            EditorUtility.ClearDirty(srcActionCtrl);
+            EditorUtility.ClearDirty(srcFxCtrl);
+
+            Array.ForEach(srcActionCtrl.layers, l => Array.ForEach(l.stateMachine.states, s => s.state.writeDefaultValues = true));
+            Array.ForEach(srcFxCtrl.layers, l => Array.ForEach(l.stateMachine.states, s => s.state.writeDefaultValues = true));
+
+            CuteAnimators.UpdateVrcAnimatorLayerControlAfterClone(actionCtrl, !actionWD);
         }
 
-        void HandleRemove()
+
+
+        void HandleRemove(bool silent = false)
         {
             if (validStat == Status.UNKNOWN)
             {
@@ -140,12 +168,34 @@ namespace VRF
             {
                 this.RemoveLayer(fxCtrl, srcFxCtrl.layers[i].name);
             }
+
+            bool actionCtrlEmpty = CuteAnimators.IsAnimatorEmpty(AnimLayerType.Action, actionCtrl);
+            bool fxCtrlEmpty = CuteAnimators.IsAnimatorEmpty(AnimLayerType.FX, fxCtrl);
+
+            if (actionCtrlEmpty || fxCtrlEmpty)
+            {
+                if (silent || EditorUtility.DisplayDialog("CuteScript", "Some animators remain empty after deleting layers. Do you want to disconnect them from the avatar and restore VRChat default animators?", "Sure", "No"))
+                {
+                    if (actionCtrlEmpty)
+                    {
+                        int actionIndex = Array.FindIndex(avatar.baseAnimationLayers, layer => layer.type == AnimLayerType.Action);
+                        avatar.baseAnimationLayers[actionIndex] = CuteAnimators.CreateCustomAnimLayer(AnimLayerType.Action);
+                    }
+                    if (fxCtrlEmpty)
+                    {
+                        int fxIndex = Array.FindIndex(avatar.baseAnimationLayers, layer => layer.type == AnimLayerType.FX);
+                        avatar.baseAnimationLayers[fxIndex] = CuteAnimators.CreateCustomAnimLayer(AnimLayerType.FX);
+                    }
+                    EditorUtility.SetDirty(avatar);
+                    SetAvatar(avatar);
+                }
+            }
         }
 
         void HandleUpdate()
         {
             // yolo
-            HandleRemove();
+            HandleRemove(true);
             HandleAdd();
         }
 
@@ -213,32 +263,11 @@ namespace VRF
                 {
                     return false;
                 }
-                if (!CompareLayers(layer, refCtrl.layers[i]))
+                if (!CuteAnimators.CompareLayers(layer, refCtrl.layers[i]))
                 {
                     diffs = true;
                 }
             }
-            return true;
-        }
-
-        bool CompareLayers(AnimatorControllerLayer layer, AnimatorControllerLayer refLayer)
-        {
-            if (refLayer.stateMachine.states.Length != layer.stateMachine.states.Length)
-            {
-                Debug.Log($"States count is different [layerName={layer.name}, dest={layer.stateMachine.states.Length}, ref={refLayer.stateMachine.states.Length}]");
-                return false;
-            }
-            for (int i = 0; i < refLayer.stateMachine.states.Length; i++)
-            {
-                var state = layer.stateMachine.states[i].state;
-                var refState = refLayer.stateMachine.states[i].state;
-                if (refLayer.stateMachine.states.Length != layer.stateMachine.states.Length)
-                {
-                    Debug.Log($"Transitions count is different [layerName={layer.name}, stateName={state.name}, dest={state.transitions.Length}, ref={refState.transitions.Length}]");
-                    return false;
-                }
-            }
-
             return true;
         }
 
@@ -251,17 +280,13 @@ namespace VRF
                 return false;
             }
 
-            var emptyCtrl = UnityEditor.Animations.AnimatorController.CreateAnimatorControllerAtPath($"Assets/{name}.controller");
-            CustomAnimLayer animLayer = new CustomAnimLayer();
-            animLayer.isEnabled = true;
-            animLayer.type = type;
-            animLayer.animatorController = emptyCtrl;
-            animLayer.mask = null;
-            animLayer.isDefault = false;
+            var emptyCtrl = CuteAnimators.CreateDefaultAnimator(type, $"Assets/{name}.controller");
+            CustomAnimLayer animLayer = CuteAnimators.CreateCustomAnimLayer(type, emptyCtrl);
 
             int index = Array.FindIndex(avatar.baseAnimationLayers, layer => layer.type == type);
 
             avatar.baseAnimationLayers[index] = animLayer;
+            avatar.customizeAnimationLayers = true;
 
             EditorUtility.SetDirty(avatar);
             AssetDatabase.SaveAssets();

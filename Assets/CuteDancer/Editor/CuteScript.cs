@@ -46,9 +46,8 @@ namespace VRF
 
             GUILayout.Label("CuteDancer <dev version>", titleStyle);
 
-            GUILayout.Label("Select your main avatar object from scene.\n\n" +
-                "The script will try to fill fields in sections below basing on data found on your avatar.\n\n" +
-                "Please review them before applying any changes!", labelStyle);
+            GUILayout.Label("Select your main avatar object from scene.\n" +
+                "The script will fill fields in sections below basing on data found on your avatar.\nMissing assets will be created automatically.", labelStyle);
 
             GUILayout.Space(10);
             AvatarDescriptor newAvatar = EditorGUILayout.ObjectField("Avatar", avatar, typeof(AvatarDescriptor), true) as AvatarDescriptor;

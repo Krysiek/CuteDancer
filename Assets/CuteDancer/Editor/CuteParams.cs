@@ -189,6 +189,7 @@ namespace VRF
             expressionParams = AssetDatabase.LoadAssetAtPath<ExpressionParameters>(path);
 
             avatar.expressionParameters = expressionParams;
+            avatar.customExpressions = true;
             EditorUtility.SetDirty(expressionParams);
             EditorUtility.SetDirty(avatar);
 
