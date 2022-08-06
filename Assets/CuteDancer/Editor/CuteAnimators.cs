@@ -95,16 +95,22 @@ namespace VRF
                     Debug.Log($"Transitions count is different [layerName={layer.name}, stateName={state.name}, dest={state.transitions.Length}, ref={refState.transitions.Length}]");
                     return false;
                 }
+
+                if (state.behaviours.Length != refState.behaviours.Length) {
+                    Debug.Log($"Behaviours count is different [layerName={layer.name}, stateName={state.name}, dest={state.behaviours.Length}, ref={refState.behaviours.Length}]");
+                    return false;
+                }
             }
 
             return true;
         }
 
-        public static bool IsAnimatorUsingWD(AnimatorController ctrl) {
+        public static bool IsAnimatorUsingWD(AnimatorController ctrl)
+        {
             return Array.Exists(ctrl.layers, l => Array.Exists(l.stateMachine.states, s => s.state.writeDefaultValues == true));
         }
 
-        public static void UpdateVrcAnimatorLayerControlAfterClone(AnimatorController ctrl, bool enable)
+        public static void UpdateVrcAnimatorLayerControlAfterClone(AnimatorController ctrl, bool enableLayerWeight)
         {
             int cdIndex = Array.FindIndex(ctrl.layers, l => l.name.StartsWith("CuteDancer"));
             foreach (var state in ctrl.layers[cdIndex].stateMachine.states)
@@ -116,7 +122,7 @@ namespace VRF
                     {
                         Debug.Log($"Update VRCAnimatorLayerControl behaviour activity to enabled");
                         var rawVrcLayerControl = new SerializedObject(vrcLayerControl);
-                        rawVrcLayerControl.FindProperty("m_Enabled").intValue = enable ? 1 : 0;
+                        rawVrcLayerControl.FindProperty("m_Enabled").intValue = enableLayerWeight ? 1 : 0;
                         rawVrcLayerControl.ApplyModifiedProperties();
                         Debug.Log($"Update VRCAnimatorLayerControl layer number [from={vrcLayerControl.layer}, to={cdIndex}]");
                         vrcLayerControl.layer = cdIndex;

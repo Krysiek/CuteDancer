@@ -50,7 +50,7 @@ namespace VRF
             }
             else
             {
-                CuteButtons.RenderButton("Add animator layers", CuteIcons.ADD, HandleAdd,
+                CuteButtons.RenderButton("Add animator layers", CuteIcons.ADD, () => HandleAdd(),
                                 !(validStat == Status.EMPTY || validStat == Status.MISSING));
             }
 
@@ -108,14 +108,14 @@ namespace VRF
             fxCtrl = null;
         }
 
-        void HandleAdd()
+        void HandleAdd(bool silent = false)
         {
-            if (!actionCtrl && !CreateController(AvatarDescriptor.AnimLayerType.Action, $"{avatar.name}-Action"))
+            if (!actionCtrl && !CreateController(AvatarDescriptor.AnimLayerType.Action, $"{avatar.name}-Action", silent))
             {
                 return;
             }
 
-            if (!fxCtrl && !CreateController(AvatarDescriptor.AnimLayerType.FX, $"{avatar.name}-FX"))
+            if (!fxCtrl && !CreateController(AvatarDescriptor.AnimLayerType.FX, $"{avatar.name}-FX", silent))
             {
                 return;
             }
@@ -133,11 +133,10 @@ namespace VRF
             Debug.Log("Merging controllers [source=" + srcFxCtrl.name + ", desitnation=" + fxCtrl.name + "]");
             VRF.VRLabs.AV3Manager.AnimatorCloner.MergeControllers(fxCtrl, srcFxCtrl);
 
-            EditorUtility.ClearDirty(srcActionCtrl);
-            EditorUtility.ClearDirty(srcFxCtrl);
-
             Array.ForEach(srcActionCtrl.layers, l => Array.ForEach(l.stateMachine.states, s => s.state.writeDefaultValues = true));
             Array.ForEach(srcFxCtrl.layers, l => Array.ForEach(l.stateMachine.states, s => s.state.writeDefaultValues = true));
+
+            AssetDatabase.SaveAssets();
 
             CuteAnimators.UpdateVrcAnimatorLayerControlAfterClone(actionCtrl, !actionWD);
         }
@@ -196,7 +195,7 @@ namespace VRF
         {
             // yolo
             HandleRemove(true);
-            HandleAdd();
+            HandleAdd(true);
         }
 
         void RemoveLayer(AnimatorController controller, string name)
@@ -271,13 +270,16 @@ namespace VRF
             return true;
         }
 
-        bool CreateController(AnimLayerType type, string name)
+        bool CreateController(AnimLayerType type, string name, bool silent = false)
         {
-            var ok = EditorUtility.DisplayDialog("CuteScript", $"It seems your avatar does not have {(AnimLayerType)type} animator. Empty one will be created and assigned to your avatar.\n\nNew animator will be saved under path:\nAssets/{name}.controller", "Create it!", "Cancel");
-            if (!ok)
+            if (!silent)
             {
-                EditorUtility.DisplayDialog("CuteScript", "Operation aborted. Layers are NOT added!", "OK");
-                return false;
+                var ok = EditorUtility.DisplayDialog("CuteScript", $"It seems your avatar does not have {(AnimLayerType)type} animator. Empty one will be created and assigned to your avatar.\n\nNew animator will be saved under path:\nAssets/{name}.controller", "Create it!", "Cancel");
+                if (!ok)
+                {
+                    EditorUtility.DisplayDialog("CuteScript", "Operation aborted. Layers are NOT added!", "OK");
+                    return false;
+                }
             }
 
             var emptyCtrl = CuteAnimators.CreateDefaultAnimator(type, $"Assets/{name}.controller");
