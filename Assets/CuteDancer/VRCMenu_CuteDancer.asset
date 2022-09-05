@@ -53,6 +53,16 @@ MonoBehaviour:
     subMenu: {fileID: 0}
     subParameters: []
     labels: []
+  - name: Distraction Dance
+    icon: {fileID: 2800000, guid: ac5533ea49bf8b943be93e2737ae55ec, type: 3}
+    type: 102
+    parameter:
+      name: VRCEmote
+    value: 206
+    style: 0
+    subMenu: {fileID: 0}
+    subParameters: []
+    labels: []
   - name: Disable Contact
     icon: {fileID: 2800000, guid: e2f2ce48b8f50c94b87f06a36a82f696, type: 3}
     type: 102
