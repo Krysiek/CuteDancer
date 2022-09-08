@@ -18,14 +18,14 @@ It uses new contacts components added recently to VRChat. When one avatar starts
 
 ### Included dances
 
-At the moment the package contains 4 dances:
+At the moment the package contains 5 dances:
 - SAR Dance - default dance from [Super Animal Royale](https://animalroyale.com/) game
 - Coincidance - shoulder shake meme dance
 - Badger badger - simple badger dance
 - Zufolo Impazzito - dance based on [this meme](https://www.reddit.com/r/doodoofard/comments/w6lhnl/dance/)
+- Distraction Dance - [stickman meme dance](https://www.youtube.com/watch?v=6XK4S8OQPuU) (animation by Spooki Boy)
 
-All above dance animations were created from scratch by [Krysiek](https://github.com/Krysiek) using [Cascadeur](https://cascadeur.com/) or [Blender](https://www.blender.org/).  
-I created them on Taidum model, but they will work on all other avatars.
+All above dance animations were created from scratch by [Krysiek](https://github.com/Krysiek) or Spooki Boy using [Cascadeur](https://cascadeur.com/) or [Blender](https://www.blender.org/).
 
 ## Download
 
@@ -74,4 +74,6 @@ Upload the avatar and enjoy dancing with your friends :)
 
 ## Updating package
 
-If you are updating `CuteDancer` from version 1.1 and earlier, remove the `CuteDancer` directory from `Assets`. Remove all missing prefabs from avatar. Then install the new package and proceed with installation instructions above.
+ONLY if you are updating `CuteDancer` **from version 1.1 and earlier**, remove the `CuteDancer` directory from `Assets`. Remove all missing prefabs from avatar. Then install the new package and proceed with installation instructions above.
+
+If you are updating from version 1.2 or newer, just install the new unitypackage file and click `Update animator layers` in the installation window.
