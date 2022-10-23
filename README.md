@@ -7,7 +7,7 @@ Animators optimization, tests: [Jack'lul](https://github.com/jacklul)_
 [🇵🇱 Język Polski - kliknij tutaj](/README.pl.md)
 
 ___
-⚠️ There is currently a bug in VRChat with contacts components that leads to crash of the game. ⚠️
+⚠️ There is currently a bug in VRChat with contacts components that leads to crash of the game. It is a blocker for the future development of this package. ⚠️
 
 ⚠️ If you want me to continue working on this package, [please vote on this issue on VRChat feedback page](https://feedback.vrchat.com/bug-reports/p/1248-vrchat-crashes-when-many-contacts-collide-with-each-other). ⚠️
 ___
