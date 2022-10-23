@@ -6,6 +6,12 @@ Optymalizacja animatorów, testy: [Jack'lul](https://github.com/jacklul)_
 
 [🇬🇧 For English - click here](/README.md)
 
+___
+⚠️ VRChat obecnie ma błąd w komponentach contacts, który powoduje crashowanie gry i uniemożliwia dalszy rozwój CuteDancera. ⚠️
+
+⚠️ Jeśli chcesz, żebym kontynuował rozwój tej paczki, [proszę zagłosuj na to zgłoszenie na stronie VRChat feedback](https://feedback.vrchat.com/bug-reports/p/1248-vrchat-crashes-when-many-contacts-collide-with-each-other). ⚠️
+___
+
 ## Opis CuteDancer
 
 CuteDancer jest paczką .unitypackage dedykowaną dla avatarów [VRChat](https://hello.vrchat.com/). Zawiera animacje tańców, które mogą być odgrywane równocześnie z innymi graczami mającymi tę paczkę zainstalowaną na swoich avatarach.
