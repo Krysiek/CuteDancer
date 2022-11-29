@@ -1,0 +1,27 @@
+{
+    "name": "CuteDancer",
+    "author": "dev@krysiek.pl",
+    "url": "https://raw.githubusercontent.com/Krysiek/CuteDancer/vpm/CuteDancer.json",
+    "packages": {
+        "vrf.cutedancer": {
+            "versions": {
+                "3.1.0": {
+                    "name": "vrf.cutedancer",
+                    "displayName": "CuteDancer",
+                    "version": "3.1.0",
+                    "unity": "2019.4",
+                    "description": "CuteDancer is a package dedicated to use on VRChat avatars. It contains dance animations that can be played in sync together with other players who have the package installed on their avatars.",
+                    "author": {
+                        "name": "Krysiek",
+                        "email": "dev@krysiek.pl",
+                        "url": "https://github.com/Krysiek"
+                    },
+                    "hideInEditor": false,
+                    "vrchatVersion": "2022.1.1",
+                    "url": "https://raw.githubusercontent.com/Krysiek/CuteDancer/vpm/CuteDancer_v3.1.0.zip",
+                    "repo": "https://raw.githubusercontent.com/Krysiek/CuteDancer/vpm/CuteDancer.json"
+                }
+            }
+        }
+    }
+}
