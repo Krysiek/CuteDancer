@@ -12,7 +12,7 @@ namespace VRF
     public class CuteSubmenu : CuteGroup
     {
         static string CUTE_MENU = "Assets/CuteDancer/VRCMenu_CuteDancer.asset";
-        static string DANCE_ICON = "Assets/VRCSDK/Examples3/Expressions Menu/Icons/person_dance.png"; // TODO use custom icon
+        static string DANCE_ICON = "Assets/CuteDancer/Icons/CuteDancer.png";
 
         enum Status
         {
