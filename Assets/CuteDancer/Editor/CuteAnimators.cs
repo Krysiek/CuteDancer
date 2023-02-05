@@ -11,7 +11,7 @@ namespace VRF
 {
     class CuteAnimators
     {
-        static string DEF_ACTION_CTRL = "Assets/VRCSDK/Examples3/Animation/Controllers/vrc_AvatarV3ActionLayer.controller";
+        static string DEF_ACTION_CTRL = "Assets/CuteDancer/AvatarV3ActionLayerTemplate.controller";
 
         public static AnimatorController CreateDefaultAnimator(AnimLayerType type, String path)
         {
