@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg4"
+   version="1.1"
+   viewBox="0 0 512 512">
+  <metadata
+     id="metadata10">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs8" />
+  <!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+  <path
+     id="path2"
+     d="M 256 0 C 114.6 0 0 114.6 0 256 C 0 397.4 114.6 512 256 512 C 397.4 512 512 397.4 512 256 C 512 114.6 397.4 0 256 0 z M 256.54102 63.730469 C 262.93149 63.730469 269.32204 66.177499 274.21875 71.074219 L 406.07617 202.93164 C 415.8696 212.72507 423.60108 239.70253 396.31445 238.83008 C 370.02797 238.91118 346.06457 238.91844 323.25391 238.86914 L 323.25391 316.32227 C 323.25391 330.17227 312.10391 341.32227 298.25391 341.32227 L 208.32227 341.32227 C 194.47227 341.32227 183.32227 330.17227 183.32227 316.32227 L 183.32227 237.91211 C 161.66693 237.69416 139.25233 237.45639 114.59961 237.20312 C 91.246851 237.71478 92.059891 217.87761 107.00586 202.93164 L 238.86328 71.074219 C 243.76 66.177499 250.15054 63.730469 256.54102 63.730469 z M 210.30469 374.64453 L 300.60938 374.64453 C 313.90938 374.64453 324.60938 385.34453 324.60938 398.64453 C 324.60938 411.94453 313.90938 422.64453 300.60938 422.64453 L 210.30469 422.64453 C 197.00469 422.64453 186.30469 411.94453 186.30469 398.64453 C 186.30469 385.34453 197.00469 374.64453 210.30469 374.64453 z " />
+</svg>

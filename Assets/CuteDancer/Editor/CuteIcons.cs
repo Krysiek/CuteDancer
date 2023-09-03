@@ -16,6 +16,12 @@ namespace VRF
         public static Texture2D ADD = Resources.Load("circle-plus-solid") as Texture2D;
         public static Texture2D REMOVE = Resources.Load("circle-minus-solid") as Texture2D;
 
+        public static Texture2D REFRESH = Resources.Load("rotate-solid") as Texture2D;
+        public static Texture2D BUILD = Resources.Load("screwdriver-wrench-solid") as Texture2D;
+        public static Texture2D AVATAR = Resources.Load("person-solid") as Texture2D;
+
         public static Texture2D TOP_BANNER = Resources.Load("top-banner") as Texture2D;
+
+
     }
 }

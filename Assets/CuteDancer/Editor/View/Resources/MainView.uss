@@ -1,0 +1,48 @@
+.banner {
+    background-image: resource('top-banner');
+    height: 84px;
+    width: 100%;
+    -unity-background-scale-mode: scale-and-crop;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgb(43, 26, 77);
+    border-right-color: rgb(43, 26, 77);
+    border-top-color: rgb(43, 26, 77);
+    border-bottom-color: rgb(43, 26, 77);
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.with-top-separator {
+    border-left-color: rgba(0, 0, 0, 0.31);
+    border-right-color: rgba(0, 0, 0, 0.31);
+    border-top-color: rgba(0, 0, 0, 0.31);
+    border-bottom-color: rgba(0, 0, 0, 0.31);
+    border-top-width: 2px;
+    margin-top: 10px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 10px;
+    padding-bottom: 0;
+    margin-bottom: 4px;
+}
+
+.big-button {
+    flex-direction: row;
+    flex-basis: auto;
+    -unity-text-align: middle-center;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 2px;
+    margin-bottom: 0;
+    font-size: 16px;
+}
