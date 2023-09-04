@@ -17,7 +17,7 @@ namespace VRF
     {
         public VisualElement Create(DanceData data)
         {
-            VisualTreeAsset danceView = Resources.Load<VisualTreeAsset>("DanceView");
+            VisualTreeAsset danceView = CuteResources.LoadView("DanceView");
             VisualElement danceViewEl = danceView.CloneTree();
 
             danceViewEl.Bind(new SerializedObject(data));

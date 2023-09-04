@@ -1,5 +1,5 @@
 .banner {
-    background-image: resource('top-banner');
+    background-image: resource('CuteDancer/Images/top-banner');
     height: 84px;
     width: 100%;
     -unity-background-scale-mode: scale-and-crop;

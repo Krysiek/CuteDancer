@@ -33,7 +33,7 @@ namespace VRF
         {
             data = ScriptableObject.CreateInstance<SettingsData>();
 
-            VisualTreeAsset mainView = Resources.Load<VisualTreeAsset>("MainView");
+            VisualTreeAsset mainView = CuteResources.LoadView("MainView");
             mainViewEl = mainView.CloneTree();
 
             var serializedData = new SerializedObject(data);

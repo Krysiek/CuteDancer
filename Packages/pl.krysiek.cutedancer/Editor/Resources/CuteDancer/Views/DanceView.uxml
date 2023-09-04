@@ -1,11 +1,12 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
     <ui:Button name="DanceItemBtn" style="width: 220px; height: 80px; flex-direction: row; align-items: center;">
+        <Style src="DanceView.uss" />
         <ui:Toggle binding-path="selected" />
         <ui:Image name="Icon" style="width: 64px; height: 64px;" />
         <ui:VisualElement style="align-items: flex-start; -unity-text-align: middle-left; white-space: normal;">
             <ui:Label text="Dance code lorem ipsum dolor sit amelinium" name="Code" binding-path="displayCode" style="white-space: normal; -unity-font-style: bold;" />
             <ui:Label text="Author" name="Author" binding-path="author" style="flex-wrap: wrap; -unity-font-style: italic; margin-top: 4px;" />
         </ui:VisualElement>
-        <ui:Button style="position: absolute; right: 2px; bottom: 4px; left: auto; width: 24px; height: 24px; background-image: resource(&apos;volume-high-solid&apos;); -unity-background-scale-mode: scale-to-fit;" />
+        <ui:Button name="MusicBtn" class="music-on" style="position: absolute; right: 2px; bottom: 4px; left: auto; width: 24px; height: 24px; -unity-background-scale-mode: scale-to-fit;" />
     </ui:Button>
 </ui:UXML>

@@ -1,0 +1,7 @@
+.music-on {
+    background-image: resource('CuteDancer/Images/volume-high-solid');
+}
+
+.music-off {
+    background-image: resource('CuteDancer/Images/volume-xmark-solid');
+}

@@ -12,7 +12,7 @@ namespace VRF
 {
     public class DancesLoader
     {
-        static string DANCES_DIR = Path.Combine("Packages", "pl.krysiek.cutedancer", "Resources", "Dances"); // TODO add custom path from assets
+        static string DANCES_DIR = Path.Combine("Packages", "pl.krysiek.cutedancer", "Runtime", "Dances"); // TODO add custom path from assets
 
         public bool loaded = false;
 

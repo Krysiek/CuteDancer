@@ -20,7 +20,7 @@ namespace VRF
         public VisualElement Create(Dictionary<String, List<DanceData>> collections)
         {
 
-            VisualTreeAsset danceItemTemplate = Resources.Load<VisualTreeAsset>("DanceView");
+            VisualTreeAsset danceItemTemplate = CuteResources.LoadView("DanceView");
 
             VisualElement dancesList = new VisualElement();
             dancesList.style.width = Length.Percent(100);
