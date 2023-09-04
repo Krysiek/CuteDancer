@@ -71,5 +71,6 @@ debug.log
 !/Assets/CuteDancer
 /Packages/*
 !Packages/pl.krysiek.cutedancer
+/Thry
 /UIElementsSchema
 /ProjectSettings

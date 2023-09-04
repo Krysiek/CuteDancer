@@ -21,9 +21,9 @@
         </ui:ScrollView>
         <ui:Label text="Selected dances: 0" />
         <ui:Label text="Build configuration" class="with-top-separator" />
-        <ui:TextField picking-mode="Ignore" label="Parameter name" binding-path="parameterName" name="parameterName" text="VRCEmote" style="padding-top: 4px; padding-bottom: 2px;" />
-        <uie:IntegerField label="Parameter start value" value="200" binding-path="parameterStartValue" style="padding-top: 2px; padding-bottom: 2px;" />
-        <ui:TextField picking-mode="Ignore" label="Output directory" text="Assets/CuteDancerGenerated" binding-path="outputDirectory" style="padding-top: 2px; padding-bottom: 4px;" />
+        <ui:TextField picking-mode="Ignore" label="Parameter name" binding-path="parameterName" name="parameterName" style="padding-top: 4px; padding-bottom: 2px;" />
+        <uie:IntegerField label="Parameter start value" binding-path="parameterStartValue" style="padding-top: 2px; padding-bottom: 2px;" />
+        <ui:TextField picking-mode="Ignore" label="Output directory" binding-path="outputDirectory" style="padding-top: 2px; padding-bottom: 4px;" />
         <ui:Button text="Generate files" name="BuildBtn" class="big-button">
             <ui:VisualElement style="background-image: resource(&apos;screwdriver-wrench-solid&apos;); width: 32px; height: 32px;">
                 <ui:VisualElement style="background-image: resource(&apos;circle-check-solid&apos;); position: absolute; right: -16px; width: 16px; height: 16px; bottom: 0;" />

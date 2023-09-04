@@ -14,7 +14,7 @@ namespace VRF
         
         public int parameterStartValue = 128;
         
-        public string outputDirectory = "Assets\\CuteDancerGenerated";
+        public string outputDirectory = "Assets\\CuteDancer\\Build";
         
         public AvatarDescriptor avatar;
     }
