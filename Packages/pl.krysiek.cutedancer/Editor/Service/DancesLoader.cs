@@ -33,30 +33,36 @@ namespace VRF
                 {
                     DanceData danceData = ScriptableObject.CreateInstance<DanceData>();
 
-                    danceData.code = Path.GetFileName(dancePath);
-                    danceData.displayCode = danceData.code;
+                    string infoPath = Directory.GetFiles(dancePath, "*.json")[0];
 
-                    string infoPath = Path.Combine(dancePath, "info.json");
-
-                    if (File.Exists(infoPath))
+                    if (!File.Exists(infoPath))
                     {
-                        string infoDataStr = new StreamReader(infoPath).ReadToEnd();
-                        DanceJsonData parsed = JsonUtility.FromJson<DanceJsonData>(infoDataStr);
-                        danceData.displayCode = parsed.displayCode;
-                        danceData.author = "by " + parsed.author;
-                        danceData.collection = parsed.collection;
-                        danceData.order = parsed.order;
-                        if (danceData.collection == "Originals")
-                        {
-                            if (!originalsWhitelist.Contains(danceData.code))
-                            {
-                                danceData.collection = "Not originals";
-                            }
-                        }
+                        Debug.LogWarning("Skipped dance without json info: " + dancePath);
+                        continue;
                     }
-                    else
+
+                    StreamReader streamReader = new StreamReader(infoPath);
+                    string infoDataStr = streamReader.ReadToEnd();
+                    streamReader.Close();
+                    DanceJsonData infoData = JsonUtility.FromJson<DanceJsonData>(infoDataStr);
+                    danceData._name = infoData.name;
+
+                    if (danceData._name == null)
                     {
-                        danceData.collection = "Other";
+                        Debug.LogWarning("Skipped dance without name: " + dancePath);
+                        continue;
+                    }
+
+                    danceData.displayName = infoData.displayName != null ? infoData.displayName : infoData.name;
+                    danceData.author = infoData.author != null ? "by " + infoData.author : "";
+                    danceData.collection = infoData.collection != null ? infoData.collection : "Other";
+                    danceData.order = infoData.order;
+                    if (danceData.collection == "Originals")
+                    {
+                        if (!originalsWhitelist.Contains(danceData._name))
+                        {
+                            danceData.collection = "Not originals";
+                        }
                     }
 
                     if (!collections.ContainsKey(danceData.collection))
@@ -82,7 +88,6 @@ namespace VRF
                     Debug.LogWarning("Incorrect structure, dance skipped: " + dancePath + ", error: " + err.ToString());
                 }
             }
-
 
             foreach (KeyValuePair<string, List<DanceData>> collection in collections)
             {

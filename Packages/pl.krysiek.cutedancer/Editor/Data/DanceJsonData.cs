@@ -1,6 +1,8 @@
 ﻿public struct DanceJsonData
 {
-    public string displayCode;
+    public string name;
+    
+    public string displayName;
 
     public string author;
 

@@ -6,9 +6,9 @@ namespace VRF
     [Serializable]
     public class DanceData : ScriptableObject
     {
-        public string code;
+        public string _name;
 
-        public string displayCode;
+        public string displayName;
 
         public string author;
 

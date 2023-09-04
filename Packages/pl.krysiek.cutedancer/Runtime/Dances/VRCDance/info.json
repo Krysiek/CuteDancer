@@ -1,5 +1,6 @@
 {
-    "displayCode": "Dance",
+    "name": "VRCDance",
+    "displayName": "Dance",
     "collection": "VRC Emotes",
     "author": "VRChat",
     "order": 5

@@ -1,5 +1,6 @@
 {
-    "displayCode": "Die",
+    "name": "VRCDie",
+    "displayName": "Die",
     "collection": "VRC Emotes",
     "author": "VRChat",
     "order": 3
