@@ -69,8 +69,6 @@ debug.log
 #Everything what is not a CuteDancer
 /Assets/*
 !/Assets/CuteDancer
-/Packages/*
-!Packages/pl.krysiek.cutedancer
 /Thry
 /UIElementsSchema
 /ProjectSettings
