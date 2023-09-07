@@ -25,36 +25,57 @@ namespace VRF
             AvatarUpdateBtn
         }
 
-        public SettingsData data;
+        private readonly DancesLoaderService dancesLoaderService = new DancesLoaderService();
 
-        VisualElement mainViewEl;
+        private readonly DancesListViewEditor dancesBrowserView = new DancesListViewEditor();
 
-        public VisualElement Create()
+        private readonly  MainViewData mainViewData;
+        private readonly  VisualElement mainViewEl;
+
+        public MainViewEditor()
         {
-            data = ScriptableObject.CreateInstance<SettingsData>();
+            mainViewData = ScriptableObject.CreateInstance<MainViewData>();
 
-            VisualTreeAsset mainView = CuteResources.LoadView("MainView");
-            mainViewEl = mainView.CloneTree();
+            mainViewEl = CuteResources.LoadView("MainView").CloneTree();
+            mainViewEl.Bind(new SerializedObject(mainViewData));
 
-            var serializedData = new SerializedObject(data);
-            mainViewEl.Bind(serializedData);
-
+            // fix what cannot be done in UXML (at least in Unity 2019)
             mainViewEl.Q<ObjectField>("Avatar").objectType = typeof(AvatarDescriptor);
 
-            return mainViewEl;
+            mainViewEl.Q("DancesList").Add(dancesBrowserView.GetEl());
 
+            RegisterButtonClick(MainViewEditor.Buttons.RefreshBtn, e => LoadDances());
+            // RegisterButtonClick(MainViewEditor.Buttons.BuildBtn, e => MakeBuild());
+            // RegisterButtonClick(MainViewEditor.Buttons.RebuildBtn, e => RemakeBuild());
+            RegisterButtonClick(MainViewEditor.Buttons.AvatarApplyBtn, e => Debug.Log("Avatar apply"));
+            RegisterButtonClick(MainViewEditor.Buttons.AvatarRemoveBtn, e => Debug.Log("Avatar remove"));
+            RegisterButtonClick(MainViewEditor.Buttons.AvatarUpdateBtn, e => Debug.Log("Avatar update"));
+
+            LoadDances();
+        }
+
+        public VisualElement GetViewElement()
+        {
+            return mainViewEl;
+        }
+
+        private void LoadDances()
+        {
+            mainViewData.dances = dancesLoaderService.LoadDances();
+            dancesBrowserView.Collections = mainViewData.dances;
         }
 
         public void Validate()
         {
-            // todo :0
-            ShowButton(Buttons.BuildBtn, !Directory.Exists(data.outputDirectory));
-            ShowButton(Buttons.RebuildBtn, Directory.Exists(data.outputDirectory));
+            ShowButton(Buttons.BuildBtn, !Directory.Exists(mainViewData.outputDirectory));
+            ShowButton(Buttons.RebuildBtn, Directory.Exists(mainViewData.outputDirectory));
+            
+            // TODO do validation for avatar (below)
             ShowButton(Buttons.AvatarRemoveBtn, false);
             ShowButton(Buttons.AvatarUpdateBtn, false);
         }
 
-        public void RegisterButtonClick(Buttons btn, Action<EventBase> action)
+        private void RegisterButtonClick(Buttons btn, Action<EventBase> action)
         {
             mainViewEl.Q<Button>(btn.ToString()).clickable = new Clickable(action);
         }

@@ -2,7 +2,7 @@
     <ui:VisualElement style="justify-content: flex-start; align-items: center; flex-direction: column; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
         <Style src="MainView.uss" />
         <ui:VisualElement name="CuteBanner" class="banner">
-            <ui:Label text="CuteDancer Script" style="font-size: 25px; color: rgb(255, 255, 255); -unity-font-style: bold; -unity-text-align: upper-left; margin-left: 20px;" />
+            <ui:Label text="CuteDancer Setup" style="font-size: 25px; color: rgb(255, 255, 255); -unity-font-style: bold; -unity-text-align: upper-left; margin-left: 20px;" />
             <ui:Label text="&lt;dev version&gt;" style="margin-left: 20px;" />
         </ui:VisualElement>
     </ui:VisualElement>

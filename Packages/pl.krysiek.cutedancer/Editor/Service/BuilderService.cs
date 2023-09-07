@@ -10,13 +10,13 @@ using AvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
 
 namespace VRF
 {
-    public class CuteBuilder
+    public class BuilderService
     {
         ParameterBuilder parameterBuilder = new ParameterBuilder();
         MenuBuilder menuBuilder = new MenuBuilder();
         AnimatorBuilder animatorBuilder = new AnimatorBuilder();
 
-        public void MakeBuild(SettingsData settings)
+        public void MakeBuild(MainViewData settings)
         {
             Directory.CreateDirectory(settings.outputDirectory);
             AssetDatabase.Refresh();
@@ -26,7 +26,7 @@ namespace VRF
             animatorBuilder.MakeBuild();
         }
         
-        public void ClearBuild(SettingsData settings)
+        public void ClearBuild(MainViewData settings)
         {
             AssetDatabase.DeleteAsset(settings.outputDirectory);
         }

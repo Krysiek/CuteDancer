@@ -4,7 +4,7 @@ using UnityEngine;
 namespace VRF
 {
     [Serializable]
-    public class DanceData : ScriptableObject
+    public class DanceViewData : ScriptableObject
     {
         public string _name;
 
@@ -20,7 +20,9 @@ namespace VRF
 
         public AudioClip audio;
 
-        public bool selected;
+        public bool selected = false;
+
+        public bool audioEnabled = true;
 
         public int order = 255;
     }

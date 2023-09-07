@@ -10,28 +10,24 @@ using AvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
 
 namespace VRF
 {
-    public class DancesLoader
+    public class DancesLoaderService
     {
-        static string DANCES_DIR = Path.Combine("Packages", "pl.krysiek.cutedancer", "Runtime", "Dances"); // TODO add custom path from assets
+        static string DANCES_DIR = Path.Combine("Packages", "pl.krysiek.cutedancer", "Runtime", "Dances");
+        // TODO add custom path from assets
+        static string[] ORIGINALS_WHITELIST = new string[] { "SARDefaultDance", "BadgerDance", "ShoulderShakeDance", "ZufoloImpazzitoDance", "DistractionDance" };
 
-        public bool loaded = false;
-
-        public Dictionary<string, List<DanceData>> collections = new Dictionary<string, List<DanceData>>();
-
-        public string[] originalsWhitelist = new string[] { "SARDefaultDance", "BadgerDance", "ShoulderShakeDance", "ZufoloImpazzitoDance", "DistractionDance" };
-
-        public void LoadDances()
+        public Dictionary<string, List<DanceViewData>> LoadDances()
         {
-            // TODO preserve selected dances
-            collections.Clear();
-
             string[] dancesPath = Directory.GetDirectories(DANCES_DIR);
+            // TODO add looking for extra dances in other packages with "cutedancer" in name
+
+            Dictionary<string, List<DanceViewData>> collections = new Dictionary<string, List<DanceViewData>>();
 
             foreach (string dancePath in dancesPath)
             {
                 try
                 {
-                    DanceData danceData = ScriptableObject.CreateInstance<DanceData>();
+                    DanceViewData danceData = ScriptableObject.CreateInstance<DanceViewData>();
 
                     string infoPath = Directory.GetFiles(dancePath, "*.json")[0];
 
@@ -59,7 +55,7 @@ namespace VRF
                     danceData.order = infoData.order;
                     if (danceData.collection == "Originals")
                     {
-                        if (!originalsWhitelist.Contains(danceData._name))
+                        if (!ORIGINALS_WHITELIST.Contains(danceData._name))
                         {
                             danceData.collection = "Not originals";
                         }
@@ -67,10 +63,10 @@ namespace VRF
 
                     if (!collections.ContainsKey(danceData.collection))
                     {
-                        collections.Add(danceData.collection, new List<DanceData>());
+                        collections.Add(danceData.collection, new List<DanceViewData>());
                     }
 
-                    List<DanceData> dances = collections[danceData.collection];
+                    List<DanceViewData> dances = collections[danceData.collection];
 
                     string animatorPath = Directory.GetFiles(dancePath, "*.controller")[0];
                     danceData.animator = AssetDatabase.LoadAssetAtPath<Animator>(animatorPath);
@@ -89,12 +85,12 @@ namespace VRF
                 }
             }
 
-            foreach (KeyValuePair<string, List<DanceData>> collection in collections)
+            foreach (KeyValuePair<string, List<DanceViewData>> collection in collections)
             {
                 collection.Value.Sort((o1, o2) => o1.order - o2.order);
             }
 
-            loaded = true;
+            return collections;
         }
     }
 }

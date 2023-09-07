@@ -6,16 +6,17 @@ using AvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
 
 namespace VRF
 {
-    public class SettingsData : ScriptableObject
+    public class MainViewData : ScriptableObject
     {
-        public List<string> selectedDances = new List<string>();
-        
+        [NonSerialized]
+        public Dictionary<string, List<DanceViewData>> dances;
+
         public string parameterName = "VRCEmote";
-        
+
         public int parameterStartValue = 128;
-        
+
         public string outputDirectory = "Assets\\CuteDancer\\Build";
-        
+
         public AvatarDescriptor avatar;
     }
 }

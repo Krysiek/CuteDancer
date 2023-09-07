@@ -7,6 +7,6 @@
             <ui:Label text="Dance code lorem ipsum dolor sit amelinium" name="Name" binding-path="displayName" style="white-space: normal; -unity-font-style: bold;" />
             <ui:Label text="Author" name="Author" binding-path="author" style="flex-wrap: wrap; -unity-font-style: italic; margin-top: 4px;" />
         </ui:VisualElement>
-        <ui:Button name="MusicBtn" class="music-on" style="position: absolute; right: 2px; bottom: 4px; left: auto; width: 24px; height: 24px; -unity-background-scale-mode: scale-to-fit;" />
+        <ui:Button name="MusicBtn" class="music-on" style="position: absolute; right: 2px; bottom: 4px; left: auto; width: 24px; height: 24px; -unity-background-scale-mode: scale-to-fit; border-left-color: rgba(255, 255, 255, 0); border-right-color: rgba(255, 255, 255, 0); border-top-color: rgba(255, 255, 255, 0); border-bottom-color: rgba(255, 255, 255, 0); background-color: rgb(75, 75, 75);" />
     </ui:Button>
 </ui:UXML>
