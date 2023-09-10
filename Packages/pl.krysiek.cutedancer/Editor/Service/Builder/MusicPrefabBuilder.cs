@@ -36,6 +36,7 @@ namespace VRF
 
             template.parent = null;
 
+            Debug.Log("Save file [name = " + outputPath + "]");
             PrefabUtility.SaveAsPrefabAsset(prefab, outputPath);
             PrefabUtility.UnloadPrefabContents(prefab);
         }
