@@ -9,6 +9,7 @@ namespace VRF
     {
         ParameterBuilder parameterBuilder = new ParameterBuilder();
         MenuBuilder menuBuilder = new MenuBuilder();
+        MusicPrefabBuilder musicPrefabBuilder = new MusicPrefabBuilder();
 
         public void Build(SettingsBuilderData settings)
         {
@@ -22,6 +23,7 @@ namespace VRF
 
             parameterBuilder.BuildParameters(settings);
             menuBuilder.BuildMenu(settings);
+            musicPrefabBuilder.BuildMusicPrefab(settings);
             // TODO more builders
 
             AssetDatabase.Refresh();

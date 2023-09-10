@@ -24,7 +24,7 @@ namespace VRF
             collection = data.collection,
             icon = data.icon,
             animator = data.animator,
-            audio = data.audio,
+            audio = data.audioEnabled ? data.audio : null,
         };
 
     }
