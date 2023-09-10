@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Contact_OFF
+  m_Name: Receivers_OFF
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -33,7 +33,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_IsActive
-    path: CuteDancerContact
+    path: CuteDancer-Contacts/Receivers
     classID: 1
     script: {fileID: 0}
   m_PPtrCurves: []
@@ -45,7 +45,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 4140921986
+      path: 1248851
       attribute: 2086281974
       script: {fileID: 0}
       typeID: 1
@@ -89,7 +89,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_IsActive
-    path: CuteDancerContact
+    path: CuteDancer-Contacts/Receivers
     classID: 1
     script: {fileID: 0}
   m_EulerEditorCurves: []
