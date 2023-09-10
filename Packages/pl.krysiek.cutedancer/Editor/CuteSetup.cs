@@ -11,13 +11,21 @@ namespace VRF
 {
     public class CuteSetup : EditorWindow
     {
-        [MenuItem("Tools/CuteDancer Setup")]
-        static void Init()
+        [MenuItem("Tools/CuteDancer/CuteDancer Setup", false, 1)]
+        static void OpenSetupWindow()
         {
             CuteSetup window = EditorWindow.GetWindow<CuteSetup>();
             window.minSize = new Vector2(500, 600);
             window.titleContent.text = "CuteDancer Setup";
             window.Show();
+        }
+
+        
+        [MenuItem("Tools/CuteDancer/Create Dance Template", false, 20)]
+        static void GenerateTemplate()
+        {
+            // TODO implement template generation with unique GUID
+            // EditorUtility.DisplayDialog("Create Dance Template", "Dance template created in Assets/CuteDancer/Dances/DanceTemplate\n\nYou can modify it to your like.", "OK");
         }
 
         private MainViewEditor mainView;
@@ -28,7 +36,6 @@ namespace VRF
             VisualElement root = rootVisualElement;
             var mainViewEl = mainView.GetViewElement();
             root.Add(mainViewEl);
-
             mainView.Validate();
         }
 

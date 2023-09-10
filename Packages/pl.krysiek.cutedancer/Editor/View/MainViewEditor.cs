@@ -1,14 +1,13 @@
 #if VRC_SDK_VRCSDK3
 using System;
 using System.IO;
-using System.Collections.Generic;
 using UnityEngine;
 
 using UnityEditor;
 using UnityEditor.UIElements;
-using UnityEditor.Animations;
 using UnityEngine.UIElements;
 using AvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
+using System.Collections.Generic;
 
 
 namespace VRF
@@ -26,11 +25,12 @@ namespace VRF
         }
 
         private readonly DancesLoaderService dancesLoaderService = new DancesLoaderService();
+        private readonly BuilderService builderService = new BuilderService();
 
         private readonly DancesListViewEditor dancesBrowserView = new DancesListViewEditor();
 
-        private readonly  MainViewData mainViewData;
-        private readonly  VisualElement mainViewEl;
+        private readonly MainViewData mainViewData;
+        private readonly VisualElement mainViewEl;
 
         public MainViewEditor()
         {
@@ -39,17 +39,16 @@ namespace VRF
             mainViewEl = CuteResources.LoadView("MainView").CloneTree();
             mainViewEl.Bind(new SerializedObject(mainViewData));
 
-            // fix what cannot be done in UXML (at least in Unity 2019)
-            mainViewEl.Q<ObjectField>("Avatar").objectType = typeof(AvatarDescriptor);
+            mainViewEl.Q<ObjectField>("Avatar").objectType = typeof(AvatarDescriptor); // fix what cannot be done in UXML (at least in Unity 2019)
 
             mainViewEl.Q("DancesList").Add(dancesBrowserView.GetEl());
 
-            RegisterButtonClick(MainViewEditor.Buttons.RefreshBtn, e => LoadDances());
-            // RegisterButtonClick(MainViewEditor.Buttons.BuildBtn, e => MakeBuild());
-            // RegisterButtonClick(MainViewEditor.Buttons.RebuildBtn, e => RemakeBuild());
-            RegisterButtonClick(MainViewEditor.Buttons.AvatarApplyBtn, e => Debug.Log("Avatar apply"));
-            RegisterButtonClick(MainViewEditor.Buttons.AvatarRemoveBtn, e => Debug.Log("Avatar remove"));
-            RegisterButtonClick(MainViewEditor.Buttons.AvatarUpdateBtn, e => Debug.Log("Avatar update"));
+            RegisterButtonClick(Buttons.RefreshBtn, e => LoadDances());
+            RegisterButtonClick(Buttons.BuildBtn, e => builderService.Build(mainViewData));
+            RegisterButtonClick(Buttons.RebuildBtn, e => builderService.Rebuild(mainViewData));
+            RegisterButtonClick(Buttons.AvatarApplyBtn, e => Debug.Log("Avatar apply"));
+            RegisterButtonClick(Buttons.AvatarRemoveBtn, e => Debug.Log("Avatar remove"));
+            RegisterButtonClick(Buttons.AvatarUpdateBtn, e => Debug.Log("Avatar update"));
 
             LoadDances();
         }
@@ -69,7 +68,7 @@ namespace VRF
         {
             ShowButton(Buttons.BuildBtn, !Directory.Exists(mainViewData.outputDirectory));
             ShowButton(Buttons.RebuildBtn, Directory.Exists(mainViewData.outputDirectory));
-            
+
             // TODO do validation for avatar (below)
             ShowButton(Buttons.AvatarRemoveBtn, false);
             ShowButton(Buttons.AvatarUpdateBtn, false);

@@ -1,12 +1,7 @@
 #if VRC_SDK_VRCSDK3
-using System;
-using System.Linq;
 using System.IO;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.Animations;
-using AvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
 
 namespace VRF
 {
@@ -14,21 +9,37 @@ namespace VRF
     {
         ParameterBuilder parameterBuilder = new ParameterBuilder();
         MenuBuilder menuBuilder = new MenuBuilder();
-        AnimatorBuilder animatorBuilder = new AnimatorBuilder();
 
-        public void MakeBuild(MainViewData settings)
+        public void Build(SettingsBuilderData settings)
         {
+            if (settings.dances.Count == 0)
+            {
+                EditorUtility.DisplayDialog("CuteDancer Builder", "Please select at least one dance to proceed.", "OK");
+                return;
+            }
+
             Directory.CreateDirectory(settings.outputDirectory);
-            AssetDatabase.Refresh();
 
-            parameterBuilder.MakeBuild();
-            menuBuilder.MakeBuild();
-            animatorBuilder.MakeBuild();
+            parameterBuilder.BuildParameters(settings);
+            menuBuilder.BuildMenu(settings);
+            // TODO more builders
+
+            AssetDatabase.Refresh();
         }
-        
-        public void ClearBuild(MainViewData settings)
+
+        public void Rebuild(SettingsBuilderData settings)
         {
-            AssetDatabase.DeleteAsset(settings.outputDirectory);
+            FileInfo[] files = new DirectoryInfo(settings.outputDirectory).GetFiles();
+            foreach (FileInfo file in files)
+            {
+                if (!file.Name.StartsWith("."))
+                {
+                    Debug.Log("Delete file [name = " + file.Name + "]");
+                    file.Delete();
+                }
+            }
+            AssetDatabase.Refresh();
+            Build(settings);
         }
 
     }

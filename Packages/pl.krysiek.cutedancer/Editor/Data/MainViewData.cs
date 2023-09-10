@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using AvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
 
 namespace VRF

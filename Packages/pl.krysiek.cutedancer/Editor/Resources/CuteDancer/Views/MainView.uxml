@@ -8,7 +8,7 @@
     </ui:VisualElement>
     <ui:VisualElement style="justify-content: flex-start; align-items: stretch; flex-direction: column; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px; flex-grow: 1;">
         <Style src="MainView.uss" />
-        <ui:Label text="Welcome in Cute Dancer Script!" style="white-space: normal; padding-bottom: 8px; -unity-font-style: italic; font-size: 15px;" />
+        <ui:Label text="Welcome in Cute Dancer Setup!" style="white-space: normal; padding-bottom: 8px; -unity-font-style: italic; font-size: 15px;" />
         <ui:Label text="This tool will help you build prefab, animators, menu and parameter files and optionally apply them to your avatar!" style="white-space: normal;" />
         <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-top: 2px; margin-bottom: 2px;">
             <ui:Label text="Select dances you want from the list below." style="-unity-text-align: upper-left;" />

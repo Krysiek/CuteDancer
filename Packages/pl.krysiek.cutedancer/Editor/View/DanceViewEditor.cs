@@ -1,14 +1,9 @@
 #if VRC_SDK_VRCSDK3
-using System;
-using System.IO;
-using System.Collections.Generic;
 using UnityEngine;
 
 using UnityEditor;
 using UnityEditor.UIElements;
-using UnityEditor.Animations;
 using UnityEngine.UIElements;
-using AvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
 
 
 namespace VRF
@@ -43,7 +38,12 @@ namespace VRF
         {
             danceViewEl.Bind(new SerializedObject(_danceViewData));
 
-            danceViewEl.Q<Image>("Icon").image = _danceViewData.icon;
+            if (_danceViewData.icon != null)
+            {
+                danceViewEl.Q<Image>("Icon").image = _danceViewData.icon;
+            } else {
+                danceViewEl.Q<Image>("Icon").style.width = 12;
+            }
             danceViewEl.Q<Button>("DanceItemBtn").clickable = new Clickable((ev) => _danceViewData.selected = !_danceViewData.selected);
 
             Button musicBtn = danceViewEl.Q<Button>("MusicBtn");

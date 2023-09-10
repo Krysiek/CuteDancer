@@ -652,7 +652,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: <<DANCE_NAME>>
+    m_ConditionEvent: '{DANCE}'
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1954700354718141275}
@@ -880,16 +880,7 @@ AnimatorStateTransition:
     m_ConditionEvent: CuteDancerMusicOff
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: <<DANCE_NAME>>
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: ShoulderShakeDance
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: BadgerDance
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: ZufoloImpazzitoDance
+    m_ConditionEvent: '{DANCE}'
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -1352554034705487902}
@@ -1039,10 +1030,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 3
-    m_ConditionEvent: VRCEmote
+    m_ConditionEvent: '{PARAM}'
     m_EventTreshold: 200
-  - m_ConditionMode: 4
-    m_ConditionEvent: GestureLeft
+  - m_ConditionMode: 3
+    m_ConditionEvent: '{PARAM}'
     m_EventTreshold: 208
   - m_ConditionMode: 2
     m_ConditionEvent: CuteDancerMultiReceiver
@@ -1629,126 +1620,48 @@ AnimatorController:
   m_Name: TemplateFX
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: GestureLeft
+  - m_Name: '{PARAM}'
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: GestureRight
-    m_Type: 3
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: Idle
-    m_Type: 3
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: TailBool
-    m_Type: 3
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: TailH
-    m_Type: 1
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: TailV
-    m_Type: 1
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: EarsBool
-    m_Type: 3
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: EarsH
-    m_Type: 1
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: EarsV
-    m_Type: 1
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: VRCEmote
-    m_Type: 3
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: CuteDancerMusicOff
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: CuteDancerContactOff
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: CuteDancerSync
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: CuteDancerMultiReceiver
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: <<DANCE_NAME>>
+    m_Controller: {fileID: 0}
+  - m_Name: '{DANCE}'
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: ShoulderShakeDance
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: BadgerDance
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: ZufoloImpazzitoDance
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: DistractionDance
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: InstantTransition
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 1
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: CuteDancer
@@ -2056,7 +1969,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 7
-    m_ConditionEvent: VRCEmote
+    m_ConditionEvent: '{PARAM}'
     m_EventTreshold: 202
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6990338166135741108}
@@ -2216,7 +2129,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: <<DANCE_NAME>>
+    m_ConditionEvent: '{DANCE}'
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -8527717578287988462}
@@ -3405,7 +3318,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: <<DANCE_NAME>>ReceiverFX
+  m_Name: '{DANCE}ReceiverFX'
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -3546,7 +3459,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: <<DANCE_NAME>>SenderFX
+  m_Name: '{DANCE}SenderFX'
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -3804,7 +3717,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: VRCEmote
+    m_ConditionEvent: '{PARAM}'
     m_EventTreshold: 202
   - m_ConditionMode: 1
     m_ConditionEvent: CuteDancerSync

@@ -1,42 +1,38 @@
 #if VRC_SDK_VRCSDK3
 using System;
-using System.Linq;
 using System.IO;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
-using UnityEditor.Animations;
-using AvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
+using UnityEngine;
+using ExpressionParameters = VRC.SDK3.Avatars.ScriptableObjects.VRCExpressionParameters;
 
 namespace VRF
 {
     public class ParameterBuilder
     {
 
-        public void MakeBuild()
+        public void BuildParameters(SettingsBuilderData settings)
         {
+            string sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateVRCParams.asset");
+            string outputPath = Path.Combine(settings.outputDirectory, "CuteDancer-VRCParams.asset");
 
-            // var path = $"Assets/{avatar.name}-ExpressionParams.asset";
-            // var ok = EditorUtility.DisplayDialog("CuteScript", $"It seems your avatar does not have expression parameters. Empty one will be created and assigned to your avatar.\n\nNew asset will be saved under path:\n{path}", "Create it!", "Cancel");
-            // if (!ok)
-            // {
-            //     EditorUtility.DisplayDialog("CuteScript", "Operation aborted. Expresion Params are NOT added!", "OK");
-            //     return false;
-            // }
+            if (!AssetDatabase.CopyAsset(sourcePath, outputPath))
+            {
+                throw new Exception("Error copying template: VRCParams");
+            }
 
-            // var emptyParams = new ExpressionParameters();
-            // emptyParams.parameters = new ExpressionParameters.Parameter[0];
+            ExpressionParameters expressionParameters = AssetDatabase.LoadAssetAtPath<ExpressionParameters>(outputPath);
 
-            // AssetDatabase.CreateAsset(emptyParams, path);
-            // expressionParams = AssetDatabase.LoadAssetAtPath<ExpressionParameters>(path);
+            foreach (ExpressionParameters.Parameter parameter in expressionParameters.parameters)
+            {
+                if (parameter.name.Contains("{PARAM}"))
+                {
+                    parameter.name = parameter.name.Replace("{PARAM}", settings.parameterName);
+                }
+            }
 
-            // avatar.expressionParameters = expressionParams;
-            // avatar.customExpressions = true;
-            // EditorUtility.SetDirty(expressionParams);
-            // EditorUtility.SetDirty(avatar);
-
-
-
+            Debug.Log("Save file [name = " + outputPath + "]");
+            EditorUtility.SetDirty(expressionParameters);
+            AssetDatabase.SaveAssets();
         }
 
     }
