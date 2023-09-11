@@ -11,6 +11,7 @@ namespace VRF
         MenuBuilder menuBuilder = new MenuBuilder();
         MusicPrefabBuilder musicPrefabBuilder = new MusicPrefabBuilder();
         ContactsPrefabBuilder contactsPrefabBuilder = new ContactsPrefabBuilder();
+        AnimFxOffBuilder animFxOffBuilder = new AnimFxOffBuilder();
 
         public void Build(SettingsBuilderData settings)
         {
@@ -26,6 +27,7 @@ namespace VRF
             menuBuilder.BuildMenu(settings);
             musicPrefabBuilder.BuildMusicPrefab(settings);
             contactsPrefabBuilder.BuildContactsPrefab(settings);
+            animFxOffBuilder.BuildAnimFxOff(settings);
             // TODO more builders
 
             AssetDatabase.Refresh();

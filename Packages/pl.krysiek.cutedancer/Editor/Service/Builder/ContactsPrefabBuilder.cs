@@ -52,6 +52,7 @@ namespace VRF
                 sender.name = templateReceiver.name.Replace("{DANCE}", dance._name);
             }
 
+            templateReceiver.parent = prefab.transform; // need this before nulling, otherwise obejct spawns in scene
             templateReceiver.parent = null;
             templateSender.parent = null;
 
