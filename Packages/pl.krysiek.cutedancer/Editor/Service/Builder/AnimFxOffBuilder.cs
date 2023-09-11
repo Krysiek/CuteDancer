@@ -18,7 +18,7 @@ namespace VRF
 
             if (!AssetDatabase.CopyAsset(sourcePath, outputPath))
             {
-                throw new Exception("Error copying template: Contacts Prefab");
+                throw new Exception("Error copying template: FX OFF animation");
             }
 
             AnimationClip animation = AssetDatabase.LoadAssetAtPath<AnimationClip>(outputPath);
