@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.Animations;
 using UnityEngine;
 
 namespace VRF
@@ -16,7 +17,7 @@ namespace VRF
 
         public Texture2D icon;
 
-        public Animator animator;
+        public AnimatorController animator;
 
         public AudioClip audio;
 

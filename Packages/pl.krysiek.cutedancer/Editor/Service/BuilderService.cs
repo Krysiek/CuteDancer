@@ -14,6 +14,7 @@ namespace VRF
         ContactsPrefabBuilder contactsPrefabBuilder = new ContactsPrefabBuilder();
         AnimFxOffBuilder animFxOffBuilder = new AnimFxOffBuilder();
         AnimFxOnBuilder animFxOnBuilder = new AnimFxOnBuilder();
+        ActionControllerBuilder actionControllerBuilder = new ActionControllerBuilder();
 
         public void Build(SettingsBuilderData settings)
         {
@@ -31,6 +32,7 @@ namespace VRF
             contactsPrefabBuilder.BuildContactsPrefab(settings);
             animFxOffBuilder.BuildAnimFxOff(settings);
             animFxOnBuilder.BuildAnimFxOn(settings);
+            actionControllerBuilder.BuildActionAnimator(settings);
             // TODO more builders
 
             AssetDatabase.Refresh();
