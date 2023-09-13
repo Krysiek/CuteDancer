@@ -15,9 +15,12 @@ namespace VRF
         AnimFxOffBuilder animFxOffBuilder = new AnimFxOffBuilder();
         AnimFxOnBuilder animFxOnBuilder = new AnimFxOnBuilder();
         ActionControllerBuilder actionControllerBuilder = new ActionControllerBuilder();
+        FxControllerBuilder fxControllerBuilder = new FxControllerBuilder();
 
         public void Build(SettingsBuilderData settings)
         {
+            float startBuildTime = Time.realtimeSinceStartup;
+
             if (settings.dances.Count == 0)
             {
                 EditorUtility.DisplayDialog("CuteDancer Builder", "Please select at least one dance to proceed.", "OK");
@@ -32,10 +35,12 @@ namespace VRF
             contactsPrefabBuilder.BuildContactsPrefab(settings);
             animFxOffBuilder.BuildAnimFxOff(settings);
             animFxOnBuilder.BuildAnimFxOn(settings);
-            actionControllerBuilder.BuildActionAnimator(settings);
-            // TODO more builders
+            actionControllerBuilder.BuildActionController(settings);
+            fxControllerBuilder.BuildFxController(settings);
 
             AssetDatabase.Refresh();
+
+            Debug.Log($"Builder Service: CuteDancer build finished in {Time.realtimeSinceStartup - startBuildTime:0.00} seconds");
         }
 
         public void Rebuild(SettingsBuilderData settings)

@@ -11,7 +11,7 @@ namespace VRF
 {
     public class ActionControllerBuilder
     {
-        public void BuildActionAnimator(SettingsBuilderData settings)
+        public void BuildActionController(SettingsBuilderData settings)
         {
             string sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateAction.controller");
             string outputPath = Path.Combine(settings.outputDirectory, "CuteDancer-Action.controller");
@@ -23,7 +23,7 @@ namespace VRF
 
             AnimatorController animator = AssetDatabase.LoadAssetAtPath<AnimatorController>(outputPath);
 
-            UpdateParameters(settings, animator);
+            animator.parameters = ParseTemplateParameters(settings, animator.parameters);
 
             AnimatorControllerLayer[] animatorLayers = animator.layers;
             AnimatorControllerLayer layer = animatorLayers[0];
@@ -174,9 +174,9 @@ namespace VRF
             }
         }
 
-        private void UpdateParameters(SettingsBuilderData settings, AnimatorController animator)
+        private AnimatorControllerParameter[] ParseTemplateParameters(SettingsBuilderData settings, AnimatorControllerParameter[] controllerParameters)
         {
-            List<AnimatorControllerParameter> animatorParameters = new List<AnimatorControllerParameter>(animator.parameters);
+            List<AnimatorControllerParameter> animatorParameters = new List<AnimatorControllerParameter>(controllerParameters);
 
             foreach (AnimatorControllerParameter param in animatorParameters)
             {
@@ -194,7 +194,7 @@ namespace VRF
                 });
             }
             animatorParameters.Remove(templateDanceParam);
-            animator.parameters = animatorParameters.ToArray();
+            return animatorParameters.ToArray();
         }
     }
 }
