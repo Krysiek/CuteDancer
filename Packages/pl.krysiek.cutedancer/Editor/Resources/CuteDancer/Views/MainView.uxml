@@ -19,11 +19,11 @@
         <ui:ScrollView name="DancesListWrapper" style="flex-grow: 1; flex-shrink: 1; background-color: rgba(0, 0, 0, 0.18); border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; padding-left: 4px; padding-right: 4px; padding-top: 4px; padding-bottom: 4px; flex-direction: row; flex-wrap: wrap; margin-top: 4px; margin-bottom: 4px; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgba(0, 0, 0, 0.26); border-right-color: rgba(0, 0, 0, 0.26); border-top-color: rgba(0, 0, 0, 0.26); border-bottom-color: rgba(0, 0, 0, 0.26);">
             <ui:VisualElement name="DancesList" style="flex-direction: row; flex-wrap: wrap;" />
         </ui:ScrollView>
-        <ui:Label text="Selected dances: 0" />
-        <ui:Label text="Build configuration" class="with-top-separator" />
-        <ui:TextField picking-mode="Ignore" label="Parameter name" binding-path="parameterName" name="parameterName" style="padding-top: 4px; padding-bottom: 2px;" />
-        <uie:IntegerField label="Parameter start value" binding-path="parameterStartValue" style="padding-top: 2px; padding-bottom: 2px;" />
-        <ui:TextField picking-mode="Ignore" label="Output directory" binding-path="outputDirectory" style="padding-top: 2px; padding-bottom: 4px;" />
+        <ui:Foldout text="Build configuration" value="true" class="with-top-separator" style="flex-shrink: 0;">
+            <ui:TextField picking-mode="Ignore" label="Parameter name" binding-path="parameterName" name="parameterName" class="field-first" />
+            <uie:IntegerField label="Parameter start value" binding-path="parameterStartValue" class="config-field field" />
+            <ui:TextField picking-mode="Ignore" label="Output directory" binding-path="outputDirectory" class="field-last" style="padding-top: 2px; padding-bottom: 4px;" />
+        </ui:Foldout>
         <ui:Button text="Generate files" name="BuildBtn" class="big-button">
             <ui:VisualElement style="background-image: resource(&apos;CuteDancer/Images/screwdriver-wrench-solid&apos;); width: 32px; height: 32px;">
                 <ui:VisualElement style="background-image: resource(&apos;CuteDancer/Images/circle-check-solid&apos;); position: absolute; right: -16px; width: 16px; height: 16px; bottom: 0;" />
@@ -36,6 +36,13 @@
         </ui:Button>
         <ui:Label text="Select your main avatar object from the scene." class="with-top-separator" style="padding-top: 8px; margin-top: 8px;" />
         <uie:ObjectField label="Avatar" name="Avatar" binding-path="avatar" style="padding-bottom: 8px; padding-top: 8px;" />
+        <ui:Foldout text="Avatar components configuration" value="true" class="field" style="flex-shrink: 0;">
+            <uie:ObjectField label="Main avatar object" name="AvatarGameObject" binding-path="avatarGameObject" class="field-first" />
+            <uie:ObjectField label="Expression Parameters" name="AvatarExpressionParameters" binding-path="avatarExpressionParameters" class="field" />
+            <uie:ObjectField label="Expressions Menu" name="AvatarExpressionsMenu" binding-path="avatarExpressionsMenu" class="field" />
+            <uie:ObjectField label="Action Controller" name="AvatarActionController" binding-path="avatarActionController" class="field" />
+            <uie:ObjectField label="FX Controller" name="AvatarFxController" binding-path="avatarFxController" class="field-last" />
+        </ui:Foldout>
         <ui:Button text="Apply to avatar" name="AvatarApplyBtn" class="big-button">
             <ui:VisualElement style="background-image: resource(&apos;CuteDancer/Images/person-solid&apos;); width: 32px; height: 32px;">
                 <ui:VisualElement style="background-image: resource(&apos;CuteDancer/Images/circle-check-solid&apos;); position: absolute; right: -6px; bottom: 0; width: 16px; height: 16px;" />

@@ -6,24 +6,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Animations;
-using AvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
 
 namespace VRF
 {
     public class DancesLoaderService
     {
         static string DANCES_DIR = Path.Combine("Packages", "pl.krysiek.cutedancer", "Runtime", "Dances");
-        // TODO add custom path from assets
+        
         static string[] ORIGINALS_WHITELIST = new string[] { "SARDefaultDance", "BadgerDance", "ShoulderShakeDance", "ZufoloImpazzitoDance", "DistractionDance" };
 
         public Dictionary<string, List<DanceViewData>> LoadDances()
         {
-            string[] dancesPath = Directory.GetDirectories(DANCES_DIR);
-            // TODO add looking for extra dances in other packages with "cutedancer" in name
+            string[] dancesPaths = Directory.GetDirectories(DANCES_DIR);
+            // TODO 1st add looking for dances in Assets/CuteDancer/Dances (customizable path)
+            // TODO 2nd add looking for extra dances in other packages with "cutedancer" in name
 
             Dictionary<string, List<DanceViewData>> collections = new Dictionary<string, List<DanceViewData>>();
 
-            foreach (string dancePath in dancesPath)
+            foreach (string dancePath in dancesPaths)
             {
                 try
                 {
@@ -69,13 +69,15 @@ namespace VRF
                     List<DanceViewData> dances = collections[danceData.collection];
 
                     string animatorPath = Directory.GetFiles(dancePath, "*.controller")[0];
-                    danceData.animator = AssetDatabase.LoadAssetAtPath<Animator>(animatorPath);
+                    danceData.animator = AssetDatabase.LoadAssetAtPath<AnimatorController>(animatorPath);
 
                     string iconPath = Directory.GetFiles(dancePath, "*.png").FirstOrDefault();
                     danceData.icon = AssetDatabase.LoadAssetAtPath<Texture2D>(iconPath);
 
                     string audioPath = Directory.GetFiles(dancePath, "*.ogg").FirstOrDefault();
                     danceData.audio = AssetDatabase.LoadAssetAtPath<AudioClip>(audioPath);
+
+                    danceData.selected = true; // TODO remove and replace with selection persistence
 
                     dances.Add(danceData);
                 }

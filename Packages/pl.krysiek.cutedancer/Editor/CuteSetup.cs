@@ -20,6 +20,7 @@ namespace VRF
         [MenuItem("Tools/CuteDancer/Create Dance Template", false, 20)]
         static void GenerateTemplate()
         {
+            EditorUtility.DisplayDialog("Create Dance Template", "Not implemented yet.", "OK");
             // TODO implement template generation with unique GUID
             // EditorUtility.DisplayDialog("Create Dance Template", "Dance template created in Assets/CuteDancer/Dances/DanceTemplate\n\nYou can modify it to your like.", "OK");
         }

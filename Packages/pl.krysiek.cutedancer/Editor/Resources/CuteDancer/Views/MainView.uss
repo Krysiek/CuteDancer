@@ -46,3 +46,15 @@
     margin-bottom: 0;
     font-size: 16px;
 }
+
+.field {
+    padding: 2px 0 2px 0;
+}
+
+.field-first {
+    padding: 4px 0 2px 0;
+}
+
+.field-last {
+    padding: 2px 0 4px 0;
+}
