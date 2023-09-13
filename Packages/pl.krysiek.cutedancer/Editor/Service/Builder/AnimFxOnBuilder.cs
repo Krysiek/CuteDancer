@@ -3,8 +3,6 @@ using System;
 using System.IO;
 using UnityEngine;
 using UnityEditor;
-using VRC.SDK3.Dynamics.Contact.Components;
-using System.Linq;
 
 namespace VRF
 {

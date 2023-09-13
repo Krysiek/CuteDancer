@@ -1,11 +1,7 @@
 ﻿#if VRC_SDK_VRCSDK3
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.Animations;
 using UnityEngine.UIElements;
-using UnityEditor.UIElements;
 
 namespace VRF
 {
