@@ -46,9 +46,6 @@ namespace VRF
             RegisterButtonClick(Buttons.RefreshBtn, e => LoadDances());
             RegisterButtonClick(Buttons.BuildBtn, e => builderService.Build(mainViewData));
             RegisterButtonClick(Buttons.RebuildBtn, e => builderService.Rebuild(mainViewData));
-            RegisterButtonClick(Buttons.AvatarApplyBtn, e => Debug.Log("Avatar apply"));
-            RegisterButtonClick(Buttons.AvatarRemoveBtn, e => Debug.Log("Avatar remove"));
-            RegisterButtonClick(Buttons.AvatarUpdateBtn, e => Debug.Log("Avatar update"));
 
             LoadDances();
 
@@ -61,6 +58,10 @@ namespace VRF
             mainViewEl.Q<ObjectField>("AvatarFxController").objectType = typeof(AnimatorController);
 
             mainViewEl.Q<ObjectField>("Avatar").RegisterValueChangedCallback(HandleAvatarSelect);
+            
+            RegisterButtonClick(Buttons.AvatarApplyBtn, e => avatarApplyService.AddToAvatar());
+            RegisterButtonClick(Buttons.AvatarRemoveBtn, e =>  avatarApplyService.RemoveFromAvatar());
+            RegisterButtonClick(Buttons.AvatarUpdateBtn, e => Debug.Log("not implemented"));
         }
 
         public VisualElement GetViewElement()
@@ -80,9 +81,17 @@ namespace VRF
             ShowButton(Buttons.RebuildBtn, Directory.Exists(mainViewData.outputDirectory));
 
             // TODO do complex validation for the avatar
-            ShowButton(Buttons.AvatarRemoveBtn, false);
+            if (avatarApplyService.Validate())
+            {
+                ShowButton(Buttons.AvatarApplyBtn, false, mainViewData.avatar);
+                ShowButton(Buttons.AvatarRemoveBtn, true, mainViewData.avatar);
+            }
+            else
+            {
+                ShowButton(Buttons.AvatarApplyBtn, true, mainViewData.avatar);
+                ShowButton(Buttons.AvatarRemoveBtn, false, mainViewData.avatar);
+            }
             ShowButton(Buttons.AvatarUpdateBtn, false);
-            mainViewEl.Q<Button>(Buttons.AvatarApplyBtn.ToString()).SetEnabled(mainViewData.avatar);
         }
 
         private void RegisterButtonClick(Buttons btn, Action<EventBase> action)
@@ -90,9 +99,11 @@ namespace VRF
             mainViewEl.Q<Button>(btn.ToString()).clickable = new Clickable(action);
         }
 
-        private void ShowButton(Buttons btn, bool show)
+        private void ShowButton(Buttons btn, bool show, bool enabled = true)
         {
-            mainViewEl.Q<Button>(btn.ToString()).style.display = show ? DisplayStyle.Flex : DisplayStyle.None;
+            Button button = mainViewEl.Q<Button>(btn.ToString());
+            button.style.display = show ? DisplayStyle.Flex : DisplayStyle.None;
+            button.SetEnabled(enabled);
         }
 
         private void HandleAvatarSelect(ChangeEvent<UnityEngine.Object> evt)
@@ -101,7 +112,7 @@ namespace VRF
             avatarApplyService.avatar = avatar;
             if (avatar)
             {
-                
+
                 mainViewEl.Q<ObjectField>("AvatarGameObject").value = avatar.gameObject;
                 mainViewEl.Q<ObjectField>("AvatarExpressionParameters").value = avatar.expressionParameters;
                 mainViewEl.Q<ObjectField>("AvatarExpressionsMenu").value = avatar.expressionsMenu;

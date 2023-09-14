@@ -6,13 +6,14 @@ using UnityEditor;
 using UnityEditor.Animations;
 using AvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
 using ExpressionsMenu = VRC.SDK3.Avatars.ScriptableObjects.VRCExpressionsMenu;
+using System.IO;
 
 namespace VRF
 {
-    public class CuteSubmenu : CuteGroup
+    public class CuteSubmenu : AvatarApplierInterface
     {
-        static string CUTE_MENU = "Assets/CuteDancer/VRCMenu_CuteDancer.asset";
-        static string DANCE_ICON = "Assets/CuteDancer/Icons/CuteDancer.png";
+        static string CUTE_MENU = Path.Combine("Assets", "CuteDancer", "Build", "CuteDancer-VRCMenu.asset"); // TODO read from build configuration
+        static string DANCE_ICON = Path.Combine("Packages", "pl.krysiek.cutedancer", "Runtime", "Icons", "CuteDancer.png");
 
         enum Status
         {
@@ -100,7 +101,7 @@ namespace VRF
             return Status.EMPTY;
         }
 
-        void HandleAdd()
+        public void HandleAdd()
         {
             if (!expressionMenu && !CreateExpressionMenu())
             {
@@ -125,7 +126,7 @@ namespace VRF
             AssetDatabase.Refresh();
         }
 
-        void HandleRemove()
+        public void HandleRemove()
         {
             DoBackup();
 
@@ -159,7 +160,7 @@ namespace VRF
 
             AssetDatabase.CreateAsset(emptyMenu, path);
             expressionMenu = AssetDatabase.LoadAssetAtPath<ExpressionsMenu>(path);
-            
+
             avatar.expressionsMenu = expressionMenu;
             avatar.customExpressions = true;
             EditorUtility.SetDirty(expressionMenu);

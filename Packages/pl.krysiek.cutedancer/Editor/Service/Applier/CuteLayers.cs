@@ -6,18 +6,20 @@ using AvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
 using VRCAnimatorLayerControl = VRC.SDK3.Avatars.Components.VRCAnimatorLayerControl;
 using CustomAnimLayer = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor.CustomAnimLayer;
 using AnimLayerType = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor.AnimLayerType;
+using System.IO;
 
 namespace VRF
 {
-    public class CuteLayers : CuteGroup
+    public class CuteLayers : AvatarApplierInterface
     {
         enum Status
         {
             FORM, EMPTY, ADDED, MISSING, DIFFERENCE, UNKNOWN
         }
 
-        static string ACTION_CTRL = "Assets/CuteDancer/Ctrl_Action_Example.controller";
-        static string FX_CTRL = "Assets/CuteDancer/Ctrl_FX_Example.controller";
+        // TODO read from build configuration
+        static string ACTION_CTRL = Path.Combine("Assets", "CuteDancer", "Build", "CuteDancer-Action.controller");
+        static string FX_CTRL = Path.Combine("Assets", "CuteDancer", "Build", "CuteDancer-FX.controller");
 
         Status validStat = Status.FORM;
         AvatarDescriptor avatar;
@@ -108,6 +110,11 @@ namespace VRF
             fxCtrl = null;
         }
 
+        public void HandleAdd()
+        {
+            HandleAdd(false); // TODO differentiate for updates
+        }
+
         void HandleAdd(bool silent = false)
         {
             if (!actionCtrl && !CreateController(AvatarDescriptor.AnimLayerType.Action, $"{avatar.name}-Action", silent))
@@ -141,7 +148,10 @@ namespace VRF
             CuteAnimators.UpdateVrcAnimatorLayerControlAfterClone(actionCtrl, !actionWD);
         }
 
-
+        public void HandleRemove()
+        {
+            HandleRemove(false);
+        }
 
         void HandleRemove(bool silent = false)
         {
@@ -216,6 +226,13 @@ namespace VRF
         {
             CuteBackup.CreateBackup(AssetDatabase.GetAssetPath(actionCtrl));
             CuteBackup.CreateBackup(AssetDatabase.GetAssetPath(fxCtrl));
+        }
+
+        // TODO temporary validation, true - instaled, false - not
+        public bool TempValidate()
+        {
+            var status = Validate();
+            return status == Status.ADDED || status == Status.DIFFERENCE || status == Status.UNKNOWN;
         }
 
         Status Validate()

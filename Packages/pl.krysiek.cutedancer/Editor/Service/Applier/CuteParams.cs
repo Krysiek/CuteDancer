@@ -6,12 +6,14 @@ using UnityEditor;
 using UnityEditor.Animations;
 using ExpressionParameters = VRC.SDK3.Avatars.ScriptableObjects.VRCExpressionParameters;
 using AvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
+using System.IO;
 
 namespace VRF
 {
-    public class CuteParams : CuteGroup
+    public class CuteParams : AvatarApplierInterface
     {
-        static string PARAMS_REF = "Assets/CuteDancer/VRCParams_Example.asset";
+        // TODO read from build configuration
+        static string PARAMS_REF = Path.Combine("Assets", "CuteDancer", "Build", "CuteDancer-VRCParams.asset");
 
         enum Status
         {
@@ -76,7 +78,7 @@ namespace VRF
             expressionParams = null;
         }
 
-        void HandleAdd()
+        public void HandleAdd()
         {
             if (!expressionParams && !CreateExpressionParams())
             {
@@ -111,7 +113,7 @@ namespace VRF
             AssetDatabase.Refresh();
         }
 
-        void HandleRemove()
+        public void HandleRemove()
         {
             DoBackup();
 
