@@ -44,6 +44,16 @@ namespace VRF
 
         public void Rebuild(SettingsBuilderData settings)
         {
+            // TODO add validation to remove build files only
+            if (settings.outputDirectory != "Assets\\CuteDancer\\Build")
+            {
+                if (!EditorUtility.DisplayDialog("Alpha version warning", "Changing build path is not recommended yet.\n\n"
+                    + "All content from the directory will be earsed before build without any validation:\n" + settings.outputDirectory + "\n\nARE YOU SURE?", "Yes", "NO!!!!!!!!!!!!!!!!"))
+                {
+                    return;
+                }
+            }
+
             FileInfo[] files = new DirectoryInfo(settings.outputDirectory).GetFiles();
             foreach (FileInfo file in files)
             {

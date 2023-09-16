@@ -49,7 +49,7 @@ namespace VRF
 
                 VRCContactSender sender = UnityEngine.Object.Instantiate(templateSender, prefab.transform).GetComponent<VRCContactSender>();
                 sender.collisionTags[0] = dance._name;
-                sender.name = templateReceiver.name.Replace("{DANCE}", dance._name);
+                sender.name = templateSender.name.Replace("{DANCE}", dance._name);
             }
 
             templateReceiver.parent = prefab.transform; // need this before nulling, otherwise obejct spawns in scene

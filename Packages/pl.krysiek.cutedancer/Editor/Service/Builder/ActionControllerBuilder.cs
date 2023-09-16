@@ -39,6 +39,10 @@ namespace VRF
             float nodeY = templateState.position.y - 35 * settings.dances.Count;
 
             int paramValue = settings.parameterStartValue;
+            int paramValueMin = paramValue - 1;
+            int paramValueMax = paramValue + settings.dances.Count;
+            
+            AnimatorControllerUtil.UpdateMinMaxTransitions(rootStateMachine, settings.parameterName, paramValueMin, paramValueMax);
 
             foreach (DanceBuilderData dance in settings.dances)
             {

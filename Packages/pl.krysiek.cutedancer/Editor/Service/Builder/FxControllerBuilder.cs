@@ -37,25 +37,10 @@ namespace VRF
             float nodeY = templateState.position.y - 60;
 
             int paramValue = settings.parameterStartValue;
-            int paramValueMin = paramValue;
+            int paramValueMin = paramValue - 1;
             int paramValueMax = paramValue + settings.dances.Count;
 
-            List<AnimatorStateTransition> transitionsToUpdate = GetTransitionsWithParamVariable(rootStateMachine);
-
-            foreach (AnimatorStateTransition transition in transitionsToUpdate)
-            {
-                AnimatorCondition[] conditions = Array.FindAll(transition.conditions, c => c.parameter == "{PARAM}" && (c.mode == AnimatorConditionMode.Greater || c.mode == AnimatorConditionMode.Less));
-
-                foreach (AnimatorCondition condition in conditions)
-                {
-                    transition.RemoveCondition(condition);
-                    transition.AddCondition(
-                        condition.mode,
-                        condition.mode == AnimatorConditionMode.Greater ? paramValueMin : paramValueMax,
-                        settings.parameterName
-                    );
-                }
-            }
+            AnimatorControllerUtil.UpdateMinMaxTransitions(rootStateMachine, settings.parameterName, paramValueMin, paramValueMax);
 
             foreach (DanceBuilderData dance in settings.dances)
             {
@@ -87,10 +72,15 @@ namespace VRF
                 senderState.motion = AssetDatabase.LoadAssetAtPath<AnimationClip>(fxAnimPath);
 
 
-                AnimatorStateTransition copiedInTransition = new AnimatorStateTransition();
-                EditorUtility.CopySerialized(templateInTransition, copiedInTransition);
-                copiedInTransition.conditions = Array.Empty<AnimatorCondition>();
-                copiedInTransition.destinationState = senderState;
+                AnimatorStateTransition copiedInTransition = new AnimatorStateTransition
+                {
+                    hasExitTime = templateInTransition.hasExitTime,
+                    exitTime = templateInTransition.exitTime,
+                    hasFixedDuration = templateInTransition.hasFixedDuration,
+                    duration = templateInTransition.duration,
+                    offset = templateInTransition.offset,
+                    destinationState = senderState
+                };
 
                 foreach (AnimatorCondition condition in templateInTransition.conditions)
                 {
@@ -124,26 +114,6 @@ namespace VRF
             Debug.Log($"Save file [name = {outputPath}]");
             EditorUtility.SetDirty(animator);
             AssetDatabase.SaveAssets();
-        }
-
-        private List<AnimatorStateTransition> GetTransitionsWithParamVariable(AnimatorStateMachine rootStateMachine)
-        {
-            List<AnimatorStateTransition> transitionsToUpdate = new List<AnimatorStateTransition>();
-
-            foreach (var state in rootStateMachine.states)
-            {
-                foreach (var transition in state.state.transitions)
-                {
-                    foreach (var condition in transition.conditions)
-                    {
-                        if (condition.parameter == "{PARAM}" && (condition.mode == AnimatorConditionMode.Greater || condition.mode == AnimatorConditionMode.Less))
-                        {
-                            transitionsToUpdate.Add(transition);
-                        }
-                    }
-                }
-            }
-            return transitionsToUpdate;
         }
 
         private void ExtractFollowingBlocks(List<AnimatorState> blocks, AnimatorState current)

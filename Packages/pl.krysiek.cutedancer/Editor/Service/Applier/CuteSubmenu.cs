@@ -130,8 +130,8 @@ namespace VRF
         {
             DoBackup();
 
-            ExpressionsMenu cuteMenu = AssetDatabase.LoadAssetAtPath(CUTE_MENU, typeof(ExpressionsMenu)) as ExpressionsMenu;
-            int ix = expressionMenu.controls.FindIndex(menuEntry => menuEntry.subMenu == cuteMenu);
+            Texture2D cuteIcon = AssetDatabase.LoadAssetAtPath<Texture2D>(DANCE_ICON);
+            int ix = expressionMenu.controls.FindIndex(menuEntry => menuEntry.icon == cuteIcon);
 
             Debug.Log("Removing expression menu control from menu [name=" + expressionMenu.name + "]");
             expressionMenu.controls.RemoveAt(ix);

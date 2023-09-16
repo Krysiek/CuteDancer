@@ -6,12 +6,14 @@ using AvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
 using VRCAnimatorLayerControl = VRC.SDK3.Avatars.Components.VRCAnimatorLayerControl;
 using CustomAnimLayer = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor.CustomAnimLayer;
 using AnimLayerType = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor.AnimLayerType;
+using System.IO;
 
 namespace VRF
 {
     class CuteAnimators
     {
-        static string DEF_ACTION_CTRL = "Assets/CuteDancer/AvatarV3ActionLayerTemplate.controller";
+        static string DEFAULT_ACTION_CTRL = Path.Combine("Packages", "com.vrchat.avatars", "Samples", "AV3 Demo Assets", "Animation", "Controllers", "vrc_AvatarV3ActionLayer.controller");
+        static string MINIMAL_AKF_ACTION_CTRL = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateActionAFK.controller");
 
         public static AnimatorController CreateDefaultAnimator(AnimLayerType type, String path)
         {
@@ -20,7 +22,7 @@ namespace VRF
 
             if (type == AnimLayerType.Action)
             {
-                if (AssetDatabase.CopyAsset(DEF_ACTION_CTRL, path))
+                if (AssetDatabase.CopyAsset(MINIMAL_AKF_ACTION_CTRL, path))
                 {
                     emptyCtrl = AssetDatabase.LoadAssetAtPath<AnimatorController>(path);
                 }
@@ -49,7 +51,21 @@ namespace VRF
                 if (type == AnimLayerType.Action)
                 {
                     // check if base layer equals to VRCSDK default
-                    AnimatorController defActionCtrl = AssetDatabase.LoadAssetAtPath(DEF_ACTION_CTRL, typeof(AnimatorController)) as AnimatorController;
+                    AnimatorController defActionCtrl = AssetDatabase.LoadAssetAtPath<AnimatorController>(DEFAULT_ACTION_CTRL);
+                    if (defActionCtrl != null)
+                    {
+                        var defBaseLayer = defActionCtrl.layers[0];
+                        if (CompareLayers(baseLayer, defBaseLayer))
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                if (type == AnimLayerType.Action)
+                {
+                    // check if base layer equals to AFK template
+                    AnimatorController defActionCtrl = AssetDatabase.LoadAssetAtPath<AnimatorController>(MINIMAL_AKF_ACTION_CTRL);
                     var defBaseLayer = defActionCtrl.layers[0];
                     if (CompareLayers(baseLayer, defBaseLayer))
                     {
@@ -96,7 +112,8 @@ namespace VRF
                     return false;
                 }
 
-                if (state.behaviours.Length != refState.behaviours.Length) {
+                if (state.behaviours.Length != refState.behaviours.Length)
+                {
                     Debug.Log($"Behaviours count is different [layerName={layer.name}, stateName={state.name}, dest={state.behaviours.Length}, ref={refState.behaviours.Length}]");
                     return false;
                 }
