@@ -1,6 +1,6 @@
 {
   "name": "pl.krysiek.cutedancer",
-  "version": "4.0.0-pre-release",
+  "version": "0.0.0-dev",
   "displayName": "CuteDancer",
   "description": "CuteDancer is a package dedicated to use on VRChat avatars. It contains dance animations that can be played in sync together with other players who have the package installed on their avatars.",
   "unity": "2019.4",
