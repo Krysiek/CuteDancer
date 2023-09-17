@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Replace version in files with tag
-      - run: |
+        run: |
           sed -i -e "s/0.0.0-dev/$GITHUB_REF_NAME/g" "${{ env.packageFolder }}/package.json"
           sed -i -e "s/0.0.0-dev/$GITHUB_REF_NAME/g" "${{ env.packageFolder }}/README.txt"
           sed -i -e "s/0.0.0-dev/$GITHUB_REF_NAME/g" "${{ env.packageFolder }}/Editor/Resources/CuteDancer/Views/MainView.uxml"
@@ -54,7 +54,6 @@ jobs:
         with:
           package-path: ${{ env.unityPackage }}
           include-files: metaList
-        
         
       - name: Make Release
         uses: softprops/action-gh-release@1e07f4398721186383de40550babbdf2b84acfc5
