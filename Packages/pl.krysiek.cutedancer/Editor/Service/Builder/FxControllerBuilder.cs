@@ -50,43 +50,41 @@ namespace VRF
 
                 // unfortunately CopySerialized copies a reference of transitions, need to remake them
                 senderState.transitions = Array.Empty<AnimatorStateTransition>();
-                foreach (AnimatorStateTransition templateTransition in templateState.state.transitions)
+                foreach (AnimatorStateTransition templateOutTransition in templateState.state.transitions)
                 {
-                    AnimatorStateTransition copiedOutTransition = new AnimatorStateTransition();
-                    EditorUtility.CopySerialized(templateTransition, copiedOutTransition);
-                    copiedOutTransition.conditions = Array.Empty<AnimatorCondition>();
+                    AnimatorStateTransition outTransition = senderState.AddTransition(templateOutTransition.destinationState);
+                    outTransition.hasExitTime = templateOutTransition.hasExitTime;
+                    outTransition.exitTime = templateOutTransition.exitTime;
+                    outTransition.hasFixedDuration = templateOutTransition.hasFixedDuration;
+                    outTransition.duration = templateOutTransition.duration;
+                    outTransition.offset = templateOutTransition.offset;
 
-                    foreach (AnimatorCondition condition in templateTransition.conditions)
+                    foreach (AnimatorCondition condition in templateOutTransition.conditions)
                     {
-                        copiedOutTransition.AddCondition(
+                        outTransition.AddCondition(
                             condition.mode,
                             paramValue,
                             settings.parameterName
                         );
                     }
-
-                    senderState.AddTransition(copiedOutTransition);
                 }
 
                 string fxAnimPath = Path.Combine(settings.outputDirectory, "FX", $"{dance._name}_FX_ON.anim");
                 senderState.motion = AssetDatabase.LoadAssetAtPath<AnimationClip>(fxAnimPath);
 
+                AnimatorStateTransition inTransition = beforeState.AddTransition(senderState);
 
-                AnimatorStateTransition copiedInTransition = new AnimatorStateTransition
-                {
-                    hasExitTime = templateInTransition.hasExitTime,
-                    exitTime = templateInTransition.exitTime,
-                    hasFixedDuration = templateInTransition.hasFixedDuration,
-                    duration = templateInTransition.duration,
-                    offset = templateInTransition.offset,
-                    destinationState = senderState
-                };
+                inTransition.hasExitTime = templateInTransition.hasExitTime;
+                inTransition.exitTime = templateInTransition.exitTime;
+                inTransition.hasFixedDuration = templateInTransition.hasFixedDuration;
+                inTransition.duration = templateInTransition.duration;
+                inTransition.offset = templateInTransition.offset;
 
                 foreach (AnimatorCondition condition in templateInTransition.conditions)
                 {
                     if (condition.parameter == "{PARAM}")
                     {
-                        copiedInTransition.AddCondition(
+                        inTransition.AddCondition(
                             condition.mode,
                             paramValue,
                             settings.parameterName
@@ -94,15 +92,13 @@ namespace VRF
                     }
                     else
                     {
-                        copiedInTransition.AddCondition(
+                        inTransition.AddCondition(
                             condition.mode,
                             condition.threshold,
                             condition.parameter
                         );
                     }
                 }
-
-                beforeState.AddTransition(copiedInTransition);
 
                 nodeY += 50;
                 paramValue++;
