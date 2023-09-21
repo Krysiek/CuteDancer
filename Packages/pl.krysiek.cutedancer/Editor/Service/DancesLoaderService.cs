@@ -11,9 +11,10 @@ namespace VRF
 {
     public class DancesLoaderService
     {
-        static string DANCES_DIR = Path.Combine("Packages", "pl.krysiek.cutedancer", "Runtime", "Dances");
-        
+        static string DANCES_DIR = Path.Combine("Packages", "pl.krysiek.cutedancer", "Runtime", "Dances");   
         static string[] ORIGINALS_WHITELIST = new string[] { "SARDefaultDance", "BadgerDance", "ShoulderShakeDance", "ZufoloImpazzitoDance", "DistractionDance" };
+
+        SettingsService settings = SettingsService.Instance;
 
         public Dictionary<string, List<DanceViewData>> LoadDances()
         {
@@ -77,7 +78,8 @@ namespace VRF
                     string audioPath = Directory.GetFiles(dancePath, "*.ogg").FirstOrDefault();
                     danceData.audio = AssetDatabase.LoadAssetAtPath<AudioClip>(audioPath);
 
-                    danceData.selected = true; // TODO remove and replace with selection persistence
+                    danceData.selected = settings.selectedDances.Contains(danceData._name);
+                    danceData.audioEnabled = !settings.musicDisabledDances.Contains(danceData._name);
 
                     dances.Add(danceData);
                 }

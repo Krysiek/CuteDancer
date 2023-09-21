@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 using AvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
 using VRC.SDK3.Avatars.ScriptableObjects;
 using UnityEditor.Animations;
+using System.Linq;
 
 
 namespace VRF
@@ -17,6 +18,7 @@ namespace VRF
     {
         public enum Buttons
         {
+            SelectAllBtn,
             RefreshBtn,
             BuildBtn,
             RebuildBtn,
@@ -28,6 +30,7 @@ namespace VRF
         private readonly DancesLoaderService dancesLoaderService = new DancesLoaderService();
         private readonly BuilderService builderService = new BuilderService();
         private readonly AvatarApplyService avatarApplyService = new AvatarApplyService();
+        private readonly SettingsService settingsService = SettingsService.Instance;
 
         private readonly DancesListViewEditor dancesBrowserView = new DancesListViewEditor();
 
@@ -37,12 +40,16 @@ namespace VRF
         public MainViewEditor()
         {
             mainViewData = ScriptableObject.CreateInstance<MainViewData>();
+            mainViewData.parameterName = settingsService.parameterName;
+            mainViewData.parameterStartValue = settingsService.parameterStartValue;
+            mainViewData.outputDirectory = settingsService.outputDirectory;
 
             mainViewEl = CuteResources.LoadView("MainView").CloneTree();
             mainViewEl.Bind(new SerializedObject(mainViewData));
 
             mainViewEl.Q("DancesList").Add(dancesBrowserView.GetEl());
 
+            RegisterButtonClick(Buttons.SelectAllBtn, e => ToggleSelectedDances());
             RegisterButtonClick(Buttons.RefreshBtn, e => LoadDances());
             RegisterButtonClick(Buttons.BuildBtn, e => builderService.Build(mainViewData));
             RegisterButtonClick(Buttons.RebuildBtn, e => builderService.Rebuild(mainViewData));
@@ -58,9 +65,9 @@ namespace VRF
             mainViewEl.Q<ObjectField>("AvatarFxController").objectType = typeof(AnimatorController);
 
             mainViewEl.Q<ObjectField>("Avatar").RegisterValueChangedCallback(HandleAvatarSelect);
-            
+
             RegisterButtonClick(Buttons.AvatarApplyBtn, e => avatarApplyService.AddToAvatar());
-            RegisterButtonClick(Buttons.AvatarRemoveBtn, e =>  avatarApplyService.RemoveFromAvatar());
+            RegisterButtonClick(Buttons.AvatarRemoveBtn, e => avatarApplyService.RemoveFromAvatar());
             RegisterButtonClick(Buttons.AvatarUpdateBtn, e => Debug.Log("not implemented"));
         }
 
@@ -73,6 +80,20 @@ namespace VRF
         {
             mainViewData.dances = dancesLoaderService.LoadDances();
             dancesBrowserView.Collections = mainViewData.dances;
+        }
+
+        private void ToggleSelectedDances()
+        {
+            bool allSelected = mainViewData.dances.All(dances => dances.Value.All(dance => dance.selected));
+            bool noneSelected = mainViewData.dances.All(dances => dances.Value.All(dance => !dance.selected));
+            foreach (var danceCollection in mainViewData.dances.Values)
+            {
+                foreach (var dance in danceCollection)
+                {
+                    dance.selected = noneSelected || !allSelected;
+                }
+            }
+            settingsService.SaveFromSelectedDances(mainViewData.dances);
         }
 
         public void Validate()

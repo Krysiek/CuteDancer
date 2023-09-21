@@ -7,8 +7,10 @@ namespace VRF
 {
     public class CuteSetup : EditorWindow
     {
+        SettingsService settingsService = SettingsService.Instance;
+
         [MenuItem("Tools/CuteDancer/CuteDancer Setup", false, 1)]
-        static void OpenSetupWindow()
+        public static void OpenSetupWindow()
         {
             CuteSetup window = EditorWindow.GetWindow<CuteSetup>();
             window.minSize = new Vector2(500, 600);
@@ -16,9 +18,8 @@ namespace VRF
             window.Show();
         }
 
-        
         [MenuItem("Tools/CuteDancer/Create Dance Template", false, 20)]
-        static void GenerateTemplate()
+        public static void GenerateTemplate()
         {
             EditorUtility.DisplayDialog("Create Dance Template", "Not implemented yet.", "OK");
             // TODO implement template generation with unique GUID
@@ -36,9 +37,15 @@ namespace VRF
             mainView.Validate();
         }
 
-        void OnGUI()
+        public void OnGUI()
         {
             mainView.Validate();
+        }
+
+        public void OnLostFocus()
+        {
+            Debug.Log("CuteDancer: settings saved");
+            settingsService.Save();
         }
     }
 }

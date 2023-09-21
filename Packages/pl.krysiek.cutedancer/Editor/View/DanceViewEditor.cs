@@ -11,6 +11,8 @@ namespace VRF
     {
         private readonly VisualElement danceViewEl;
 
+        private SettingsService settingsService = SettingsService.Instance;
+
         private DanceViewData _danceViewData;
         public DanceViewData DanceViewData
         {
@@ -40,12 +42,15 @@ namespace VRF
             if (_danceViewData.icon != null)
             {
                 danceViewEl.Q<Image>("Icon").image = _danceViewData.icon;
-            } else {
+            }
+            else
+            {
                 danceViewEl.Q<Image>("Icon").style.width = 12;
             }
-            danceViewEl.Q<Button>("DanceItemBtn").clickable = new Clickable((ev) => _danceViewData.selected = !_danceViewData.selected);
+            danceViewEl.Q<Button>("DanceItemBtn").clickable = new Clickable((ev) => ToggleSelection());
 
             Button musicBtn = danceViewEl.Q<Button>("MusicBtn");
+            DrawMusicBtn();
             if (_danceViewData.audio == null)
             {
                 musicBtn.style.display = DisplayStyle.None;
@@ -56,6 +61,7 @@ namespace VRF
                 {
                     _danceViewData.audioEnabled = !_danceViewData.audioEnabled;
                     DrawMusicBtn();
+                    settingsService.SaveFromDanceViewData(_danceViewData);
                 });
             }
         }
@@ -74,7 +80,13 @@ namespace VRF
                 musicBtn.AddToClassList("music-off");
                 musicBtn.RemoveFromClassList("music-on");
             }
-            Debug.Log(JsonUtility.ToJson(_danceViewData));
+            
+        }
+
+        private void ToggleSelection()
+        {
+            _danceViewData.selected = !_danceViewData.selected;
+            settingsService.SaveFromDanceViewData(_danceViewData);
         }
     }
 }

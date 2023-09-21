@@ -38,6 +38,8 @@ namespace VRF
             fxControllerBuilder.BuildFxController(settings);
 
             AssetDatabase.Refresh();
+            
+            SettingsService.Instance.SaveFromSettingsBuilderData(settings);
 
             Debug.Log($"Builder Service: CuteDancer build finished in {Time.realtimeSinceStartup - startBuildTime:0.00} seconds");
         }

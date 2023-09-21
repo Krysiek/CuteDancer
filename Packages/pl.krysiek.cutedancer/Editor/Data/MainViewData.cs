@@ -12,11 +12,11 @@ namespace VRF
         [NonSerialized]
         public Dictionary<string, List<DanceViewData>> dances;
 
-        public string parameterName = "VRCEmote";
+        public string parameterName;
 
-        public int parameterStartValue = 128;
+        public int parameterStartValue;
 
-        public string outputDirectory = "Assets\\CuteDancer\\Build";
+        public string outputDirectory;
 
         public AvatarDescriptor avatar;
 
