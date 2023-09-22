@@ -2,6 +2,8 @@
 using System.IO;
 using UnityEngine;
 using UnityEditor;
+using System.Collections.Generic;
+using System;
 
 namespace VRF
 {
@@ -15,6 +17,7 @@ namespace VRF
         AnimFxOnBuilder animFxOnBuilder = new AnimFxOnBuilder();
         ActionControllerBuilder actionControllerBuilder = new ActionControllerBuilder();
         FxControllerBuilder fxControllerBuilder = new FxControllerBuilder();
+        BuildInfoBuidler buildInfoBuidler = new BuildInfoBuidler();
 
         public void Build(SettingsBuilderData settings)
         {
@@ -36,9 +39,10 @@ namespace VRF
             animFxOnBuilder.BuildAnimFxOn(settings);
             actionControllerBuilder.BuildActionController(settings);
             fxControllerBuilder.BuildFxController(settings);
+            buildInfoBuidler.Build(settings);
 
             AssetDatabase.Refresh();
-            
+
             SettingsService.Instance.SaveFromSettingsBuilderData(settings);
 
             Debug.Log($"Builder Service: CuteDancer build finished in {Time.realtimeSinceStartup - startBuildTime:0.00} seconds");
@@ -46,35 +50,58 @@ namespace VRF
 
         public void Rebuild(SettingsBuilderData settings)
         {
-            // TODO add validation to remove build files only
-            if (settings.outputDirectory != "Assets\\CuteDancer\\Build")
+            BuildInfoData oldBuildInfo = buildInfoBuidler.GetBuildInfoData(settings.outputDirectory);
+            List<BuildInfoData.FilePathGuid> oldFileInfos = oldBuildInfo?.filePathUuids;
+
+            if (oldBuildInfo)
             {
-                if (!EditorUtility.DisplayDialog("Alpha version warning", "Changing build path is not recommended yet.\n\n"
-                    + "All content from the directory will be earsed before build without any validation:\n" + settings.outputDirectory + "\n\nARE YOU SURE?", "Yes", "NO!!!!!!!!!!!!!!!!"))
+                foreach (var fileInfo in oldBuildInfo.filePathUuids)
                 {
-                    return;
+                    Debug.Log($"Delete asset [{fileInfo.path}]");
+                    AssetDatabase.DeleteAsset(fileInfo.path);
                 }
             }
 
-            FileInfo[] files = new DirectoryInfo(settings.outputDirectory).GetFiles();
-            foreach (FileInfo file in files)
-            {
-                if (!file.Name.StartsWith("."))
-                {
-                    Debug.Log("Delete file [name = " + file.Name + "]");
-                    file.Delete();
-                }
-            }
-
-            DirectoryInfo[] dirs = new DirectoryInfo(settings.outputDirectory).GetDirectories();
-            foreach (DirectoryInfo dir in dirs)
-            {
-                Debug.Log("Delete directory [name = " + dir.Name + "]");
-                dir.Delete(true);
-            }
-
-            AssetDatabase.Refresh();
             Build(settings);
+            
+            if (oldFileInfos != null)
+            {
+                Debug.Log("Restoring GUIDs of previous build.");
+                buildInfoBuidler.RestoreGuids(settings.outputDirectory, oldFileInfos);
+            }
+
+
+
+            // // TODO add validation to remove build files only
+            // if (settings.outputDirectory != "Assets\\CuteDancer\\Build")
+            // {
+            //     if (!EditorUtility.DisplayDialog("Alpha version warning", "Changing build path is not recommended yet.\n\n"
+            //         + "All content from the directory will be earsed before build without any validation:\n" + settings.outputDirectory + "\n\nARE YOU SURE?", "Yes", "NO!!!!!!!!!!!!!!!!"))
+            //     {
+            //         return;
+            //     }
+            // }
+
+            // FileInfo[] files = new DirectoryInfo(settings.outputDirectory).GetFiles();
+            // foreach (FileInfo file in files)
+            // {
+            //     if (!file.Name.StartsWith("."))
+            //     {
+            //         Debug.Log("Delete file [name = " + file.Name + "]");
+            //         file.Delete();
+            //     }
+            // }
+
+            // DirectoryInfo[] dirs = new DirectoryInfo(settings.outputDirectory).GetDirectories();
+            // foreach (DirectoryInfo dir in dirs)
+            // {
+            //     Debug.Log("Delete directory [name = " + dir.Name + "]");
+            //     dir.Delete(true);
+            // }
+
+            // AssetDatabase.Refresh();
+            // Build(settings);
+
         }
 
     }

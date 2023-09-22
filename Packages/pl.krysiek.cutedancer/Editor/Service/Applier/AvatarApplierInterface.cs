@@ -4,10 +4,7 @@ namespace VRF
 {
     interface AvatarApplierInterface
     {
-        // void RenderForm();
         void SetAvatar(AvatarDescriptor avatar);
-        // void ClearForm();
-        // void RenderStatus();
         void HandleAdd();
         void HandleRemove();
     }

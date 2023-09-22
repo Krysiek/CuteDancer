@@ -56,7 +56,7 @@
                 <ui:VisualElement style="background-image: resource(&apos;CuteDancer/Images/circle-xmark-solid&apos;); position: absolute; right: -6px; bottom: 0; width: 16px; height: 16px;" />
             </ui:VisualElement>
         </ui:Button>
-        <ui:Button text="Update on avatar" name="AvatarUpdateBtn" class="big-button">
+        <ui:Button text="Reapply to avatar" name="AvatarUpdateBtn" class="big-button">
             <ui:VisualElement style="background-image: resource(&apos;CuteDancer/Images/person-solid&apos;); width: 32px; height: 32px;">
                 <ui:VisualElement style="background-image: resource(&apos;CuteDancer/Images/circle-update-solid&apos;); position: absolute; right: -6px; bottom: 0; width: 16px; height: 16px;" />
             </ui:VisualElement>

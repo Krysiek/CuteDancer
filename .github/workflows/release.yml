@@ -25,6 +25,7 @@ jobs:
           sed -i -e "s/0.0.0-dev/$GITHUB_REF_NAME/g" "${{ env.packageFolder }}/package.json"
           sed -i -e "s/0.0.0-dev/$GITHUB_REF_NAME/g" "${{ env.packageFolder }}/README.txt"
           sed -i -e "s/0.0.0-dev/$GITHUB_REF_NAME/g" "${{ env.packageFolder }}/Editor/Resources/CuteDancer/Views/MainView.uxml"
+          sed -i -e "s/0.0.0-dev/$GITHUB_REF_NAME/g" "${{ env.packageFolder }}/Editor/Data/BuildInfoData.cs"
 
       - name: Get version
         id: version

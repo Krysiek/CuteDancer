@@ -15,6 +15,8 @@ namespace VRF
             string sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateFX.controller");
             string outputPath = Path.Combine(settings.outputDirectory, "CuteDancer-FX.controller");
 
+            string animFxOffPath = Path.Combine(settings.outputDirectory, "FX", "CuteDancer-FX_OFF.anim");
+
             if (!AssetDatabase.CopyAsset(sourcePath, outputPath))
             {
                 throw new Exception("Error copying template: FX Controller");
@@ -31,6 +33,7 @@ namespace VRF
 
             ChildAnimatorState templateState = Array.Find(rootStateMachine.states, state => state.state.name.Contains("{DANCE}"));
             AnimatorState beforeState = Array.Find(rootStateMachine.states, state => state.state.name == "Sending dance").state;
+            beforeState.motion = AssetDatabase.LoadAssetAtPath<AnimationClip>(animFxOffPath);
             AnimatorStateTransition templateInTransition = Array.Find(beforeState.transitions, t => t.destinationState == templateState.state);
 
             float nodeX = templateState.position.x;

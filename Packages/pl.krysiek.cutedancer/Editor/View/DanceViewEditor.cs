@@ -1,5 +1,4 @@
 #if VRC_SDK_VRCSDK3
-using UnityEngine;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;

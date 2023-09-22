@@ -11,8 +11,13 @@ namespace VRF
 
         public void BuildAnimFxOff(SettingsBuilderData settings)
         {
+            if (!Directory.Exists(Path.Combine(settings.outputDirectory, "FX")))
+            {
+                AssetDatabase.CreateFolder(settings.outputDirectory, "FX");
+            }
+
             string sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateFX_OFF.anim");
-            string outputPath = Path.Combine(settings.outputDirectory, "CuteDancer-FX_OFF.anim");
+            string outputPath = Path.Combine(settings.outputDirectory, "FX", "CuteDancer-FX_OFF.anim");
 
             if (!AssetDatabase.CopyAsset(sourcePath, outputPath))
             {

@@ -11,15 +11,15 @@ namespace VRF
 
         public void BuildAnimFxOn(SettingsBuilderData settings)
         {
-            string outputDirectory = Path.Combine(settings.outputDirectory, "FX");
-
-            Directory.CreateDirectory(outputDirectory);
-            AssetDatabase.Refresh();
+            if (!Directory.Exists(Path.Combine(settings.outputDirectory, "FX")))
+            {
+                AssetDatabase.CreateFolder(settings.outputDirectory, "FX");
+            }
 
             foreach (DanceBuilderData dance in settings.dances)
             {
                 string sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateDanceFX_ON.anim");
-                string outputPath = Path.Combine(outputDirectory, dance._name + "_FX_ON.anim");
+                string outputPath = Path.Combine(settings.outputDirectory, "FX", dance._name + "_FX_ON.anim");
 
                 if (!AssetDatabase.CopyAsset(sourcePath, outputPath))
                 {
