@@ -6,10 +6,10 @@ using UnityEditor;
 
 namespace VRF
 {
-    public class MusicPrefabBuilder
+    public class MusicPrefabBuilder : BuilderInterface
     {
 
-        public void BuildMusicPrefab(SettingsBuilderData settings)
+        public void Build(SettingsBuilderData settings)
         {
             string sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateMusic.prefab");
             string outputPath = Path.Combine(settings.outputDirectory, "CuteDancer-Music.prefab");

@@ -8,9 +8,9 @@ using System.Collections.Generic;
 
 namespace VRF
 {
-    public class FxControllerBuilder
+    public class FxControllerBuilder : BuilderInterface
     {
-        public void BuildFxController(SettingsBuilderData settings)
+        public void Build(SettingsBuilderData settings)
         {
             string sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateFX.controller");
             string outputPath = Path.Combine(settings.outputDirectory, "CuteDancer-FX.controller");

@@ -6,10 +6,10 @@ using UnityEditor;
 
 namespace VRF
 {
-    public class AnimFxOffBuilder
+    public class AnimFxOffBuilder : BuilderInterface
     {
 
-        public void BuildAnimFxOff(SettingsBuilderData settings)
+        public void Build(SettingsBuilderData settings)
         {
             if (!Directory.Exists(Path.Combine(settings.outputDirectory, "FX")))
             {

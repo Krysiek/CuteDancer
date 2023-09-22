@@ -7,10 +7,10 @@ using VRC.SDK3.Dynamics.Contact.Components;
 
 namespace VRF
 {
-    public class ContactsPrefabBuilder
+    public class ContactsPrefabBuilder : BuilderInterface
     {
 
-        public void BuildContactsPrefab(SettingsBuilderData settings)
+        public void Build(SettingsBuilderData settings)
         {
             string sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateContacts.prefab");
             string outputPath = Path.Combine(settings.outputDirectory, "CuteDancer-Contacts.prefab");

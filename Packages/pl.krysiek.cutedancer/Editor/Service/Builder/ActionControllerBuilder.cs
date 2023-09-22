@@ -8,9 +8,9 @@ using System.Collections.Generic;
 
 namespace VRF
 {
-    public class ActionControllerBuilder
+    public class ActionControllerBuilder : BuilderInterface
     {
-        public void BuildActionController(SettingsBuilderData settings)
+        public void Build(SettingsBuilderData settings)
         {
             string sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateAction.controller");
             string outputPath = Path.Combine(settings.outputDirectory, "CuteDancer-Action.controller");

@@ -31,14 +31,14 @@ namespace VRF
 
             Directory.CreateDirectory(settings.outputDirectory);
 
-            parameterBuilder.BuildParameters(settings);
-            menuBuilder.BuildMenu(settings);
-            musicPrefabBuilder.BuildMusicPrefab(settings);
-            contactsPrefabBuilder.BuildContactsPrefab(settings);
-            animFxOffBuilder.BuildAnimFxOff(settings);
-            animFxOnBuilder.BuildAnimFxOn(settings);
-            actionControllerBuilder.BuildActionController(settings);
-            fxControllerBuilder.BuildFxController(settings);
+            parameterBuilder.Build(settings);
+            menuBuilder.Build(settings);
+            musicPrefabBuilder.Build(settings);
+            contactsPrefabBuilder.Build(settings);
+            animFxOffBuilder.Build(settings);
+            animFxOnBuilder.Build(settings);
+            actionControllerBuilder.Build(settings);
+            fxControllerBuilder.Build(settings);
             buildInfoBuidler.Build(settings);
 
             AssetDatabase.Refresh();

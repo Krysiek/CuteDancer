@@ -7,10 +7,10 @@ using ExpressionsMenu = VRC.SDK3.Avatars.ScriptableObjects.VRCExpressionsMenu;
 
 namespace VRF
 {
-    public class MenuBuilder
+    public class MenuBuilder : BuilderInterface
     {
 
-        public void BuildMenu(SettingsBuilderData settings)
+        public void Build(SettingsBuilderData settings)
         {
             string sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateVRCMenu.asset");
             string outputPath = Path.Combine(settings.outputDirectory, "CuteDancer-VRCMenu.asset");

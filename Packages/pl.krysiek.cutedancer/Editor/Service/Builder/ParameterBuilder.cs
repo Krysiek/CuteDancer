@@ -7,10 +7,10 @@ using ExpressionParameters = VRC.SDK3.Avatars.ScriptableObjects.VRCExpressionPar
 
 namespace VRF
 {
-    public class ParameterBuilder
+    public class ParameterBuilder : BuilderInterface
     {
 
-        public void BuildParameters(SettingsBuilderData settings)
+        public void Build(SettingsBuilderData settings)
         {
             string sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateVRCParams.asset");
             string outputPath = Path.Combine(settings.outputDirectory, "CuteDancer-VRCParams.asset");
