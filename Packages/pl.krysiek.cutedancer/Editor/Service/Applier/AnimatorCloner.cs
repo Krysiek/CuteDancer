@@ -1,5 +1,6 @@
-﻿// source: https://github.com/VRLabs/Avatars-3.0-Manager/blob/main/Editor/AnimatorCloner.cs
-// Copyright (c) 2022 VRLabs
+﻿// Copyright (c) 2022 VRLabs
+// Licensed under MIT License
+// source: https://github.com/VRLabs/Avatars-3.0-Manager/blob/main/Editor/AnimatorCloner.cs
 
 #if VRC_SDK_VRCSDK3
 using System;
@@ -81,7 +82,7 @@ namespace VRF.VRLabs.AV3Manager
         }
 
         private static string GetNewParameterNameIfSwapped(string parameterName) => 
-            _parametersNewName.ContainsKey(parameterName) ? _parametersNewName[parameterName] : parameterName;
+            !string.IsNullOrWhiteSpace(parameterName) && _parametersNewName.ContainsKey(parameterName) ? _parametersNewName[parameterName] : parameterName;
 
         private static string MakeLayerNameUnique(string name, AnimatorController controller)
         {
@@ -313,10 +314,28 @@ namespace VRF.VRLabs.AV3Manager
                         var d = old as VRCAvatarParameterDriver;
                         l.debugString = d.debugString;
                         l.localOnly = d.localOnly;
+                        l.isLocalPlayer = d.isLocalPlayer;
+                        l.initialized = d.initialized;
                         l.parameters = d.parameters.ConvertAll(p =>
                         {
                             string name = GetNewParameterNameIfSwapped(p.name);
-                            return new VRC_AvatarParameterDriver.Parameter { name = name, value = p.value, chance = p.chance, valueMin = p.valueMin, valueMax = p.valueMax, type = p.type };
+                            return new VRC_AvatarParameterDriver.Parameter 
+                            { 
+                                name = name, 
+                                value = p.value, 
+                                chance = p.chance, 
+                                valueMin = p.valueMin, 
+                                valueMax = p.valueMax, 
+                                type = p.type, 
+                                source = GetNewParameterNameIfSwapped(p.source), 
+                                convertRange = p.convertRange, 
+                                destMax = p.destMax, 
+                                destMin = p.destMin, 
+                                destParam = p.destParam, 
+                                sourceMax = p.sourceMax, 
+                                sourceMin = p.sourceMin, 
+                                sourceParam = p.sourceParam
+                            };
                         });
                         break;
                     }
@@ -377,14 +396,14 @@ namespace VRF.VRLabs.AV3Manager
             List<AnimatorStateMachine> childrenSm = sm.stateMachines.Select(x => x.stateMachine).ToList();
 
             List<AnimatorStateMachine> gcsm = new List<AnimatorStateMachine>();
+            gcsm.Add(sm);
             foreach (var child in childrenSm)
             {
                 newAnimatorsByChildren?.Add(child, sm);
                 gcsm.AddRange(GetStateMachinesRecursive(child, newAnimatorsByChildren));
             }
-
-            childrenSm.AddRange(gcsm);
-            return childrenSm;
+            
+            return gcsm;
         }
 
         private static AnimatorState FindMatchingState(List<AnimatorState> old, List<AnimatorState> n, AnimatorTransitionBase transition)
@@ -419,7 +438,7 @@ namespace VRF.VRLabs.AV3Manager
                 foreach (var transition in oldStates[i].transitions)
                 {
                     AnimatorStateTransition newTransition = null;
-                    if (transition.isExit)
+                    if (transition.isExit && transition.destinationState == null && transition.destinationStateMachine == null)
                     {
                         newTransition = newStates[i].AddExitTransition();
                     }
@@ -440,10 +459,7 @@ namespace VRF.VRLabs.AV3Manager
                         ApplyTransitionSettings(transition, newTransition);
                 }
             }
-
-            // Generate AnyState transitiosn
-            GenerateStateMachineBaseTransitions(old, n, oldStates, newStates, oldStateMachines, newStateMachines);
-
+            
             for (int i = 0; i < oldStateMachines.Count; i++)
             {
                 if(oldAnimatorsByChildren.ContainsKey(oldStateMachines[i]) && newAnimatorsByChildren.ContainsKey(newStateMachines[i]))
@@ -451,7 +467,7 @@ namespace VRF.VRLabs.AV3Manager
                     foreach (var transition in oldAnimatorsByChildren[oldStateMachines[i]].GetStateMachineTransitions(oldStateMachines[i]))
                     {
                         AnimatorTransition newTransition = null;
-                        if (transition.isExit)
+                        if (transition.isExit && transition.destinationState == null && transition.destinationStateMachine == null)
                         {
                             newTransition = newAnimatorsByChildren[newStateMachines[i]].AddStateMachineExitTransition(newStateMachines[i]);
                         }
@@ -471,8 +487,8 @@ namespace VRF.VRLabs.AV3Manager
                         if (newTransition != null)
                             ApplyTransitionSettings(transition, newTransition);
                     }
-                    
                 }
+                // Generate AnyState transitions
                 GenerateStateMachineBaseTransitions(oldStateMachines[i], newStateMachines[i], oldStates, newStates, oldStateMachines, newStateMachines);
             }
         }
