@@ -49,7 +49,7 @@ namespace VRF
             {
                 var oldFileInfo = oldBuildFiles.Find(fi => fi.path == fileInfo.path);
 
-                if (oldFileInfo != null)
+                if (oldFileInfo != null && !oldFileInfo.path.Contains("VRCMenu-more"))
                 {
                     string metaPath = fileInfo.path + ".meta";
                     string metaContent = File.ReadAllText(metaPath);
