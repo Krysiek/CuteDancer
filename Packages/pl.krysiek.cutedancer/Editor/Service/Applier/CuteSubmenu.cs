@@ -15,57 +15,8 @@ namespace VRF
         static string CUTE_MENU = Path.Combine("Assets", "CuteDancer", "Build", "CuteDancer-VRCMenu.asset"); // TODO read from build configuration
         static string DANCE_ICON = Path.Combine("Packages", "pl.krysiek.cutedancer", "Runtime", "Icons", "CuteDancer.png");
 
-        enum Status
-        {
-            FORM, EMPTY, ADDED, FULL, MISSING
-        }
-
-        Status validStat = Status.FORM;
         AvatarDescriptor avatar;
         ExpressionsMenu expressionMenu;
-
-        public void RenderForm()
-        {
-            validStat = Validate();
-
-            GUIStyle labelStyle = new GUIStyle(EditorStyles.largeLabel);
-            labelStyle.wordWrap = true;
-
-            GUILayout.Label("Select expression menu used by your avatar", labelStyle);
-            expressionMenu = EditorGUILayout.ObjectField("Expressions Menu", expressionMenu, typeof(ExpressionsMenu), false, GUILayout.ExpandWidth(true)) as ExpressionsMenu;
-
-            GUILayout.Space(10);
-
-            GUILayout.BeginHorizontal();
-
-            CuteButtons.RenderButton("Add expression submenu", CuteIcons.ADD, HandleAdd,
-                validStat == Status.FORM || validStat == Status.ADDED || validStat == Status.FULL);
-            CuteButtons.RenderButton("Remove", CuteIcons.REMOVE, HandleRemove, validStat != Status.ADDED, GUILayout.Width(150));
-
-            GUILayout.EndHorizontal();
-        }
-
-        public void RenderStatus()
-        {
-            switch (Validate())
-            {
-                case Status.FORM:
-                    CuteInfoBox.RenderInfoBox(CuteIcons.INFO, "Please select expression menu asset where CuteDancer submenu will be added.");
-                    break;
-                case Status.ADDED:
-                    CuteInfoBox.RenderInfoBox(CuteIcons.OK, "CuteDancer submenu is added.");
-                    break;
-                case Status.EMPTY:
-                    CuteInfoBox.RenderInfoBox(CuteIcons.WARN, "CuteDancer submenu is not added.");
-                    break;
-                case Status.MISSING:
-                    CuteInfoBox.RenderInfoBox(CuteIcons.WARN, "CuteDancer submenu is not added (missing expression menu asset will be created).");
-                    break;
-                case Status.FULL:
-                    CuteInfoBox.RenderInfoBox(CuteIcons.ERROR, "No slots available in selected expression menu.\nPlease select another menu or remove unused control from the menu.");
-                    break;
-            }
-        }
 
         public void SetAvatar(AvatarDescriptor avatarDescriptor)
         {
@@ -79,26 +30,29 @@ namespace VRF
             expressionMenu = null;
         }
 
-        Status Validate()
+        public ApplyStatus GetStatus()
         {
             if (avatar == null)
             {
-                return Status.FORM;
+                return ApplyStatus.EMPTY;
             }
             if (expressionMenu == null)
             {
-                return Status.MISSING;
+                return ApplyStatus.ADD;
             }
-            ExpressionsMenu cuteMenu = AssetDatabase.LoadAssetAtPath(CUTE_MENU, typeof(ExpressionsMenu)) as ExpressionsMenu;
-            if (expressionMenu.controls.Exists(menuEntry => menuEntry.subMenu == cuteMenu))
-            {
-                return Status.ADDED;
+            ExpressionsMenu cuteMenu = AssetDatabase.LoadAssetAtPath<ExpressionsMenu>(CUTE_MENU);
+            if (expressionMenu.controls.Exists(menuEntry => menuEntry.subMenu == cuteMenu)) {
+                return ApplyStatus.REMOVE;
+            }
+            Texture2D cuteIcon = AssetDatabase.LoadAssetAtPath<Texture2D>(DANCE_ICON);
+            if (expressionMenu.controls.Exists(menuEntry => menuEntry.name == "CuteDancer") || expressionMenu.controls.Exists(menuEntry => menuEntry.icon == cuteIcon)) {
+                return ApplyStatus.UPDATE;
             }
             if (expressionMenu.controls.ToArray().Length >= 8)
             {
-                return Status.FULL;
+                return ApplyStatus.BLOCKED;
             }
-            return Status.EMPTY;
+            return ApplyStatus.ADD;
         }
 
         public void HandleAdd()
@@ -112,12 +66,13 @@ namespace VRF
 
             ExpressionsMenu cuteMenu = AssetDatabase.LoadAssetAtPath(CUTE_MENU, typeof(ExpressionsMenu)) as ExpressionsMenu;
 
-            var menuEntry = new ExpressionsMenu.Control();
-
-            menuEntry.name = "CuteDancer";
-            menuEntry.icon = AssetDatabase.LoadAssetAtPath(DANCE_ICON, typeof(Texture2D)) as Texture2D;
-            menuEntry.type = ExpressionsMenu.Control.ControlType.SubMenu;
-            menuEntry.subMenu = cuteMenu;
+            var menuEntry = new ExpressionsMenu.Control
+            {
+                name = "CuteDancer",
+                icon = AssetDatabase.LoadAssetAtPath(DANCE_ICON, typeof(Texture2D)) as Texture2D,
+                type = ExpressionsMenu.Control.ControlType.SubMenu,
+                subMenu = cuteMenu
+            };
 
             Debug.Log("Adding expression menu control to menu [name=" + expressionMenu.name + "]");
             expressionMenu.controls.Add(menuEntry);
@@ -147,15 +102,15 @@ namespace VRF
 
         bool CreateExpressionMenu()
         {
-            var path = $"Assets/{avatar.name}-ExpressionMenu.asset";
-            var ok = EditorUtility.DisplayDialog("CuteScript", $"It seems your avatar does not have expression menu. Empty one will be created and assigned to your avatar.\n\nNew asset will be saved under path:\n{path}", "Create it!", "Cancel");
+            string path = $"Assets/{avatar.name}-ExpressionMenu.asset";
+            bool ok = EditorUtility.DisplayDialog("CuteScript", $"It seems your avatar does not have expression menu. Empty one will be created and assigned to your avatar.\n\nNew asset will be saved under path:\n{path}", "Create it!", "Cancel");
             if (!ok)
             {
                 EditorUtility.DisplayDialog("CuteScript", "Operation aborted. Expresion Menu is NOT added!", "OK");
                 return false;
             }
 
-            var emptyMenu = ScriptableObject.CreateInstance(typeof(ExpressionsMenu)) as ExpressionsMenu;
+            ExpressionsMenu emptyMenu = ScriptableObject.CreateInstance(typeof(ExpressionsMenu)) as ExpressionsMenu;
             emptyMenu.controls = new List<ExpressionsMenu.Control>();
 
             AssetDatabase.CreateAsset(emptyMenu, path);

@@ -2,6 +2,8 @@
 // Licensed under MIT License
 // source: https://github.com/VRLabs/Avatars-3.0-Manager/blob/main/Editor/AnimatorCloner.cs
 
+// TODO consider add package as a dependency and use original class
+
 #if VRC_SDK_VRCSDK3
 using System;
 using System.Collections.Generic;

@@ -21,54 +21,6 @@ namespace VRF
         }
 
         GameObject avatar;
-        Status validStat = Status.FORM;
-
-        public void RenderForm()
-        {
-            validStat = Validate();
-
-            GUIStyle labelStyle = new GUIStyle(EditorStyles.largeLabel);
-            labelStyle.wordWrap = true;
-            GUILayout.Label("Add music and contact prefabs using the button below or drag & drop them to the root of your avatar",
-                        labelStyle);
-            labelStyle.fontStyle = FontStyle.Italic;
-
-            GUILayout.BeginHorizontal();
-
-            if (validStat == Status.ADDED_PARTIAL || validStat == Status.DIFFERENCE)
-            {
-                CuteButtons.RenderButton("Update prefabs", CuteIcons.ADD, HandleUpdate);
-            }
-            else
-            {
-                CuteButtons.RenderButton("Add prefabs", CuteIcons.ADD, HandleAdd, validStat == Status.FORM || validStat == Status.ADDED);
-            }
-            CuteButtons.RenderButton("Remove", CuteIcons.REMOVE, HandleRemove, validStat == Status.FORM || validStat == Status.EMPTY, GUILayout.Width(150));
-
-            GUILayout.EndHorizontal();
-        }
-
-        public void RenderStatus()
-        {
-            switch (validStat)
-            {
-                case Status.FORM:
-                    CuteInfoBox.RenderInfoBox(CuteIcons.INFO, "Avatar not selected.");
-                    break;
-                case Status.EMPTY:
-                    CuteInfoBox.RenderInfoBox(CuteIcons.WARN, "Prefabs are not added.");
-                    break;
-                case Status.ADDED:
-                    CuteInfoBox.RenderInfoBox(CuteIcons.OK, "Prefab are added.");
-                    break;
-                case Status.ADDED_PARTIAL:
-                    CuteInfoBox.RenderInfoBox(CuteIcons.WARN, "Some of required prefabs are missing.");
-                    break;
-                case Status.DIFFERENCE:
-                    CuteInfoBox.RenderInfoBox(CuteIcons.WARN, "Prefabs on the avatar are out of date. Press update button to fix it.");
-                    break;
-            }
-        }
 
         public void SetAvatar(AvatarDescriptor avatarDescriptor)
         {
@@ -80,11 +32,11 @@ namespace VRF
             avatar = null;
         }
 
-        Status Validate()
+        public ApplyStatus GetStatus()
         {
             if (!avatar)
             {
-                return Status.FORM;
+                return ApplyStatus.EMPTY;
             }
 
             Transform musicInstance = avatar.transform.Find("CuteDancer-Music");
@@ -94,18 +46,18 @@ namespace VRF
             {
                 if (IsPrefabModified(musicInstance.gameObject) || IsPrefabModified(contactInstance.gameObject))
                 {
-                    return Status.DIFFERENCE;
+                    return ApplyStatus.UPDATE;
                 }
 
-                return Status.ADDED;
+                return ApplyStatus.REMOVE;
             }
 
             if (!musicInstance && !contactInstance)
             {
-                return Status.EMPTY;
+                return ApplyStatus.ADD;
             }
 
-            return Status.ADDED_PARTIAL;
+            return ApplyStatus.UPDATE;
         }
 
         bool IsPrefabModified(GameObject instance)

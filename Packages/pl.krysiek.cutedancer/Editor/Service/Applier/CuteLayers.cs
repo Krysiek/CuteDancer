@@ -12,95 +12,28 @@ namespace VRF
 {
     public class CuteLayers : AvatarApplierInterface
     {
-        enum Status
-        {
-            FORM, EMPTY, ADDED, MISSING, DIFFERENCE, UNKNOWN
-        }
-
         // TODO read from build configuration
         static string ACTION_CTRL = Path.Combine("Assets", "CuteDancer", "Build", "CuteDancer-Action.controller");
         static string FX_CTRL = Path.Combine("Assets", "CuteDancer", "Build", "CuteDancer-FX.controller");
 
-        Status validStat = Status.FORM;
         AvatarDescriptor avatar;
         AnimatorController actionCtrl;
         AnimatorController fxCtrl;
 
-        bool actionWD = false;
-        bool fxWD = false;
+        public bool ActionWD { get; set; }
+        public bool FxWD { get; set; }
 
-        public void RenderForm()
+        public CuteLayers()
         {
-            validStat = Validate();
-
-            GUIStyle labelStyle = new GUIStyle(EditorStyles.largeLabel);
-            labelStyle.wordWrap = true;
-
-            GUILayout.Label("Select Action and FX controllers used by your avatar.", EditorStyles.largeLabel);
-            var newActionCtrl = EditorGUILayout.ObjectField("Action", actionCtrl, typeof(AnimatorController), false, GUILayout.ExpandWidth(true)) as AnimatorController;
-            actionWD = EditorGUILayout.Toggle(new GUIContent("Write Defaults", "VRChat default is OFF, but most avatars has this setting set to ON."), actionWD);
-            var newFxCtrl = EditorGUILayout.ObjectField("FX", fxCtrl, typeof(AnimatorController), false, GUILayout.ExpandWidth(true)) as AnimatorController;
-            fxWD = EditorGUILayout.Toggle(new GUIContent("Write Defaults", "VRChat default is OFF, but most avatars has this setting set to ON."), fxWD);
-
-            GUILayout.Space(10);
-
-            GUILayout.BeginHorizontal();
-
-            if (validStat == Status.DIFFERENCE)
-            {
-                CuteButtons.RenderButton("Update animator layers", CuteIcons.ADD, HandleUpdate);
-            }
-            else
-            {
-                CuteButtons.RenderButton("Add animator layers", CuteIcons.ADD, () => HandleAdd(),
-                                !(validStat == Status.EMPTY || validStat == Status.MISSING));
-            }
-
-            CuteButtons.RenderButton("Remove", CuteIcons.REMOVE, () => HandleRemove(),
-                !(validStat == Status.ADDED || validStat == Status.UNKNOWN), GUILayout.Width(150));
-
-            GUILayout.EndHorizontal();
-        }
-
-        public void RenderStatus()
-        {
-            switch (validStat)
-            {
-                case Status.FORM:
-                    CuteInfoBox.RenderInfoBox(CuteIcons.INFO, "Please select animator controllers.");
-                    break;
-                case Status.EMPTY:
-                    CuteInfoBox.RenderInfoBox(CuteIcons.WARN, "Layers are not added.");
-                    break;
-                case Status.MISSING:
-                    CuteInfoBox.RenderInfoBox(CuteIcons.WARN, "Layers are not added (missing controllers will be created).");
-                    break;
-                case Status.ADDED:
-                    CuteInfoBox.RenderInfoBox(CuteIcons.OK, "Layers are added.");
-                    break;
-                case Status.DIFFERENCE:
-                    CuteInfoBox.RenderInfoBox(CuteIcons.WARN, "Layers are out of date. Press update button to fix it.");
-                    break;
-                case Status.UNKNOWN:
-                    CuteInfoBox.RenderInfoBox(CuteIcons.ERROR, "Layers are in mixed state. You can still try to remove any existing layers using Remove button and re-add them.");
-                    break;
-            }
+            ActionWD = false;
+            FxWD = false;
         }
 
         public void SetAvatar(AvatarDescriptor avatarDescriptor)
         {
             avatar = avatarDescriptor;
-            actionCtrl = Array.Find(avatarDescriptor.baseAnimationLayers, layer => layer.type == AvatarDescriptor.AnimLayerType.Action).animatorController as AnimatorController;
-            fxCtrl = Array.Find(avatarDescriptor.baseAnimationLayers, layer => layer.type == AvatarDescriptor.AnimLayerType.FX).animatorController as AnimatorController;
-
-            if (actionCtrl)
-            {
-                actionWD = CuteAnimators.IsAnimatorUsingWD(actionCtrl);
-            }
-            if (fxCtrl)
-            {
-                fxWD = CuteAnimators.IsAnimatorUsingWD(fxCtrl);
-            }
+            actionCtrl = Array.Find(avatarDescriptor.baseAnimationLayers, layer => layer.type == AnimLayerType.Action).animatorController as AnimatorController;
+            fxCtrl = Array.Find(avatarDescriptor.baseAnimationLayers, layer => layer.type == AnimLayerType.FX).animatorController as AnimatorController;
         }
 
         public void ClearForm()
@@ -117,35 +50,35 @@ namespace VRF
 
         void HandleAdd(bool silent = false)
         {
-            if (!actionCtrl && !CreateController(AvatarDescriptor.AnimLayerType.Action, $"{avatar.name}-Action", silent))
+            if (!actionCtrl && !CreateController(AnimLayerType.Action, $"{avatar.name}-Action", silent))
             {
                 return;
             }
 
-            if (!fxCtrl && !CreateController(AvatarDescriptor.AnimLayerType.FX, $"{avatar.name}-FX", silent))
+            if (!fxCtrl && !CreateController(AnimLayerType.FX, $"{avatar.name}-FX", silent))
             {
                 return;
             }
 
             DoBackup();
 
-            AnimatorController srcActionCtrl = AssetDatabase.LoadAssetAtPath(ACTION_CTRL, typeof(AnimatorController)) as AnimatorController;
-            AnimatorController srcFxCtrl = AssetDatabase.LoadAssetAtPath(FX_CTRL, typeof(AnimatorController)) as AnimatorController;
+            AnimatorController srcActionCtrl = AssetDatabase.LoadAssetAtPath<AnimatorController>(ACTION_CTRL);
+            AnimatorController srcFxCtrl = AssetDatabase.LoadAssetAtPath<AnimatorController>(FX_CTRL);
 
-            Array.ForEach(srcActionCtrl.layers, l => Array.ForEach(l.stateMachine.states, s => s.state.writeDefaultValues = actionWD));
-            Array.ForEach(srcFxCtrl.layers, l => Array.ForEach(l.stateMachine.states, s => s.state.writeDefaultValues = fxWD));
+            Array.ForEach(srcActionCtrl.layers, l => Array.ForEach(l.stateMachine.states, s => s.state.writeDefaultValues = ActionWD));
+            Array.ForEach(srcFxCtrl.layers, l => Array.ForEach(l.stateMachine.states, s => s.state.writeDefaultValues = FxWD));
 
             Debug.Log("Merging controllers [source=" + srcActionCtrl.name + ", desitnation=" + actionCtrl.name + "]");
-            VRF.VRLabs.AV3Manager.AnimatorCloner.MergeControllers(actionCtrl, srcActionCtrl);
+            VRLabs.AV3Manager.AnimatorCloner.MergeControllers(actionCtrl, srcActionCtrl);
             Debug.Log("Merging controllers [source=" + srcFxCtrl.name + ", desitnation=" + fxCtrl.name + "]");
-            VRF.VRLabs.AV3Manager.AnimatorCloner.MergeControllers(fxCtrl, srcFxCtrl);
-
-            Array.ForEach(srcActionCtrl.layers, l => Array.ForEach(l.stateMachine.states, s => s.state.writeDefaultValues = true));
-            Array.ForEach(srcFxCtrl.layers, l => Array.ForEach(l.stateMachine.states, s => s.state.writeDefaultValues = true));
+            VRLabs.AV3Manager.AnimatorCloner.MergeControllers(fxCtrl, srcFxCtrl);
+            
+            EditorUtility.ClearDirty(srcActionCtrl);
+            EditorUtility.ClearDirty(srcFxCtrl);
 
             AssetDatabase.SaveAssets();
 
-            CuteAnimators.UpdateVrcAnimatorLayerControlAfterClone(actionCtrl, !actionWD);
+            CuteAnimators.UpdateVrcAnimatorLayerControlAfterClone(actionCtrl, !ActionWD);
         }
 
         public void HandleRemove()
@@ -155,7 +88,7 @@ namespace VRF
 
         void HandleRemove(bool silent = false)
         {
-            if (validStat == Status.UNKNOWN)
+            if (GetStatus() == ApplyStatus.BLOCKED)
             {
                 if (!EditorUtility.DisplayDialog("CuteScript", "The script will try to remove CuteDance layers from your animators if any exists.\n\nThey are matched by name though, so it may not help.", "Let's try", "Cancel"))
                 {
@@ -228,26 +161,18 @@ namespace VRF
             CuteBackup.CreateBackup(AssetDatabase.GetAssetPath(fxCtrl));
         }
 
-        // TODO temporary validation, true - instaled, false - not
-        public bool TempValidate()
-        {
-            var status = Validate();
-            return status == Status.ADDED || status == Status.DIFFERENCE || status == Status.UNKNOWN;
-        }
-
-        Status Validate()
+        public ApplyStatus GetStatus()
         {
             if (!avatar)
             {
-                return Status.FORM;
+                return ApplyStatus.EMPTY;
             }
             if (!actionCtrl || !fxCtrl)
             {
-                return Status.MISSING;
+                return ApplyStatus.ADD;
             }
-
-            AnimatorController srcActionCtrl = AssetDatabase.LoadAssetAtPath(ACTION_CTRL, typeof(AnimatorController)) as AnimatorController;
-            AnimatorController srcFxCtrl = AssetDatabase.LoadAssetAtPath(FX_CTRL, typeof(AnimatorController)) as AnimatorController;
+            AnimatorController srcActionCtrl = AssetDatabase.LoadAssetAtPath<AnimatorController>(ACTION_CTRL);
+            AnimatorController srcFxCtrl = AssetDatabase.LoadAssetAtPath<AnimatorController>(FX_CTRL);
 
             bool actionHasLayers = CheckLayersExists(actionCtrl, srcActionCtrl, out bool actionDiffs);
             bool fxHasLayers = CheckLayersExists(fxCtrl, srcFxCtrl, out bool fxDiffs);
@@ -256,16 +181,15 @@ namespace VRF
             {
                 if (actionDiffs || fxDiffs)
                 {
-                    return Status.DIFFERENCE;
+                    return ApplyStatus.UPDATE;
                 }
-                return Status.ADDED;
+                return ApplyStatus.REMOVE;
             }
             if (!actionHasLayers && !fxHasLayers)
             {
-                return Status.EMPTY;
+                return ApplyStatus.ADD;
             }
-            return Status.UNKNOWN;
-
+            return ApplyStatus.BLOCKED;
         }
 
         bool CheckLayersExists(AnimatorController controller, AnimatorController refCtrl, out bool diffs)
