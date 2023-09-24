@@ -7,7 +7,8 @@ namespace VRF
 {
     public class CuteSetup : EditorWindow
     {
-        SettingsService settingsService = SettingsService.Instance;
+        static SettingsService settingsService = SettingsService.Instance;
+        static DanceTemplateService danceTemplateService = new DanceTemplateService();
 
         [MenuItem("Tools/CuteDancer/CuteDancer Setup", false, 1)]
         public static void OpenSetupWindow()
@@ -21,9 +22,8 @@ namespace VRF
         [MenuItem("Tools/CuteDancer/Create Dance Template", false, 20)]
         public static void GenerateTemplate()
         {
-            EditorUtility.DisplayDialog("Create Dance Template", "Not implemented yet.", "OK");
-            // TODO implement template generation with unique GUID
-            // EditorUtility.DisplayDialog("Create Dance Template", "Dance template created in Assets/CuteDancer/Dances/DanceTemplate\n\nYou can modify it to your like.", "OK");
+            danceTemplateService.CreateTemplate(settingsService.customDancesDirectory);
+            EditorUtility.DisplayDialog("Create Dance Template", $"Dance template created in {settingsService.customDancesDirectory}\n\nYou can modify it to your like.", "OK");
         }
 
         private MainViewEditor mainView;

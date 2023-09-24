@@ -44,11 +44,12 @@ namespace VRF
             }
         }
 
-        public string[] selectedDances = new string[] { "SARDefaultDance", "BadgerDance" };
+        public string[] selectedDances = DancesLoaderService.ORIGINALS_WHITELIST;
         public string[] musicDisabledDances = Array.Empty<string>();
         public string parameterName = "VRCEmote";
         public int parameterStartValue = 128;
-        public string outputDirectory = "Assets\\CuteDancer\\Build";
+        public string outputDirectory = Path.Combine("Assets", "CuteDancer", "Build");
+        public string customDancesDirectory = Path.Combine("Assets", "CuteDancer", "Dances");
 
         public void Save()
         {

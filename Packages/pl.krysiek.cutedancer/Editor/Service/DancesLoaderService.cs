@@ -11,16 +11,27 @@ namespace VRF
 {
     public class DancesLoaderService
     {
-        static string DANCES_DIR = Path.Combine("Packages", "pl.krysiek.cutedancer", "Runtime", "Dances");   
-        static string[] ORIGINALS_WHITELIST = new string[] { "SARDefaultDance", "BadgerDance", "ShoulderShakeDance", "ZufoloImpazzitoDance", "DistractionDance" };
+        static string DANCES_DIR = Path.Combine("Packages", "pl.krysiek.cutedancer", "Runtime", "Dances");
+        public static string[] ORIGINALS_WHITELIST = new string[] { "SARDefaultDance", "BadgerDance", "ShoulderShakeDance", "ZufoloImpazzitoDance", "DistractionDance" };
 
         SettingsService settings = SettingsService.Instance;
 
         public Dictionary<string, List<DanceViewData>> LoadDances()
         {
-            string[] dancesPaths = Directory.GetDirectories(DANCES_DIR);
-            // TODO 1st add looking for dances in Assets/CuteDancer/Dances (customizable path)
-            // TODO 2nd add looking for extra dances in other packages with "cutedancer" in name
+            List<string> dancesPaths = new List<string>();
+
+            string[] cuteDancerPackages = Directory.GetDirectories("Packages", "*.cutedancer*", SearchOption.TopDirectoryOnly);
+            foreach (string cuteDancerPackage in cuteDancerPackages)
+            {
+                string[] dancesInPackage = Directory.GetDirectories(Path.Combine(cuteDancerPackage, "Runtime", "Dances"));
+                dancesPaths.AddRange(dancesInPackage);
+            }
+
+            if (Directory.Exists(settings.customDancesDirectory))
+            {
+                string[] assetsDancesPaths = Directory.GetDirectories(settings.customDancesDirectory);
+                dancesPaths.AddRange(assetsDancesPaths);
+            }
 
             Dictionary<string, List<DanceViewData>> collections = new Dictionary<string, List<DanceViewData>>();
 
