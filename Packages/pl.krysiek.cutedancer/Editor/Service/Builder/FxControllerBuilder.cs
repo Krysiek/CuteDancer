@@ -33,8 +33,12 @@ namespace VRF
 
             ChildAnimatorState templateState = Array.Find(rootStateMachine.states, state => state.state.name.Contains("{DANCE}"));
             AnimatorState beforeState = Array.Find(rootStateMachine.states, state => state.state.name == "Sending dance").state;
-            beforeState.motion = AssetDatabase.LoadAssetAtPath<AnimationClip>(animFxOffPath);
             AnimatorStateTransition templateInTransition = Array.Find(beforeState.transitions, t => t.destinationState == templateState.state);
+
+            // replace FX OFF animation
+            AnimationClip animFxOff = AssetDatabase.LoadAssetAtPath<AnimationClip>(animFxOffPath);
+            beforeState.motion = animFxOff;
+            templateState.state.transitions[0].destinationState.motion = animFxOff;
 
             float nodeX = templateState.position.x;
             float nodeY = templateState.position.y - 60;

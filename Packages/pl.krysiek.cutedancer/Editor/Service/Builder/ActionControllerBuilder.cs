@@ -90,7 +90,7 @@ namespace VRF
                         {
                             // Transition to exit state
                             Debug.Log($"ActionAnimatorBuilder: Transition to exit state [{copiedState.name}] found, build transition to exit node");
-                            BuildTransitions(copiedState, afterDanceState, templateOutTransitions, dance._name, settings.parameterName, paramValue);
+                            BuildTransition(copiedState, afterDanceState, srcTransition, dance._name, settings.parameterName, paramValue);
                         }
                         else if (srcTransition.conditions.Length > 0 && srcTransition.conditions[0].parameter == "{EXIT}")
                         {
