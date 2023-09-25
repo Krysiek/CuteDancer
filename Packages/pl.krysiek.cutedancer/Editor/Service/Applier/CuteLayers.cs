@@ -34,6 +34,16 @@ namespace VRF
             avatar = avatarDescriptor;
             actionCtrl = Array.Find(avatarDescriptor.baseAnimationLayers, layer => layer.type == AnimLayerType.Action).animatorController as AnimatorController;
             fxCtrl = Array.Find(avatarDescriptor.baseAnimationLayers, layer => layer.type == AnimLayerType.FX).animatorController as AnimatorController;
+
+            // TODO handle this on UI when checkbox will be available
+            if (actionCtrl)
+            {
+                ActionWD = CuteAnimators.IsAnimatorUsingWD(actionCtrl);
+            }
+            if (fxCtrl)
+            {
+                FxWD = CuteAnimators.IsAnimatorUsingWD(fxCtrl);
+            }
         }
 
         public void ClearForm()
@@ -72,7 +82,7 @@ namespace VRF
             VRLabs.AV3Manager.AnimatorCloner.MergeControllers(actionCtrl, srcActionCtrl);
             Debug.Log("Merging controllers [source=" + srcFxCtrl.name + ", desitnation=" + fxCtrl.name + "]");
             VRLabs.AV3Manager.AnimatorCloner.MergeControllers(fxCtrl, srcFxCtrl);
-            
+
             EditorUtility.ClearDirty(srcActionCtrl);
             EditorUtility.ClearDirty(srcFxCtrl);
 
