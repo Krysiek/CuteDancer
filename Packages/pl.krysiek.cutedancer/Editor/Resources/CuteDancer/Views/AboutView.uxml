@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement style="justify-content: flex-start; align-items: stretch; flex-direction: column; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px; flex-grow: 1;">
+        <Style src="CommonStyles.uss" />
+        <ui:Label text="CuteDancer" style="white-space: normal; padding-bottom: 8px; -unity-font-style: italic; font-size: 20px; -unity-text-align: upper-center;" />
+        <ui:Label text="version 0.0.0-dev" style="white-space: normal; -unity-text-align: upper-center; -unity-font-style: italic;" />
+        <ui:Label text="Package and scripting created by" style="white-space: normal; margin-top: 25px; -unity-text-align: upper-center; -unity-font-style: italic;" />
+        <ui:Label text="Krysiek" style="white-space: normal; margin-top: 10px; -unity-text-align: upper-center;" />
+        <ui:Label text="with the help and contributions of" style="white-space: normal; margin-top: 10px; -unity-text-align: upper-center; -unity-font-style: italic;" />
+        <ui:Label text="Jack&apos;lul, Luc4r, Shingen, Spookiboy" style="white-space: normal; margin-top: 10px; -unity-text-align: upper-center;" />
+    </ui:VisualElement>
+</ui:UXML>

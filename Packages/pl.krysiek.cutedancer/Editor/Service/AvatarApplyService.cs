@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
 using VRF;
 using YamlDotNet.Core.Tokens;
@@ -12,27 +14,32 @@ public class AvatarApplyService
     CuteSubmenu cuteSubmenu = new CuteSubmenu();
     CuteLayers cuteLayers = new CuteLayers();
 
-    private AvatarDescriptor _avatar;
-    public AvatarDescriptor avatar
+    public BuildInfoData BuildInfo
     {
-        get => _avatar;
         set
         {
-            _avatar = value;
-            if (value)
+            string buildPath = AssetDatabase.GetAssetPath(value);
+            if (buildPath != "")
             {
-                cutePrefab.SetAvatar(value);
-                cuteParams.SetAvatar(value);
-                cuteSubmenu.SetAvatar(value);
-                cuteLayers.SetAvatar(value);
+                buildPath = Path.GetDirectoryName(buildPath);
             }
-            else
-            {
-                cutePrefab.ClearForm();
-                cuteParams.ClearForm();
-                cuteSubmenu.ClearForm();
-                cuteLayers.ClearForm();
-            }
+            cutePrefab.BuildPath = buildPath;
+            cuteParams.BuildPath = buildPath;
+            cuteSubmenu.BuildPath = buildPath;
+            cuteLayers.BuildPath = buildPath;
+        }
+    }
+
+    private AvatarDescriptor avatar;
+    public AvatarDescriptor Avatar
+    {
+        set
+        {
+            avatar = value;
+            cutePrefab.Avatar = value;
+            cuteParams.Avatar = value;
+            cuteSubmenu.Avatar = value;
+            cuteLayers.Avatar = value;
         }
     }
 

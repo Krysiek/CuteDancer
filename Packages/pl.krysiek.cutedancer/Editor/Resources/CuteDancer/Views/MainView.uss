@@ -18,43 +18,24 @@
     justify-content: center;
 }
 
-.with-top-separator {
-    border-left-color: rgba(0, 0, 0, 0.31);
-    border-right-color: rgba(0, 0, 0, 0.31);
-    border-top-color: rgba(0, 0, 0, 0.31);
-    border-bottom-color: rgba(0, 0, 0, 0.31);
-    border-top-width: 2px;
-    margin-top: 10px;
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 10px;
-    padding-bottom: 0;
-    margin-bottom: 4px;
-}
-
-.big-button {
-    flex-direction: row;
-    flex-basis: auto;
-    -unity-text-align: middle-center;
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-top: 12px;
-    padding-bottom: 12px;
+.banner-button {
+    flex-basis: 100px;
+    flex-grow: 1;
     margin-left: 0;
     margin-right: 0;
-    margin-top: 2px;
+    margin-top: 0;
     margin-bottom: 0;
-    font-size: 16px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
-.field {
-    padding: 2px 0 2px 0;
-}
-
-.field-first {
-    padding: 4px 0 2px 0;
-}
-
-.field-last {
-    padding: 2px 0 4px 0;
+.banner-button-active {
+    background-color: rgba(132, 132, 132, 255);
+    color: rgba(250, 250, 250, 255);
 }

@@ -30,20 +30,14 @@ namespace VRF
 
         public void OnEnable()
         {
-            mainView = new MainViewEditor();
             VisualElement root = rootVisualElement;
-            var mainViewEl = mainView.GetViewElement();
-            root.Add(mainViewEl);
-            mainView.Validate();
-        }
-
-        public void OnGUI()
-        {
-            mainView.Validate();
+            mainView = new MainViewEditor();
+            root.Add(mainView);
         }
 
         public void OnLostFocus()
         {
+            // TODO bind to data change
             Debug.Log("CuteDancer: settings saved");
             settingsService.Save();
         }

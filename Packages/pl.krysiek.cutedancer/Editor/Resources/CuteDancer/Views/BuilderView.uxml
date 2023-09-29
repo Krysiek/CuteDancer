@@ -1,0 +1,34 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement style="justify-content: flex-start; align-items: stretch; flex-direction: column; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px; flex-grow: 1;">
+        <Style src="CommonStyles.uss" />
+        <ui:Label text="CuteDancer builder" style="white-space: normal; padding-bottom: 8px; -unity-font-style: italic; font-size: 15px;" />
+        <ui:Label text="Here you can build prefabs, animators, menu and parameter files. None of your avatars on scene will be touched yet." style="white-space: normal;" />
+        <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-top: 2px; margin-bottom: 2px;">
+            <ui:Label text="Select dances you want from the list below." style="-unity-text-align: upper-left; margin-right: auto;" />
+            <ui:Button name="SelectAllBtn" tooltip="Toggle selection" style="margin-left: 0; margin-right: 5px; margin-top: 0; margin-bottom: 0; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; width: 28px; height: 28px;">
+                <ui:VisualElement style="background-image: resource(&apos;CuteDancer/Images/square-check-multi&apos;); width: 16px; height: 16px; -unity-background-scale-mode: scale-to-fit;" />
+            </ui:Button>
+            <ui:Button name="RefreshBtn" tooltip="Reload dances" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; width: 28px; height: 28px;">
+                <ui:VisualElement style="background-image: resource(&apos;CuteDancer/Images/rotate-solid&apos;); width: 16px; height: 16px; -unity-background-scale-mode: scale-to-fit;" />
+            </ui:Button>
+        </ui:VisualElement>
+        <ui:ScrollView name="DancesListWrapper" style="flex-grow: 1; flex-shrink: 1; background-color: rgba(0, 0, 0, 0.18); border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; padding-left: 4px; padding-right: 4px; padding-top: 4px; padding-bottom: 4px; flex-direction: row; flex-wrap: wrap; margin-top: 4px; margin-bottom: 4px; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgba(0, 0, 0, 0.26); border-right-color: rgba(0, 0, 0, 0.26); border-top-color: rgba(0, 0, 0, 0.26); border-bottom-color: rgba(0, 0, 0, 0.26);">
+            <ui:VisualElement name="DancesList" style="flex-direction: row; flex-wrap: wrap;" />
+        </ui:ScrollView>
+        <ui:Foldout text="Build configuration" value="true" class="with-top-separator" style="flex-shrink: 0;">
+            <ui:TextField picking-mode="Ignore" label="Parameter name" binding-path="parameterName" class="field-first" />
+            <uie:IntegerField label="Parameter start value" binding-path="parameterStartValue" class="config-field field" />
+            <ui:TextField picking-mode="Ignore" label="Output directory" binding-path="outputDirectory" class="field-last" style="padding-top: 2px; padding-bottom: 4px;" />
+        </ui:Foldout>
+        <ui:Button text="Generate files" name="BuildBtn" class="big-button">
+            <ui:VisualElement style="background-image: resource(&apos;CuteDancer/Images/screwdriver-wrench-solid&apos;); width: 32px; height: 32px;">
+                <ui:VisualElement style="background-image: resource(&apos;CuteDancer/Images/circle-check-solid&apos;); position: absolute; right: -16px; width: 16px; height: 16px; bottom: 0;" />
+            </ui:VisualElement>
+        </ui:Button>
+        <ui:Button text="Regenerate files" name="RebuildBtn" class="big-button">
+            <ui:VisualElement style="background-image: resource(&apos;CuteDancer/Images/screwdriver-wrench-solid&apos;); width: 32px; height: 32px;">
+                <ui:VisualElement style="background-image: resource(&apos;CuteDancer/Images/circle-update-solid&apos;); position: absolute; right: -16px; width: 16px; height: 16px; bottom: 0;" />
+            </ui:VisualElement>
+        </ui:Button>
+    </ui:VisualElement>
+</ui:UXML>

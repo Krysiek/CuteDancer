@@ -12,7 +12,7 @@ namespace VRF
 
         public string outputDirectory;
 
-        public static implicit operator SettingsBuilderData(MainViewData data)
+        public static implicit operator SettingsBuilderData(BuilderViewData data)
         {
             SettingsBuilderData builderSettingsData = new SettingsBuilderData
             {

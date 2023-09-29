@@ -7,7 +7,7 @@ using AvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
 
 namespace VRF
 {
-    public class MainViewData : ScriptableObject
+    public class BuilderViewData : ScriptableObject
     {
         [NonSerialized]
         public Dictionary<string, List<DanceViewData>> dances;
@@ -17,13 +17,5 @@ namespace VRF
         public int parameterStartValue;
 
         public string outputDirectory;
-
-        public AvatarDescriptor avatar;
-
-        public GameObject avatarGameObject;
-        public VRCExpressionParameters avatarExpressionParameters;
-        public VRCExpressionsMenu avatarExpressionsMenu;
-        public AnimatorController avatarActionController;
-        public AnimatorController avatarFxController;
     }
 }

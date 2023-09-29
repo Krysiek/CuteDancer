@@ -12,22 +12,25 @@ namespace VRF
 {
     public class CuteParams : AvatarApplierInterface
     {
-        // TODO read from build configuration
-        static string PARAMS_REF = Path.Combine("Assets", "CuteDancer", "Build", "CuteDancer-VRCParams.asset");
+        static string PARAMS_FILENAME = Path.Combine("CuteDancer-VRCParams.asset");
 
-        AvatarDescriptor avatar;
-        ExpressionParameters expressionParams;
+        private ExpressionParameters expressionParams;
 
-        public void SetAvatar(AvatarDescriptor avatarDescriptor)
+        private string buildPath;
+        public string BuildPath
         {
-            avatar = avatarDescriptor;
-            expressionParams = avatarDescriptor.expressionParameters;
+            get => Path.Combine(buildPath, PARAMS_FILENAME);
+            set => buildPath = value;
         }
 
-        public void ClearForm()
+        private AvatarDescriptor avatar;
+        public AvatarDescriptor Avatar
         {
-            avatar = null;
-            expressionParams = null;
+            set
+            {
+                avatar = value;
+                expressionParams = value?.expressionParameters;
+            }
         }
 
         public void HandleAdd()
@@ -39,7 +42,7 @@ namespace VRF
 
             DoBackup();
 
-            ExpressionParameters paramsRef = AssetDatabase.LoadAssetAtPath(PARAMS_REF, typeof(ExpressionParameters)) as ExpressionParameters;
+            ExpressionParameters paramsRef = AssetDatabase.LoadAssetAtPath(BuildPath, typeof(ExpressionParameters)) as ExpressionParameters;
 
             var paramsRefList = new List<ExpressionParameters.Parameter>(paramsRef.parameters);
             var paramsList = new List<ExpressionParameters.Parameter>(expressionParams.parameters);
@@ -48,11 +51,13 @@ namespace VRF
             {
                 if (!paramsList.Exists(param => param.name == paramRef.name))
                 {
-                    var newParam = new ExpressionParameters.Parameter();
-                    newParam.name = paramRef.name;
-                    newParam.saved = paramRef.saved;
-                    newParam.valueType = paramRef.valueType;
-                    newParam.defaultValue = paramRef.defaultValue;
+                    var newParam = new ExpressionParameters.Parameter
+                    {
+                        name = paramRef.name,
+                        saved = paramRef.saved,
+                        valueType = paramRef.valueType,
+                        defaultValue = paramRef.defaultValue
+                    };
                     Debug.Log("Adding parameter [name=" + paramRef.name + "]");
                     paramsList.Add(newParam);
                 }
@@ -69,7 +74,7 @@ namespace VRF
         {
             DoBackup();
 
-            ExpressionParameters paramsRef = AssetDatabase.LoadAssetAtPath(PARAMS_REF, typeof(ExpressionParameters)) as ExpressionParameters;
+            ExpressionParameters paramsRef = AssetDatabase.LoadAssetAtPath(BuildPath, typeof(ExpressionParameters)) as ExpressionParameters;
 
             var paramsRefList = new List<ExpressionParameters.Parameter>(paramsRef.parameters);
             Debug.Log("Skip removing commonly used parameter [name=VRCEmote]");
@@ -108,7 +113,7 @@ namespace VRF
             {
                 return ApplyStatus.ADD;
             }
-            ExpressionParameters paramsRef = AssetDatabase.LoadAssetAtPath(PARAMS_REF, typeof(ExpressionParameters)) as ExpressionParameters;
+            ExpressionParameters paramsRef = AssetDatabase.LoadAssetAtPath(BuildPath, typeof(ExpressionParameters)) as ExpressionParameters;
 
             bool notFound = false;
 

@@ -1,0 +1,10 @@
+.build-info-group {
+    flex-direction: row;
+    margin-bottom: 5px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.label-description {
+    width: 150px;
+}

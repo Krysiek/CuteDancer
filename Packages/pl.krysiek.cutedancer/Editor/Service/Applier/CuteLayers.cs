@@ -12,13 +12,51 @@ namespace VRF
 {
     public class CuteLayers : AvatarApplierInterface
     {
-        // TODO read from build configuration
-        static string ACTION_CTRL = Path.Combine("Assets", "CuteDancer", "Build", "CuteDancer-Action.controller");
-        static string FX_CTRL = Path.Combine("Assets", "CuteDancer", "Build", "CuteDancer-FX.controller");
+        static string ACTION_CTRL_PATH = Path.Combine("CuteDancer-Action.controller");
+        static string FX_CTRL_PATH = Path.Combine("CuteDancer-FX.controller");
 
-        AvatarDescriptor avatar;
-        AnimatorController actionCtrl;
-        AnimatorController fxCtrl;
+        private AnimatorController actionCtrl;
+        private AnimatorController fxCtrl;
+
+        private string buildPath;
+        public string BuildPath
+        {
+            set => buildPath = value;
+        }
+
+        private string ActionCtrlPath => Path.Combine(buildPath, ACTION_CTRL_PATH);
+        private string FxCtrlPath => Path.Combine(buildPath, FX_CTRL_PATH);
+
+        private AvatarDescriptor avatar;
+        public AvatarDescriptor Avatar
+        {
+            set
+            {
+                if (!value)
+                {
+                    avatar = null;
+                    actionCtrl = null;
+                    fxCtrl = null;
+                    ActionWD = false;
+                    FxWD = false;
+                    return;
+                }
+
+                avatar = value;
+                actionCtrl = Array.Find(value.baseAnimationLayers, layer => layer.type == AnimLayerType.Action).animatorController as AnimatorController;
+                fxCtrl = Array.Find(value.baseAnimationLayers, layer => layer.type == AnimLayerType.FX).animatorController as AnimatorController;
+
+                // TODO handle this on UI when checkbox will be available
+                if (actionCtrl)
+                {
+                    ActionWD = CuteAnimators.IsAnimatorUsingWD(actionCtrl);
+                }
+                if (fxCtrl)
+                {
+                    FxWD = CuteAnimators.IsAnimatorUsingWD(fxCtrl);
+                }
+            }
+        }
 
         public bool ActionWD { get; set; }
         public bool FxWD { get; set; }
@@ -27,30 +65,6 @@ namespace VRF
         {
             ActionWD = false;
             FxWD = false;
-        }
-
-        public void SetAvatar(AvatarDescriptor avatarDescriptor)
-        {
-            avatar = avatarDescriptor;
-            actionCtrl = Array.Find(avatarDescriptor.baseAnimationLayers, layer => layer.type == AnimLayerType.Action).animatorController as AnimatorController;
-            fxCtrl = Array.Find(avatarDescriptor.baseAnimationLayers, layer => layer.type == AnimLayerType.FX).animatorController as AnimatorController;
-
-            // TODO handle this on UI when checkbox will be available
-            if (actionCtrl)
-            {
-                ActionWD = CuteAnimators.IsAnimatorUsingWD(actionCtrl);
-            }
-            if (fxCtrl)
-            {
-                FxWD = CuteAnimators.IsAnimatorUsingWD(fxCtrl);
-            }
-        }
-
-        public void ClearForm()
-        {
-            avatar = null;
-            actionCtrl = null;
-            fxCtrl = null;
         }
 
         public void HandleAdd()
@@ -72,8 +86,8 @@ namespace VRF
 
             DoBackup();
 
-            AnimatorController srcActionCtrl = AssetDatabase.LoadAssetAtPath<AnimatorController>(ACTION_CTRL);
-            AnimatorController srcFxCtrl = AssetDatabase.LoadAssetAtPath<AnimatorController>(FX_CTRL);
+            AnimatorController srcActionCtrl = AssetDatabase.LoadAssetAtPath<AnimatorController>(ActionCtrlPath);
+            AnimatorController srcFxCtrl = AssetDatabase.LoadAssetAtPath<AnimatorController>(FxCtrlPath);
 
             Array.ForEach(srcActionCtrl.layers, l => Array.ForEach(l.stateMachine.states, s => s.state.writeDefaultValues = ActionWD));
             Array.ForEach(srcFxCtrl.layers, l => Array.ForEach(l.stateMachine.states, s => s.state.writeDefaultValues = FxWD));
@@ -108,8 +122,8 @@ namespace VRF
 
             DoBackup();
 
-            AnimatorController srcActionCtrl = AssetDatabase.LoadAssetAtPath(ACTION_CTRL, typeof(AnimatorController)) as AnimatorController;
-            AnimatorController srcFxCtrl = AssetDatabase.LoadAssetAtPath(FX_CTRL, typeof(AnimatorController)) as AnimatorController;
+            AnimatorController srcActionCtrl = AssetDatabase.LoadAssetAtPath(ActionCtrlPath, typeof(AnimatorController)) as AnimatorController;
+            AnimatorController srcFxCtrl = AssetDatabase.LoadAssetAtPath(FxCtrlPath, typeof(AnimatorController)) as AnimatorController;
 
             for (int i = 0; i < srcActionCtrl.layers.Length; i++)
             {
@@ -139,7 +153,7 @@ namespace VRF
                         avatar.baseAnimationLayers[fxIndex] = CuteAnimators.CreateCustomAnimLayer(AnimLayerType.FX);
                     }
                     EditorUtility.SetDirty(avatar);
-                    SetAvatar(avatar);
+                    Avatar = avatar;
                 }
             }
         }
@@ -181,8 +195,8 @@ namespace VRF
             {
                 return ApplyStatus.ADD;
             }
-            AnimatorController srcActionCtrl = AssetDatabase.LoadAssetAtPath<AnimatorController>(ACTION_CTRL);
-            AnimatorController srcFxCtrl = AssetDatabase.LoadAssetAtPath<AnimatorController>(FX_CTRL);
+            AnimatorController srcActionCtrl = AssetDatabase.LoadAssetAtPath<AnimatorController>(ActionCtrlPath);
+            AnimatorController srcFxCtrl = AssetDatabase.LoadAssetAtPath<AnimatorController>(FxCtrlPath);
 
             bool actionHasLayers = CheckLayersExists(actionCtrl, srcActionCtrl, out bool actionDiffs);
             bool fxHasLayers = CheckLayersExists(fxCtrl, srcFxCtrl, out bool fxDiffs);
@@ -244,7 +258,7 @@ namespace VRF
             EditorUtility.SetDirty(avatar);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-            SetAvatar(avatar); // refresh local vars
+            Avatar = avatar; // refresh local vars
 
             return true;
         }

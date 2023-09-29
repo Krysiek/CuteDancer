@@ -11,25 +11,27 @@ namespace VRF
 {
     public class CutePrefab : AvatarApplierInterface
     {
-        // TODO read from build configuration
-        static string MUSIC_PREFAB = Path.Combine("Assets", "CuteDancer", "Build", "CuteDancer-Music.prefab");
-        static string CONTACT_PREFAB = Path.Combine("Assets", "CuteDancer", "Build", "CuteDancer-Contacts.prefab");
+        static string MUSIC_PREFAB_FILENAME = Path.Combine("CuteDancer-Music.prefab");
+        static string CONTACT_PREFAB_FILENAME = Path.Combine("CuteDancer-Contacts.prefab");
 
         enum Status
         {
             FORM, EMPTY, ADDED, ADDED_PARTIAL, DIFFERENCE
         }
-
-        GameObject avatar;
-
-        public void SetAvatar(AvatarDescriptor avatarDescriptor)
+        
+        private string buildPath;
+        public string BuildPath
         {
-            avatar = avatarDescriptor.gameObject;
+            set => buildPath = value;
         }
 
-        public void ClearForm()
+        private string MusicPrefabPath => Path.Combine(buildPath, MUSIC_PREFAB_FILENAME);
+        private string ContactPrefabPath => Path.Combine(buildPath, CONTACT_PREFAB_FILENAME);
+
+        private GameObject avatar;
+        public AvatarDescriptor Avatar
         {
-            avatar = null;
+            set => avatar = value?.gameObject;
         }
 
         public ApplyStatus GetStatus()
@@ -77,7 +79,7 @@ namespace VRF
             Transform musicInstance = avatar.transform.Find("CuteDancer-Music");
             if (!musicInstance)
             {
-                var musicPrefab = AssetDatabase.LoadAssetAtPath(MUSIC_PREFAB, typeof(GameObject));
+                var musicPrefab = AssetDatabase.LoadAssetAtPath(MusicPrefabPath, typeof(GameObject));
                 var musicPrefabInstance = PrefabUtility.InstantiatePrefab(musicPrefab, avatar.transform);
                 EditorUtility.SetDirty(musicPrefabInstance);
             }
@@ -85,7 +87,7 @@ namespace VRF
             Transform contactInstance = avatar.transform.Find("CuteDancer-Contacts");
             if (!contactInstance)
             {
-                var contactPrefab = AssetDatabase.LoadAssetAtPath(CONTACT_PREFAB, typeof(GameObject));
+                var contactPrefab = AssetDatabase.LoadAssetAtPath(ContactPrefabPath, typeof(GameObject));
                 var contactPrefabInstance = PrefabUtility.InstantiatePrefab(contactPrefab, avatar.transform);
                 EditorUtility.SetDirty(contactPrefabInstance);
             }

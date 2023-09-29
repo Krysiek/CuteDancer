@@ -29,15 +29,6 @@ namespace VRF
             get => DateTime.Parse(buildDate);
         }
 
-
-        [SerializeField]
-        private string[] files;
-        public string[] Files
-        {
-            set => files = value;
-            get => files;
-        }
-
         [SerializeField]
         public List<FilePathGuid> filePathUuids = new List<FilePathGuid>();
     }

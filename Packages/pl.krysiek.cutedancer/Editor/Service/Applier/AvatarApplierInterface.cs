@@ -12,7 +12,6 @@ namespace VRF
 
     interface AvatarApplierInterface
     {
-        void SetAvatar(AvatarDescriptor avatar);
         void HandleAdd();
         void HandleRemove();
         ApplyStatus GetStatus();

@@ -3,12 +3,11 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
-
 namespace VRF
 {
-    public class DanceViewEditor
+    public class DanceViewEditor : VisualElement
     {
-        private readonly VisualElement danceViewEl;
+        public new class UxmlFactory : UxmlFactory<DanceViewEditor, UxmlTraits> { }
 
         private SettingsService settingsService = SettingsService.Instance;
 
@@ -26,29 +25,24 @@ namespace VRF
         public DanceViewEditor()
         {
             VisualTreeAsset danceView = CuteResources.LoadView("DanceView");
-            danceViewEl = danceView.CloneTree();
-        }
-
-        public VisualElement GetEl()
-        {
-            return danceViewEl;
+            danceView.CloneTree(this);
         }
 
         private void DrawGui()
         {
-            danceViewEl.Bind(new SerializedObject(_danceViewData));
+            this.Bind(new SerializedObject(_danceViewData));
 
             if (_danceViewData.icon != null)
             {
-                danceViewEl.Q<Image>("Icon").image = _danceViewData.icon;
+                this.Q<Image>("Icon").image = _danceViewData.icon;
             }
             else
             {
-                danceViewEl.Q<Image>("Icon").style.width = 12;
+                this.Q<Image>("Icon").style.width = 12;
             }
-            danceViewEl.Q<Button>("DanceItemBtn").clickable = new Clickable((ev) => ToggleSelection());
+            this.Q<Button>("DanceItemBtn").clickable = new Clickable((ev) => ToggleSelection());
 
-            Button musicBtn = danceViewEl.Q<Button>("MusicBtn");
+            Button musicBtn = this.Q<Button>("MusicBtn");
             DrawMusicBtn();
             if (_danceViewData.audio == null)
             {
@@ -67,7 +61,7 @@ namespace VRF
 
         private void DrawMusicBtn()
         {
-            Button musicBtn = danceViewEl.Q<Button>("MusicBtn");
+            Button musicBtn = this.Q<Button>("MusicBtn");
 
             if (_danceViewData.audioEnabled)
             {

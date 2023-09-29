@@ -12,22 +12,26 @@ namespace VRF
 {
     public class CuteSubmenu : AvatarApplierInterface
     {
-        static string CUTE_MENU = Path.Combine("Assets", "CuteDancer", "Build", "CuteDancer-VRCMenu.asset"); // TODO read from build configuration
+        static string CUTE_MENU_FILENAME = Path.Combine("CuteDancer-VRCMenu.asset");
         static string DANCE_ICON = Path.Combine("Packages", "pl.krysiek.cutedancer", "Runtime", "Icons", "CuteDancer.png");
 
-        AvatarDescriptor avatar;
-        ExpressionsMenu expressionMenu;
+        private ExpressionsMenu expressionMenu;
 
-        public void SetAvatar(AvatarDescriptor avatarDescriptor)
+        private string buildPath;
+        public string BuildPath
         {
-            avatar = avatarDescriptor;
-            expressionMenu = avatarDescriptor.expressionsMenu;
+            get => Path.Combine(buildPath, CUTE_MENU_FILENAME);
+            set => buildPath = value;
         }
 
-        public void ClearForm()
+        private AvatarDescriptor avatar;
+        public AvatarDescriptor Avatar
         {
-            avatar = null;
-            expressionMenu = null;
+            set
+            {
+                avatar = value;
+                expressionMenu = value?.expressionsMenu;
+            }
         }
 
         public ApplyStatus GetStatus()
@@ -40,12 +44,14 @@ namespace VRF
             {
                 return ApplyStatus.ADD;
             }
-            ExpressionsMenu cuteMenu = AssetDatabase.LoadAssetAtPath<ExpressionsMenu>(CUTE_MENU);
-            if (expressionMenu.controls.Exists(menuEntry => menuEntry.subMenu == cuteMenu)) {
+            ExpressionsMenu cuteMenu = AssetDatabase.LoadAssetAtPath<ExpressionsMenu>(BuildPath);
+            if (expressionMenu.controls.Exists(menuEntry => menuEntry.subMenu == cuteMenu))
+            {
                 return ApplyStatus.REMOVE;
             }
             Texture2D cuteIcon = AssetDatabase.LoadAssetAtPath<Texture2D>(DANCE_ICON);
-            if (expressionMenu.controls.Exists(menuEntry => menuEntry.name == "CuteDancer") || expressionMenu.controls.Exists(menuEntry => menuEntry.icon == cuteIcon)) {
+            if (expressionMenu.controls.Exists(menuEntry => menuEntry.name == "CuteDancer") || expressionMenu.controls.Exists(menuEntry => menuEntry.icon == cuteIcon))
+            {
                 return ApplyStatus.UPDATE;
             }
             if (expressionMenu.controls.ToArray().Length >= 8)
@@ -64,7 +70,7 @@ namespace VRF
 
             DoBackup();
 
-            ExpressionsMenu cuteMenu = AssetDatabase.LoadAssetAtPath(CUTE_MENU, typeof(ExpressionsMenu)) as ExpressionsMenu;
+            ExpressionsMenu cuteMenu = AssetDatabase.LoadAssetAtPath(BuildPath, typeof(ExpressionsMenu)) as ExpressionsMenu;
 
             var menuEntry = new ExpressionsMenu.Control
             {
@@ -88,11 +94,14 @@ namespace VRF
             Texture2D cuteIcon = AssetDatabase.LoadAssetAtPath<Texture2D>(DANCE_ICON);
             int ix = expressionMenu.controls.FindIndex(menuEntry => menuEntry.icon == cuteIcon);
 
-            Debug.Log("Removing expression menu control from menu [name=" + expressionMenu.name + "]");
-            expressionMenu.controls.RemoveAt(ix);
-            EditorUtility.SetDirty(expressionMenu);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
+            if (ix > -1)
+            {
+                Debug.Log("Removing expression menu control from menu [name=" + expressionMenu.name + ", index=" + ix + "]");
+                expressionMenu.controls.RemoveAt(ix);
+                EditorUtility.SetDirty(expressionMenu);
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+            }
         }
 
         void DoBackup()

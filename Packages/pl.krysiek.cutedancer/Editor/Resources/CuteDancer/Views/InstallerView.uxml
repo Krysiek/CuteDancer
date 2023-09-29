@@ -1,0 +1,33 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement style="justify-content: flex-start; align-items: stretch; flex-direction: column; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px; flex-grow: 1;">
+        <Style src="CommonStyles.uss" />
+        <ui:Label text="CuteDancer installer" style="white-space: normal; padding-bottom: 8px; -unity-font-style: italic; font-size: 15px;" />
+        <ui:Label text="This tool will help you add CuteDancer files to your avatar." style="white-space: normal;" />
+        <uie:ObjectField label="CuteDancer build" name="Build" binding-path="build" class="with-top-separator" />
+        <VRF.BuildInfoEditor name="BuildInfo" />
+        <ui:Label text="Select your main avatar object from the scene." class="with-top-separator" style="padding-top: 8px; margin-top: 8px;" />
+        <uie:ObjectField label="Avatar" name="Avatar" binding-path="avatar" style="padding-bottom: 8px; padding-top: 8px;" />
+        <ui:Foldout text="Avatar components configuration" value="true" class="field" style="flex-shrink: 0;">
+            <uie:ObjectField label="Main avatar object" name="AvatarGameObject" binding-path="avatarGameObject" class="field-first" />
+            <uie:ObjectField label="Expression Parameters" name="AvatarExpressionParameters" binding-path="avatarExpressionParameters" class="field" />
+            <uie:ObjectField label="Expressions Menu" name="AvatarExpressionsMenu" binding-path="avatarExpressionsMenu" class="field" />
+            <uie:ObjectField label="Action Controller" name="AvatarActionController" binding-path="avatarActionController" class="field" />
+            <uie:ObjectField label="FX Controller" name="AvatarFxController" binding-path="avatarFxController" class="field-last" />
+        </ui:Foldout>
+        <ui:Button text="Apply to avatar" name="AvatarApplyBtn" class="big-button">
+            <ui:VisualElement style="background-image: resource(&apos;CuteDancer/Images/person-solid&apos;); width: 32px; height: 32px;">
+                <ui:VisualElement style="background-image: resource(&apos;CuteDancer/Images/circle-check-solid&apos;); position: absolute; right: -6px; bottom: 0; width: 16px; height: 16px;" />
+            </ui:VisualElement>
+        </ui:Button>
+        <ui:Button text="Remove from avatar" name="AvatarRemoveBtn" class="big-button">
+            <ui:VisualElement style="background-image: resource(&apos;CuteDancer/Images/person-solid&apos;); width: 32px; height: 32px;">
+                <ui:VisualElement style="background-image: resource(&apos;CuteDancer/Images/circle-xmark-solid&apos;); position: absolute; right: -6px; bottom: 0; width: 16px; height: 16px;" />
+            </ui:VisualElement>
+        </ui:Button>
+        <ui:Button text="Reapply to avatar" name="AvatarUpdateBtn" class="big-button">
+            <ui:VisualElement style="background-image: resource(&apos;CuteDancer/Images/person-solid&apos;); width: 32px; height: 32px;">
+                <ui:VisualElement style="background-image: resource(&apos;CuteDancer/Images/circle-update-solid&apos;); position: absolute; right: -6px; bottom: 0; width: 16px; height: 16px;" />
+            </ui:VisualElement>
+        </ui:Button>
+    </ui:VisualElement>
+</ui:UXML>

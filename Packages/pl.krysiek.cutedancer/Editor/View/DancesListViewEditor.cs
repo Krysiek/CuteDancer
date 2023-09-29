@@ -50,7 +50,7 @@ namespace VRF
                 {
                     DanceViewEditor danceViewEditor = new DanceViewEditor();
                     danceViewEditor.DanceViewData = danceItem;
-                    dancesListEl.Add(danceViewEditor.GetEl());
+                    dancesListEl.Add(danceViewEditor);
                 }
             }
         }
