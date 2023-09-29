@@ -49,8 +49,8 @@ namespace VRF
             this.Q<ObjectField>("Build").RegisterValueChangedCallback(HandleBuildSelect);
             this.Q<ObjectField>("Avatar").RegisterValueChangedCallback(HandleAvatarSelect);
 
-            RegisterButtonClick(Buttons.AvatarApplyBtn, e => avatarApplyService.AddToAvatar());
-            RegisterButtonClick(Buttons.AvatarRemoveBtn, e => avatarApplyService.RemoveFromAvatar());
+            RegisterButtonClick(Buttons.AvatarApplyBtn, e => { avatarApplyService.AddToAvatar(); Validate(); });
+            RegisterButtonClick(Buttons.AvatarRemoveBtn, e => { avatarApplyService.RemoveFromAvatar(); Validate(); });
             RegisterButtonClick(Buttons.AvatarUpdateBtn, e => Debug.Log("not implemented"));
 
             buildInfoEditor = this.Q<BuildInfoEditor>("BuildInfo");

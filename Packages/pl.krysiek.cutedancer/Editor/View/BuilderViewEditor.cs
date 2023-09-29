@@ -18,12 +18,12 @@ namespace VRF
             SelectAllBtn,
             RefreshBtn,
             BuildBtn,
-            RebuildBtn
+            RebuildBtn,
+            BrowseBtn
         }
 
         private readonly DancesLoaderService dancesLoaderService = new DancesLoaderService();
         private readonly BuilderService builderService = new BuilderService();
-        private readonly AvatarApplyService avatarApplyService = new AvatarApplyService();
         private readonly SettingsService settingsService = SettingsService.Instance;
 
         private readonly DancesListViewEditor dancesBrowserView = new DancesListViewEditor();
@@ -44,6 +44,7 @@ namespace VRF
 
             RegisterButtonClick(Buttons.SelectAllBtn, e => ToggleSelectedDances());
             RegisterButtonClick(Buttons.RefreshBtn, e => LoadDances());
+            RegisterButtonClick(Buttons.BrowseBtn, e => BrowseOutputDirectory());
             RegisterButtonClick(Buttons.BuildBtn, e => builderService.Build(builderViewData));
             RegisterButtonClick(Buttons.RebuildBtn, e => builderService.Rebuild(builderViewData));
 
@@ -73,6 +74,16 @@ namespace VRF
                 }
             }
             settingsService.SaveFromSelectedDances(builderViewData.dances);
+        }
+
+        private void BrowseOutputDirectory()
+        {
+            string path = EditorUtility.OpenFolderPanel("Browse output directory", Path.GetDirectoryName(builderViewData.outputDirectory), "");
+            Debug.Log(Application.dataPath);
+            if (path.Contains("Assets"))
+            {
+                builderViewData.outputDirectory = path.Substring(path.IndexOf("Assets"));
+            }
         }
 
         public void Validate()

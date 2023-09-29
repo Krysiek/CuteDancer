@@ -18,7 +18,10 @@
         <ui:Foldout text="Build configuration" value="true" class="with-top-separator" style="flex-shrink: 0;">
             <ui:TextField picking-mode="Ignore" label="Parameter name" binding-path="parameterName" class="field-first" />
             <uie:IntegerField label="Parameter start value" binding-path="parameterStartValue" class="config-field field" />
-            <ui:TextField picking-mode="Ignore" label="Output directory" binding-path="outputDirectory" class="field-last" style="padding-top: 2px; padding-bottom: 4px;" />
+            <ui:VisualElement style="flex-direction: row;">
+                <ui:TextField picking-mode="Ignore" label="Output directory" binding-path="outputDirectory" class="field-last" style="padding-top: 2px; padding-bottom: 4px; flex-grow: 1; flex-shrink: 1;" />
+                <ui:Button text="Browse" name="BrowseBtn" style="height: 18px; margin-top: 3px;" />
+            </ui:VisualElement>
         </ui:Foldout>
         <ui:Button text="Generate files" name="BuildBtn" class="big-button">
             <ui:VisualElement style="background-image: resource(&apos;CuteDancer/Images/screwdriver-wrench-solid&apos;); width: 32px; height: 32px;">
