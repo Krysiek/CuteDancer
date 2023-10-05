@@ -10,5 +10,8 @@
     "name": "Krysiek",
     "email": "dev@krysiek.pl",
     "url": "https://krysiek.pl"
+  },
+  "vpmDependencies" : {
+    "com.vrchat.avatars" : ">=3.3.0 <3.5.0"
   }
 }
