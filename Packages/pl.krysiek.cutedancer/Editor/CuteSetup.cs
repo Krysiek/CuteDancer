@@ -30,9 +30,9 @@ namespace VRF
 
         public void OnEnable()
         {
-            VisualElement root = rootVisualElement;
+            LegacyVersionHelper.RunCheck();
             mainView = new MainViewEditor();
-            root.Add(mainView);
+            rootVisualElement.Add(mainView);
         }
 
         public void OnLostFocus()

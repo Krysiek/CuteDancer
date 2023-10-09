@@ -11,7 +11,10 @@
     "email": "dev@krysiek.pl",
     "url": "https://krysiek.pl"
   },
-  "vpmDependencies" : {
-    "com.vrchat.avatars" : ">=3.3.0 <3.5.0"
+  "vpmDependencies": {
+    "com.vrchat.avatars": ">=3.3.0 <3.5.0"
+  },
+  "legacyFolders": {
+    "Assets\\CuteDancer\\Editor": "2a10978ed782c174e8c86fadbda492d0"
   }
 }
