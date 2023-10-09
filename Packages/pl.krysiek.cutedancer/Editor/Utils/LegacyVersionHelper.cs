@@ -11,7 +11,7 @@ namespace VRF
         {
             string oldMainDirPath = AssetDatabase.GUIDToAssetPath(OLD_MAIN_DIR_GUID);
 
-            if (oldMainDirPath != "")
+            if (AssetDatabase.IsValidFolder(oldMainDirPath))
             {
                 bool remove = EditorUtility.DisplayDialog(
                     "CuteDancer: legacy version detected",
