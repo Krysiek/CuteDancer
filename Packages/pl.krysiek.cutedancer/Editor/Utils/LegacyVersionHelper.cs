@@ -24,7 +24,10 @@ namespace VRF
 
                 if (remove)
                 {
-                    AssetDatabase.DeleteAsset(oldMainDirPath);
+                    // workaround to force Unity to not use old GUID for the new CuteDancer folder created after removal
+                    string tempRemovePath = oldMainDirPath + "Legacy";
+                    AssetDatabase.MoveAsset(oldMainDirPath, tempRemovePath);
+                    AssetDatabase.DeleteAsset(tempRemovePath);
                 }
 
             }

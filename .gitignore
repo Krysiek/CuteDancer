@@ -67,8 +67,7 @@ Assets/PackageMakerWindowData.asset*
 debug.log
 
 #Everything what is not a CuteDancer
-/Assets/*
-!/Assets/CuteDancer
+/Assets
 /Thry
 /UIElementsSchema
 /ProjectSettings
