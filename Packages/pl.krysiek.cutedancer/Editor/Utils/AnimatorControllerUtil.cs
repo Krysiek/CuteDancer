@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.Animations;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace VRF
 {
@@ -50,6 +51,13 @@ namespace VRF
                 }
             }
             return transitionsToUpdate;
+        }
+
+        public static void RemoveOrphans(AnimatorController animator)
+        {
+            string assetPath = AssetDatabase.GetAssetPath(animator);
+
+            while (AssetCleanup.RemoveOrphans(assetPath)) { }
         }
     }
 }

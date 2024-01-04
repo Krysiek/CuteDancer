@@ -26,6 +26,18 @@ namespace VRF
             EditorUtility.DisplayDialog("Create Dance Template", $"Dance template created in {settingsService.customDancesDirectory}\n\nYou can modify it to your like.", "OK");
         }
 
+        [MenuItem("Assets/CuteTools/Cleanup animator", true)]
+        public static bool CleanupAnimatorValidator()
+        {
+            return Selection.activeObject.GetType().Equals(typeof(AnimatorController));
+        }
+
+        [MenuItem("Assets/CuteTools/Cleanup animator", false, 311)]
+        public static void CleanupAnimator()
+        {
+            AnimatorControllerUtil.RemoveOrphans(Selection.activeObject as AnimatorController);
+        }
+
         [MenuItem("Assets/CuteTools/Reserialize assets", false, 311)]
         public static void ReserializeAssets()
         {
