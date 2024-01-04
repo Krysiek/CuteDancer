@@ -1,7 +1,7 @@
 ﻿#if VRC_SDK_VRCSDK3
 using UnityEngine;
 using UnityEditor;
-using UnityEngine.UIElements;
+using UnityEditor.Animations;
 
 namespace VRF
 {
@@ -24,6 +24,12 @@ namespace VRF
         {
             danceTemplateService.CreateTemplate(settingsService.customDancesDirectory);
             EditorUtility.DisplayDialog("Create Dance Template", $"Dance template created in {settingsService.customDancesDirectory}\n\nYou can modify it to your like.", "OK");
+        }
+
+        [MenuItem("Assets/CuteTools/Reserialize assets", false, 311)]
+        public static void ReserializeAssets()
+        {
+            AssetDatabase.ForceReserializeAssets();
         }
 
         private MainViewEditor mainView;
