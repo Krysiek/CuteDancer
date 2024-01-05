@@ -2,12 +2,22 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class AssetCleanup : MonoBehaviour
 {
     public static bool RemoveOrphans(string assetPath)
     {
+        if (AssetDatabase.GetMainAssetTypeAtPath(assetPath) != typeof(AnimatorController)) {
+            // AnimatorController structure is flat. There are bunch of elements referencing each other by fileID.
+            // Main element contains reference to itself, so it won't be removed.
+
+            // Other assets usually have one top element without any internal reference to it.
+            // In this case this code can completely remove content of the asset, so better break here.
+            return false;
+        }
+
         string rawData = File.ReadAllText(assetPath);
         string[] rawLines = File.ReadAllLines(assetPath);
 
@@ -39,7 +49,7 @@ public class AssetCleanup : MonoBehaviour
             }
 
             bool ok = EditorUtility.DisplayDialog(
-                "Orphans removal",
+                "Asset cleanup",
                 "Orphans found in the file:\n\n" + info,
                 "Remove", "Cancel");
 
