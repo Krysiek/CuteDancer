@@ -49,6 +49,7 @@ namespace VRF
         public string parameterName = "VRCEmote";
         public int parameterStartValue = 128;
         public string outputDirectory = Path.Combine("Assets", "CuteDancer", "Build");
+        public string backupDirectory = Path.Combine("Assets", "CuteDancer", "Backup");
         public string customDancesDirectory = Path.Combine("Assets", "CuteDancer", "Dances");
 
         public void Save()

@@ -106,7 +106,7 @@ namespace VRF
 
         void DoBackup()
         {
-            CuteBackup.CreateBackup(AssetDatabase.GetAssetPath(expressionMenu));
+            CuteBackup.CreateBackup(AssetDatabase.GetAssetPath(expressionMenu), avatar.name);
         }
 
         bool CreateExpressionMenu()

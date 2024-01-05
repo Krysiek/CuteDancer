@@ -181,8 +181,8 @@ namespace VRF
 
         void DoBackup()
         {
-            CuteBackup.CreateBackup(AssetDatabase.GetAssetPath(actionCtrl));
-            CuteBackup.CreateBackup(AssetDatabase.GetAssetPath(fxCtrl));
+            CuteBackup.CreateBackup(AssetDatabase.GetAssetPath(actionCtrl), avatar.name);
+            CuteBackup.CreateBackup(AssetDatabase.GetAssetPath(fxCtrl), avatar.name);
         }
 
         public ApplyStatus GetStatus()
