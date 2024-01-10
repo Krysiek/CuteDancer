@@ -24,7 +24,6 @@ namespace VRF
         }
 
         private readonly AvatarApplyService avatarApplyService = new AvatarApplyService();
-        private readonly SettingsService settingsService = SettingsService.Instance;
 
         private readonly InstallerViewData viewData;
 

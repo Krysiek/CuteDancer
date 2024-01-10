@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using BestHTTP.SecureProtocol.Org.BouncyCastle.Utilities;
+using UnityEditor;
 using UnityEngine;
 
 namespace VRF
@@ -17,6 +17,7 @@ namespace VRF
         {
             if (!File.Exists(SETTINGS_FILE_PATH))
             {
+                EditorApplication.delayCall += LegacyVersionHelper.RunCheck;
                 Directory.CreateDirectory(SETTINGS_DIR);
                 Save();
             }

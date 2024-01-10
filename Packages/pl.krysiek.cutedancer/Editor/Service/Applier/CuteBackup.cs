@@ -28,7 +28,9 @@ namespace VRF
                 if (AssetDatabase.CopyAsset(path, backupPath))
                 {
                     Debug.Log("Backup created: " + backupPath);
-                } else {
+                }
+                else
+                {
                     Debug.LogWarning("Failed to create backup: " + backupPath);
                 }
             }

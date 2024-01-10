@@ -48,7 +48,6 @@ namespace VRF
 
         public void OnEnable()
         {
-            LegacyVersionHelper.RunCheck();
             mainView = new MainViewEditor();
             rootVisualElement.Add(mainView);
         }
