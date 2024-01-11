@@ -9,6 +9,7 @@ namespace VRF
 {
     public class MenuBuilder : BuilderInterface
     {
+        private static Logger log = new Logger("MenuBuilder");
 
         public void Build(SettingsBuilderData settings)
         {
@@ -48,7 +49,7 @@ namespace VRF
                         subMenu = expressionsMenu,
                     };
 
-                    Debug.Log("Save file [name = " + oldOutputPath + "]");
+                    log.LogInfo("Save file [name = " + oldOutputPath + "]");
                     EditorUtility.SetDirty(oldExpressionsMenu);
                 }
 
@@ -67,7 +68,7 @@ namespace VRF
                 expressionsMenu.controls.Add(menuEntry);
             }
 
-            Debug.Log("Save file [name = " + outputPath + "]");
+            log.LogInfo("Save file [name = " + outputPath + "]");
             EditorUtility.SetDirty(expressionsMenu);
             AssetDatabase.SaveAssets();
         }

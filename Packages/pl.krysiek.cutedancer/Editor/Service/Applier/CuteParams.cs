@@ -12,6 +12,8 @@ namespace VRF
 {
     public class CuteParams : AvatarApplierInterface
     {
+        private static Logger log = new Logger("CuteParams");
+
         static string PARAMS_FILENAME = Path.Combine("CuteDancer-VRCParams.asset");
 
         private ExpressionParameters expressionParams;
@@ -58,12 +60,12 @@ namespace VRF
                         valueType = paramRef.valueType,
                         defaultValue = paramRef.defaultValue
                     };
-                    Debug.Log("Adding parameter [name=" + paramRef.name + "]");
+                    log.LogDebug("Adding parameter [name=" + paramRef.name + "]");
                     paramsList.Add(newParam);
                 }
             });
 
-            Debug.Log("Updating expression parameters asset.");
+            log.LogDebug("Updating expression parameters asset.");
             expressionParams.parameters = paramsList.ToArray();
             EditorUtility.SetDirty(expressionParams);
             AssetDatabase.SaveAssets();
@@ -77,7 +79,8 @@ namespace VRF
             ExpressionParameters paramsRef = AssetDatabase.LoadAssetAtPath(BuildPath, typeof(ExpressionParameters)) as ExpressionParameters;
 
             var paramsRefList = new List<ExpressionParameters.Parameter>(paramsRef.parameters);
-            Debug.Log("Skip removing commonly used parameter [name=VRCEmote]");
+            log.LogDebug("Skip removing commonly used parameter [name=VRCEmote]");
+            // TODO check for param name from settings/current build
             paramsRefList = paramsRefList.FindAll(param => param.name != "VRCEmote");
             var paramsList = new List<ExpressionParameters.Parameter>(expressionParams.parameters);
 
@@ -86,12 +89,12 @@ namespace VRF
                 var ix = paramsList.FindIndex(param => param.name == paramRef.name);
                 if (ix >= 0)
                 {
-                    Debug.Log("Removing parameter [name=" + paramRef.name + ", index=" + ix + "]");
+                    log.LogDebug("Removing parameter [name=" + paramRef.name + ", index=" + ix + "]");
                     paramsList.RemoveAt(ix);
                 }
             });
 
-            Debug.Log("Updating expression parameters asset.");
+            log.LogDebug("Updating expression parameters asset.");
             expressionParams.parameters = paramsList.ToArray();
             EditorUtility.SetDirty(expressionParams);
             AssetDatabase.SaveAssets();

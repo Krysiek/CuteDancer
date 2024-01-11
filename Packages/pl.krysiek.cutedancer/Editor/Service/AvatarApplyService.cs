@@ -9,6 +9,8 @@ using AvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
 
 public class AvatarApplyService
 {
+    private static Logger log = new Logger("AvatarApplyService");
+
     CutePrefab cutePrefab = new CutePrefab();
     CuteParams cuteParams = new CuteParams();
     CuteSubmenu cuteSubmenu = new CuteSubmenu();
@@ -49,6 +51,7 @@ public class AvatarApplyService
         cuteParams.HandleAdd();
         cuteSubmenu.HandleAdd();
         cuteLayers.HandleAdd();
+        log.LogInfo("AddToAvatar complete");
     }
 
     public void RemoveFromAvatar()
@@ -57,6 +60,7 @@ public class AvatarApplyService
         cuteParams.HandleRemove();
         cuteSubmenu.HandleRemove();
         cuteLayers.HandleRemove();
+        log.LogInfo("RemoveFromAvatar complete");
     }
 
     // TODO temporary validation, return true if installed, false if not

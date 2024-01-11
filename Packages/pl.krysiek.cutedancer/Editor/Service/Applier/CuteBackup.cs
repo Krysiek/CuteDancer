@@ -7,6 +7,8 @@ namespace VRF
 {
     class CuteBackup
     {
+        private static Logger log = new Logger("CuteBackup");
+
         public static void CreateBackup(string path, string avatarName)
         {
             string date = System.DateTime.Now.ToString("yyyyMMdd_HH");
@@ -27,16 +29,16 @@ namespace VRF
             {
                 if (AssetDatabase.CopyAsset(path, backupPath))
                 {
-                    Debug.Log("Backup created: " + backupPath);
+                    log.LogInfo("Backup created: " + backupPath);
                 }
                 else
                 {
-                    Debug.LogWarning("Failed to create backup: " + backupPath);
+                    log.LogWarn("Failed to create backup: " + backupPath);
                 }
             }
             else
             {
-                Debug.Log("Skip create backup (already created): " + backupPath);
+                log.LogDebug("Skip create backup (already created): " + backupPath);
             }
         }
     }

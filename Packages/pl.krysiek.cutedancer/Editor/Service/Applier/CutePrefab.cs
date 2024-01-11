@@ -11,6 +11,8 @@ namespace VRF
 {
     public class CutePrefab : AvatarApplierInterface
     {
+        private static Logger log = new Logger("CutePrefab");
+
         static string MUSIC_PREFAB_FILENAME = Path.Combine("CuteDancer-Music.prefab");
         static string CONTACT_PREFAB_FILENAME = Path.Combine("CuteDancer-Contacts.prefab");
 
@@ -68,7 +70,7 @@ namespace VRF
             var isModified = PrefabUtility.HasPrefabInstanceAnyOverrides(instance, false);
             if (status != PrefabInstanceStatus.Connected || isModified)
             {
-                Debug.Log($"Prefab {instance.name} is modified.");
+                log.LogDebug($"Prefab {instance.name} is modified.");
                 return true;
             }
             return false;

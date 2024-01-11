@@ -9,6 +9,8 @@ namespace VRF
 {
     public class SettingsService
     {
+        private static Logger log = new Logger("SettingsService");
+
         private static readonly string SETTINGS_DIR = Path.Combine("ProjectSettings", "Packages", "pl.krysiek.cutedancer");
         private static readonly string SETTINGS_FILE = "settings.json";
         private static readonly string SETTINGS_FILE_PATH = Path.Combine(SETTINGS_DIR, SETTINGS_FILE);
@@ -25,9 +27,11 @@ namespace VRF
             try
             {
                 JsonUtility.FromJsonOverwrite(File.ReadAllText(SETTINGS_FILE_PATH), this);
+                Logger.CurrentLevel = (Logger.LogLevel) this.logLevel;
             }
             catch
             {
+                // error when cannot read the file so create the new file
                 Save();
             }
         }
@@ -37,10 +41,7 @@ namespace VRF
         {
             get
             {
-                if (_instance == null)
-                {
-                    _instance = new SettingsService();
-                }
+                _instance ??= new SettingsService();
                 return _instance;
             }
         }
@@ -52,9 +53,11 @@ namespace VRF
         public string outputDirectory = Path.Combine("Assets", "CuteDancer", "Build");
         public string backupDirectory = Path.Combine("Assets", "CuteDancer", "Backup");
         public string customDancesDirectory = Path.Combine("Assets", "CuteDancer", "Dances");
+        public int logLevel = 1;
 
         public void Save()
         {
+            log.LogDebug("Settings saved");
             File.WriteAllText(SETTINGS_FILE_PATH, JsonUtility.ToJson(this, true));
         }
 

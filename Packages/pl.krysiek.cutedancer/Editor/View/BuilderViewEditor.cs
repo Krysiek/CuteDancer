@@ -13,6 +13,8 @@ namespace VRF
 {
     public class BuilderViewEditor : VisualElement
     {
+        private static Logger log = new Logger("BuilderViewEditor");
+
         public enum Buttons
         {
             SelectAllBtn,
@@ -79,10 +81,12 @@ namespace VRF
         private void BrowseOutputDirectory()
         {
             string path = EditorUtility.OpenFolderPanel("Browse output directory", Path.GetDirectoryName(builderViewData.outputDirectory), "");
-            Debug.Log(Application.dataPath);
+            log.LogDebug($"Selected directory {Application.dataPath}");
             if (path.Contains("Assets"))
             {
                 builderViewData.outputDirectory = path.Substring(path.IndexOf("Assets"));
+            } else {
+                log.LogError("Selected directory must be within Assets directory!");
             }
         }
 

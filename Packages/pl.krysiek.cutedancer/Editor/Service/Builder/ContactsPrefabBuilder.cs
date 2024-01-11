@@ -9,6 +9,7 @@ namespace VRF
 {
     public class ContactsPrefabBuilder : BuilderInterface
     {
+        private static Logger log = new Logger("ContactsPrefabBuilder");
 
         public void Build(SettingsBuilderData settings)
         {
@@ -56,7 +57,7 @@ namespace VRF
             templateReceiver.parent = null;
             templateSender.parent = null;
 
-            Debug.Log("Save file [name = " + outputPath + "]");
+            log.LogInfo("Save file [name = " + outputPath + "]");
             PrefabUtility.SaveAsPrefabAsset(prefab, outputPath);
             PrefabUtility.UnloadPrefabContents(prefab);
         }

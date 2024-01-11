@@ -55,7 +55,6 @@ namespace VRF
         public void OnLostFocus()
         {
             // TODO bind to data change
-            Debug.Log("CuteDancer: settings saved");
             settingsService.Save();
         }
     }

@@ -11,7 +11,8 @@ namespace VRF
 {
     public class DancesLoaderService
     {
-        static string DANCES_DIR = Path.Combine("Packages", "pl.krysiek.cutedancer", "Runtime", "Dances");
+        private static Logger log = new Logger("DancesLoaderService");
+
         public static string[] ORIGINALS_WHITELIST = new string[] { "SARDefaultDance", "BadgerDance", "ShoulderShakeDance", "ZufoloImpazzitoDance", "DistractionDance", "RickrollDance" };
 
         SettingsService settings = SettingsService.Instance;
@@ -45,7 +46,7 @@ namespace VRF
 
                     if (!File.Exists(infoPath))
                     {
-                        Debug.LogWarning("Skipped dance without json info: " + dancePath);
+                        log.LogWarn("Skipped dance without json info: " + dancePath);
                         continue;
                     }
 
@@ -57,7 +58,7 @@ namespace VRF
 
                     if (danceData._name == null)
                     {
-                        Debug.LogWarning("Skipped dance without name: " + dancePath);
+                        log.LogWarn("Skipped dance without name: " + dancePath);
                         continue;
                     }
 
@@ -96,7 +97,7 @@ namespace VRF
                 }
                 catch (Exception err)
                 {
-                    Debug.LogWarning("Incorrect structure, dance skipped: " + dancePath + ", error: " + err.ToString());
+                    log.LogWarn("Incorrect structure, dance skipped: " + dancePath + ", error: " + err.ToString());
                 }
             }
 

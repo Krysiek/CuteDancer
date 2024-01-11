@@ -9,6 +9,7 @@ namespace VRF
 {
     public class ParameterBuilder : BuilderInterface
     {
+        private static Logger log = new Logger("ParameterBuilder");
 
         public void Build(SettingsBuilderData settings)
         {
@@ -30,7 +31,7 @@ namespace VRF
                 }
             }
 
-            Debug.Log("Save file [name = " + outputPath + "]");
+            log.LogInfo("Save file [name = " + outputPath + "]");
             EditorUtility.SetDirty(expressionParameters);
             AssetDatabase.SaveAssets();
         }

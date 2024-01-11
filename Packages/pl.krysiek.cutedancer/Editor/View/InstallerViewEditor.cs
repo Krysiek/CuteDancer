@@ -16,6 +16,8 @@ namespace VRF
 {
     public class InstallerViewEditor : VisualElement
     {
+        private static Logger log = new Logger("InstallerViewEditor");
+
         public enum Buttons
         {
             AvatarApplyBtn,
@@ -50,7 +52,7 @@ namespace VRF
 
             RegisterButtonClick(Buttons.AvatarApplyBtn, e => { avatarApplyService.AddToAvatar(); Validate(); });
             RegisterButtonClick(Buttons.AvatarRemoveBtn, e => { avatarApplyService.RemoveFromAvatar(); Validate(); });
-            RegisterButtonClick(Buttons.AvatarUpdateBtn, e => Debug.Log("not implemented"));
+            RegisterButtonClick(Buttons.AvatarUpdateBtn, e => log.LogError("not implemented"));
 
             buildInfoEditor = this.Q<BuildInfoEditor>("BuildInfo");
 

@@ -6,13 +6,14 @@ namespace VRF
 {
     public class LegacyVersionHelper
     {
+        private static Logger log = new Logger("LegacyVersionHelper");
 
         static string OLD_MAIN_DIR_GUID = "1d3ab7f8180cb59439d280fa090061fa";
         static string OLD_MAIN_DIR_PATH = Path.Join("Assets", "CuteDancer");
 
         public static void RunCheck()
         {
-            Debug.Log("Run one-time check for old CuteDancer versions in Assets directory");
+            log.LogInfo("Run one-time check for old CuteDancer versions in Assets directory");
 
             string actualOldPath = AssetDatabase.GUIDToAssetPath(OLD_MAIN_DIR_GUID);
 

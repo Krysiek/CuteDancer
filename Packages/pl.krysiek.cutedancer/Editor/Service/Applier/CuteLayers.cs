@@ -12,6 +12,8 @@ namespace VRF
 {
     public class CuteLayers : AvatarApplierInterface
     {
+        private static Logger log = new Logger("CuteLayers");
+
         static string ACTION_CTRL_PATH = Path.Combine("CuteDancer-Action.controller");
         static string FX_CTRL_PATH = Path.Combine("CuteDancer-FX.controller");
 
@@ -92,9 +94,9 @@ namespace VRF
             Array.ForEach(srcActionCtrl.layers, l => Array.ForEach(l.stateMachine.states, s => s.state.writeDefaultValues = ActionWD));
             Array.ForEach(srcFxCtrl.layers, l => Array.ForEach(l.stateMachine.states, s => s.state.writeDefaultValues = FxWD));
 
-            Debug.Log("Merging controllers [source=" + srcActionCtrl.name + ", desitnation=" + actionCtrl.name + "]");
+            log.LogDebug("Merging controllers [source=" + srcActionCtrl.name + ", desitnation=" + actionCtrl.name + "]");
             VRLabs.AV3Manager.AnimatorCloner.MergeControllers(actionCtrl, srcActionCtrl);
-            Debug.Log("Merging controllers [source=" + srcFxCtrl.name + ", desitnation=" + fxCtrl.name + "]");
+            log.LogDebug("Merging controllers [source=" + srcFxCtrl.name + ", desitnation=" + fxCtrl.name + "]");
             VRLabs.AV3Manager.AnimatorCloner.MergeControllers(fxCtrl, srcFxCtrl);
 
             EditorUtility.ClearDirty(srcActionCtrl);
@@ -170,12 +172,12 @@ namespace VRF
             int removeIx = Array.FindIndex(controller.layers, l => l.name == name);
             if (removeIx >= 0)
             {
-                Debug.Log("Removing layer [name=" + name + ", index=" + removeIx + "] from controller [name=" + controller.name + "]");
+                log.LogDebug("Removing layer [name=" + name + ", index=" + removeIx + "] from controller [name=" + controller.name + "]");
                 controller.RemoveLayer(removeIx);
             }
             else
             {
-                Debug.Log("Layer [name=" + name + "] not found in controller [name=" + controller.name + "]");
+                log.LogDebug("Layer [name=" + name + "] not found in controller [name=" + controller.name + "]");
             }
         }
 

@@ -8,6 +8,7 @@ namespace VRF
 {
     public class AnimFxOffBuilder : BuilderInterface
     {
+        private static Logger log = new Logger("AnimFxOffBuilder");
 
         public void Build(SettingsBuilderData settings)
         {
@@ -61,7 +62,7 @@ namespace VRF
             AnimationUtility.SetEditorCurve(animation, musicBindingTemplate, null);
             AnimationUtility.SetEditorCurve(animation, senderBindingTemplate, null);
 
-            Debug.Log("Save file [name = " + outputPath + "]");
+            log.LogInfo("Save file [name = " + outputPath + "]");
             EditorUtility.SetDirty(animation);
             AssetDatabase.SaveAssets();
         }

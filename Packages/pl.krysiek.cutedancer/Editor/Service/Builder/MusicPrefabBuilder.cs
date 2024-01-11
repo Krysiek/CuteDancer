@@ -8,6 +8,7 @@ namespace VRF
 {
     public class MusicPrefabBuilder : BuilderInterface
     {
+        private static Logger log = new Logger("MusicPrefabBuilder");
 
         public void Build(SettingsBuilderData settings)
         {
@@ -36,7 +37,7 @@ namespace VRF
 
             template.parent = null;
 
-            Debug.Log("Save file [name = " + outputPath + "]");
+            log.LogInfo("Save file [name = " + outputPath + "]");
             PrefabUtility.SaveAsPrefabAsset(prefab, outputPath);
             PrefabUtility.UnloadPrefabContents(prefab);
         }

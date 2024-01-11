@@ -10,6 +10,8 @@ namespace VRF
 {
     public class ActionControllerBuilder : BuilderInterface
     {
+        private static Logger log = new Logger("ActionControllerBuilder");
+
         public void Build(SettingsBuilderData settings)
         {
             string sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateAction.controller");
@@ -54,7 +56,7 @@ namespace VRF
                 AnimatorState danceEntryState = dance.animator.layers[0].stateMachine.defaultState;
                 ExtractFollowingBlocks(sourceNodes, danceEntryState);
 
-                Debug.Log($"ActionAnimatorBuilder: Copying nodes [{dance._name}]");
+                log.LogDebug($"Copying nodes [{dance._name}]");
                 for (int i = 0; i < sourceNodes.Count; i++)
                 {
                     AnimatorState danceState = rootStateMachine.AddState(dance._name, new Vector3(nodeX, nodeY));
@@ -68,7 +70,7 @@ namespace VRF
                     nodeY += 55;
                 }
 
-                Debug.Log($"ActionAnimatorBuilder: Building entry transition for the first state [{copiedNodes[0].name}]");
+                log.LogDebug($"Building entry transition for the first state [{copiedNodes[0].name}]");
                 BuildTransitions(beforeDanceState, copiedNodes[0], templateInTransitions, dance._name, settings.parameterName, paramValue);
 
                 // Build transitions between blocks and exit transitions
@@ -80,7 +82,7 @@ namespace VRF
                     if (sourceState.transitions.Length == 0)
                     {
                         // No transitions = simple animation, transition to exit state
-                        Debug.Log($"ActionAnimatorBuilder: No transitions for state [{copiedState.name}] found, build transition to exit node");
+                        log.LogDebug($"No transitions for state [{copiedState.name}] found, build transition to exit node");
                         BuildTransitions(copiedState, afterDanceState, templateOutTransitions, dance._name, settings.parameterName, paramValue);
                     }
 
@@ -89,21 +91,21 @@ namespace VRF
                         if (srcTransition.destinationState == null)
                         {
                             // Transition to exit state
-                            Debug.Log($"ActionAnimatorBuilder: Transition to exit state [{copiedState.name}] found, build transition to exit node");
+                            log.LogDebug($"Transition to exit state [{copiedState.name}] found, build transition to exit node");
                             BuildTransition(copiedState, afterDanceState, srcTransition, dance._name, settings.parameterName, paramValue);
                         }
                         else if (srcTransition.conditions.Length > 0 && srcTransition.conditions[0].parameter == "{EXIT}")
                         {
                             // Transition to another block with exit conditions
                             AnimatorState destState = copiedNodes[sourceNodes.FindIndex(state => state == srcTransition.destinationState)];
-                            Debug.Log($"ActionAnimatorBuilder: Custom EXIT transition from state [{copiedState.name}] found, build transition to state [{destState.name}]");
+                            log.LogDebug($"Custom EXIT transition from state [{copiedState.name}] found, build transition to state [{destState.name}]");
                             BuildTransition(copiedState, destState, srcTransition, templateOutTransitions[0].conditions, dance._name, settings.parameterName, paramValue);
                         }
                         else
                         {
                             // Build both
                             AnimatorState destState = copiedNodes[sourceNodes.FindIndex(state => state == srcTransition.destinationState)];
-                            Debug.Log($"ActionAnimatorBuilder: Transition from state [{copiedState.name}] found, build transition to state [{destState.name}] AND to exit node");
+                            log.LogDebug($"Transition from state [{copiedState.name}] found, build transition to state [{destState.name}] AND to exit node");
                             BuildTransition(copiedState, destState, srcTransition, dance._name, settings.parameterName, paramValue);
                             BuildTransitions(copiedState, afterDanceState, templateOutTransitions, dance._name, settings.parameterName, paramValue);
                         }
@@ -117,7 +119,7 @@ namespace VRF
             rootStateMachine.RemoveState(templateState.state);
             animator.layers = animatorLayers;
 
-            Debug.Log($"Save file [name = {outputPath}]");
+            log.LogInfo($"Save file [name = {outputPath}]");
             EditorUtility.SetDirty(animator);
             AssetDatabase.SaveAssets();
         }

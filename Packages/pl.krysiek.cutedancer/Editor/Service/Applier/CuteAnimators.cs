@@ -12,6 +12,8 @@ namespace VRF
 {
     class CuteAnimators
     {
+        private static Logger log = new Logger("CuteAnimators");
+
         static string DEFAULT_ACTION_CTRL = Path.Combine("Packages", "com.vrchat.avatars", "Samples", "AV3 Demo Assets", "Animation", "Controllers", "vrc_AvatarV3ActionLayer.controller");
         static string MINIMAL_AKF_ACTION_CTRL = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateActionAFK.controller");
 
@@ -22,14 +24,8 @@ namespace VRF
 
             if (type == AnimLayerType.Action)
             {
-                if (AssetDatabase.CopyAsset(MINIMAL_AKF_ACTION_CTRL, path))
-                {
-                    emptyCtrl = AssetDatabase.LoadAssetAtPath<AnimatorController>(path);
-                }
-                else
-                {
-                    Debug.LogError("Default Action animator not found in SDK. AFK and default animations may be broken!");
-                }
+                AssetDatabase.CopyAsset(MINIMAL_AKF_ACTION_CTRL, path);
+                emptyCtrl = AssetDatabase.LoadAssetAtPath<AnimatorController>(path);
             }
 
             EditorUtility.SetDirty(emptyCtrl);
@@ -98,7 +94,7 @@ namespace VRF
         {
             if (refLayer.stateMachine.states.Length != layer.stateMachine.states.Length)
             {
-                Debug.Log($"States count is different [layerName={layer.name}, dest={layer.stateMachine.states.Length}, ref={refLayer.stateMachine.states.Length}]");
+                log.LogDebug($"States count is different [layerName={layer.name}, dest={layer.stateMachine.states.Length}, ref={refLayer.stateMachine.states.Length}]");
                 return false;
             }
             for (int i = 0; i < refLayer.stateMachine.states.Length; i++)
@@ -108,13 +104,13 @@ namespace VRF
 
                 if (state.transitions.Length != refState.transitions.Length)
                 {
-                    Debug.Log($"Transitions count is different [layerName={layer.name}, stateName={state.name}, dest={state.transitions.Length}, ref={refState.transitions.Length}]");
+                    log.LogDebug($"Transitions count is different [layerName={layer.name}, stateName={state.name}, dest={state.transitions.Length}, ref={refState.transitions.Length}]");
                     return false;
                 }
 
                 if (state.behaviours.Length != refState.behaviours.Length)
                 {
-                    Debug.Log($"Behaviours count is different [layerName={layer.name}, stateName={state.name}, dest={state.behaviours.Length}, ref={refState.behaviours.Length}]");
+                    log.LogDebug($"Behaviours count is different [layerName={layer.name}, stateName={state.name}, dest={state.behaviours.Length}, ref={refState.behaviours.Length}]");
                     return false;
                 }
             }
@@ -137,11 +133,11 @@ namespace VRF
                     var vrcLayerControl = behaviour as VRCAnimatorLayerControl;
                     if (vrcLayerControl?.layer != null)
                     {
-                        Debug.Log($"Update VRCAnimatorLayerControl behaviour activity to enabled");
+                        log.LogDebug($"Update VRCAnimatorLayerControl behaviour activity to enabled");
                         var rawVrcLayerControl = new SerializedObject(vrcLayerControl);
                         rawVrcLayerControl.FindProperty("m_Enabled").intValue = enableLayerWeight ? 1 : 0;
                         rawVrcLayerControl.ApplyModifiedProperties();
-                        Debug.Log($"Update VRCAnimatorLayerControl layer number [from={vrcLayerControl.layer}, to={cdIndex}]");
+                        log.LogDebug($"Update VRCAnimatorLayerControl layer number [from={vrcLayerControl.layer}, to={cdIndex}]");
                         vrcLayerControl.layer = cdIndex;
                         EditorUtility.SetDirty(vrcLayerControl);
                     }

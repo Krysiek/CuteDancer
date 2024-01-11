@@ -38,12 +38,6 @@ namespace VRF
             }
         }
 
-        public void NormalnySetter()
-        {
-
-                Debug.Log("CO PRZYCHODZI?");
-        }
-
         public BuildInfoEditor()
         {
             CuteResources.LoadView("BuildInfoView").CloneTree(this);

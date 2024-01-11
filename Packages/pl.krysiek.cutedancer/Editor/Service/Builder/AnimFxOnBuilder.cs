@@ -8,6 +8,7 @@ namespace VRF
 {
     public class AnimFxOnBuilder : BuilderInterface
     {
+        private static Logger log = new Logger("AnimFxOnBuilder");
 
         public void Build(SettingsBuilderData settings)
         {
@@ -43,7 +44,7 @@ namespace VRF
                     AnimationUtility.SetEditorCurve(animation, musicBinding, null);
                 }
 
-                Debug.Log("Save file [name = " + outputPath + "]");
+                log.LogInfo("Save file [name = " + outputPath + "]");
                 EditorUtility.SetDirty(animation);
             }
 

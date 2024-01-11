@@ -10,6 +10,8 @@ namespace VRF
 {
     public class FxControllerBuilder : BuilderInterface
     {
+        private static Logger log = new Logger("FxControllerBuilder");
+
         public void Build(SettingsBuilderData settings)
         {
             string sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateFX.controller");
@@ -114,7 +116,7 @@ namespace VRF
             rootStateMachine.RemoveState(templateState.state);
             animator.layers = animatorLayers;
 
-            Debug.Log($"Save file [name = {outputPath}]");
+            log.LogInfo($"Save file [name = {outputPath}]");
             EditorUtility.SetDirty(animator);
             AssetDatabase.SaveAssets();
         }

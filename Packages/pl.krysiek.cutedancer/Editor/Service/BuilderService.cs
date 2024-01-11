@@ -3,12 +3,13 @@ using System.IO;
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
-using System;
 
 namespace VRF
 {
     public class BuilderService
     {
+        private static Logger log = new Logger("BuilderService");
+
         ParameterBuilder parameterBuilder = new ParameterBuilder();
         MenuBuilder menuBuilder = new MenuBuilder();
         MusicPrefabBuilder musicPrefabBuilder = new MusicPrefabBuilder();
@@ -45,7 +46,7 @@ namespace VRF
 
             SettingsService.Instance.SaveFromSettingsBuilderData(settings);
 
-            Debug.Log($"Builder Service: CuteDancer build finished in {Time.realtimeSinceStartup - startBuildTime:0.00} seconds");
+            log.LogInfo($"Build finished in {Time.realtimeSinceStartup - startBuildTime:0.00} seconds");
         }
 
         public void Rebuild(SettingsBuilderData settings)
@@ -57,7 +58,7 @@ namespace VRF
             {
                 foreach (var fileInfo in oldBuildInfo.filePathUuids)
                 {
-                    Debug.Log($"Delete asset [{fileInfo.path}]");
+                    log.LogDebug($"Delete asset [{fileInfo.path}]");
                     AssetDatabase.DeleteAsset(fileInfo.path);
                 }
             }
@@ -66,44 +67,10 @@ namespace VRF
             
             if (oldFileInfos != null)
             {
-                Debug.Log("Restoring GUIDs of previous build.");
+                log.LogDebug("Restoring GUIDs of previous build.");
                 buildInfoBuidler.RestoreGuids(settings.outputDirectory, oldFileInfos);
             }
-
-
-
-            // // TODO add validation to remove build files only
-            // if (settings.outputDirectory != "Assets\\CuteDancer\\Build")
-            // {
-            //     if (!EditorUtility.DisplayDialog("Alpha version warning", "Changing build path is not recommended yet.\n\n"
-            //         + "All content from the directory will be earsed before build without any validation:\n" + settings.outputDirectory + "\n\nARE YOU SURE?", "Yes", "NO!!!!!!!!!!!!!!!!"))
-            //     {
-            //         return;
-            //     }
-            // }
-
-            // FileInfo[] files = new DirectoryInfo(settings.outputDirectory).GetFiles();
-            // foreach (FileInfo file in files)
-            // {
-            //     if (!file.Name.StartsWith("."))
-            //     {
-            //         Debug.Log("Delete file [name = " + file.Name + "]");
-            //         file.Delete();
-            //     }
-            // }
-
-            // DirectoryInfo[] dirs = new DirectoryInfo(settings.outputDirectory).GetDirectories();
-            // foreach (DirectoryInfo dir in dirs)
-            // {
-            //     Debug.Log("Delete directory [name = " + dir.Name + "]");
-            //     dir.Delete(true);
-            // }
-
-            // AssetDatabase.Refresh();
-            // Build(settings);
-
         }
-
     }
 }
 

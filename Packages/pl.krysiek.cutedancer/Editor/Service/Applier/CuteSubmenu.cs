@@ -12,6 +12,8 @@ namespace VRF
 {
     public class CuteSubmenu : AvatarApplierInterface
     {
+        private static Logger log = new Logger("CuteSubmenu");
+
         static string CUTE_MENU_FILENAME = Path.Combine("CuteDancer-VRCMenu.asset");
         static string DANCE_ICON = Path.Combine("Packages", "pl.krysiek.cutedancer", "Runtime", "Icons", "CuteDancer.png");
 
@@ -80,7 +82,7 @@ namespace VRF
                 subMenu = cuteMenu
             };
 
-            Debug.Log("Adding expression menu control to menu [name=" + expressionMenu.name + "]");
+            log.LogDebug("Adding expression menu control to menu [name=" + expressionMenu.name + "]");
             expressionMenu.controls.Add(menuEntry);
             EditorUtility.SetDirty(expressionMenu);
             AssetDatabase.SaveAssets();
@@ -96,7 +98,7 @@ namespace VRF
 
             if (ix > -1)
             {
-                Debug.Log("Removing expression menu control from menu [name=" + expressionMenu.name + ", index=" + ix + "]");
+                log.LogDebug("Removing expression menu control from menu [name=" + expressionMenu.name + ", index=" + ix + "]");
                 expressionMenu.controls.RemoveAt(ix);
                 EditorUtility.SetDirty(expressionMenu);
                 AssetDatabase.SaveAssets();
