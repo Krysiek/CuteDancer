@@ -9,8 +9,6 @@ namespace VRF
     {
         public new class UxmlFactory : UxmlFactory<DanceViewEditor, UxmlTraits> { }
 
-        private SettingsService settingsService = SettingsService.Instance;
-
         private DanceViewData _danceViewData;
         public DanceViewData DanceViewData
         {
@@ -54,7 +52,7 @@ namespace VRF
                 {
                     _danceViewData.audioEnabled = !_danceViewData.audioEnabled;
                     DrawMusicBtn();
-                    settingsService.SaveFromDanceViewData(_danceViewData);
+                    SettingsService.Instance.SaveFromDanceViewData(_danceViewData);
                 });
             }
         }
@@ -73,13 +71,12 @@ namespace VRF
                 musicBtn.AddToClassList("music-off");
                 musicBtn.RemoveFromClassList("music-on");
             }
-            
         }
 
         private void ToggleSelection()
         {
             _danceViewData.selected = !_danceViewData.selected;
-            settingsService.SaveFromDanceViewData(_danceViewData);
+            SettingsService.Instance.SaveFromDanceViewData(_danceViewData);
         }
     }
 }

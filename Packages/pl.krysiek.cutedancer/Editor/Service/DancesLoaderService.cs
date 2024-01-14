@@ -15,8 +15,6 @@ namespace VRF
 
         public static string[] ORIGINALS_WHITELIST = new string[] { "SARDefaultDance", "BadgerDance", "ShoulderShakeDance", "ZufoloImpazzitoDance", "DistractionDance", "RickrollDance" };
 
-        SettingsService settings = SettingsService.Instance;
-
         public Dictionary<string, List<DanceViewData>> LoadDances()
         {
             List<string> dancesPaths = new List<string>();
@@ -28,9 +26,9 @@ namespace VRF
                 dancesPaths.AddRange(dancesInPackage);
             }
 
-            if (Directory.Exists(settings.customDancesDirectory))
+            if (Directory.Exists(SettingsService.Instance.customDancesDirectory))
             {
-                string[] assetsDancesPaths = Directory.GetDirectories(settings.customDancesDirectory);
+                string[] assetsDancesPaths = Directory.GetDirectories(SettingsService.Instance.customDancesDirectory);
                 dancesPaths.AddRange(assetsDancesPaths);
             }
 
@@ -90,8 +88,8 @@ namespace VRF
                     string audioPath = Directory.GetFiles(dancePath, "*.ogg").FirstOrDefault();
                     danceData.audio = AssetDatabase.LoadAssetAtPath<AudioClip>(audioPath);
 
-                    danceData.selected = settings.selectedDances.Contains(danceData._name);
-                    danceData.audioEnabled = !settings.musicDisabledDances.Contains(danceData._name);
+                    danceData.selected = SettingsService.Instance.selectedDances.Contains(danceData._name);
+                    danceData.audioEnabled = !SettingsService.Instance.musicDisabledDances.Contains(danceData._name);
 
                     dances.Add(danceData);
                 }

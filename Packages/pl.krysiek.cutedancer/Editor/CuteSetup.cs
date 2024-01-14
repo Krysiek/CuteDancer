@@ -7,7 +7,6 @@ namespace VRF
 {
     public class CuteSetup : EditorWindow
     {
-        static SettingsService settingsService = SettingsService.Instance;
         static DanceTemplateService danceTemplateService = new DanceTemplateService();
 
         [MenuItem("Tools/CuteDancer/CuteDancer Setup", false, 1)]
@@ -22,8 +21,8 @@ namespace VRF
         [MenuItem("Tools/CuteDancer/Create Dance Template", false, 20)]
         public static void GenerateTemplate()
         {
-            danceTemplateService.CreateTemplate(settingsService.customDancesDirectory);
-            EditorUtility.DisplayDialog("Create Dance Template", $"Dance template created in {settingsService.customDancesDirectory}\n\nYou can modify it to your like.", "OK");
+            danceTemplateService.CreateTemplate(SettingsService.Instance.customDancesDirectory);
+            EditorUtility.DisplayDialog("Create Dance Template", $"Dance template created in {SettingsService.Instance.customDancesDirectory}\n\nYou can modify it to your like.", "OK");
         }
 
         [MenuItem("Assets/CuteTools/Cleanup animator", true)]
@@ -52,10 +51,14 @@ namespace VRF
             rootVisualElement.Add(mainView);
         }
 
+        public void OnFocus()
+        {
+            SettingsService.Instance.Load();
+        }
+
         public void OnLostFocus()
         {
-            // TODO bind to data change
-            settingsService.Save();
+            SettingsService.Instance.Save();
         }
     }
 }

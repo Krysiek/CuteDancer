@@ -26,7 +26,6 @@ namespace VRF
 
         private readonly DancesLoaderService dancesLoaderService = new DancesLoaderService();
         private readonly BuilderService builderService = new BuilderService();
-        private readonly SettingsService settingsService = SettingsService.Instance;
 
         private readonly DancesListViewEditor dancesBrowserView = new DancesListViewEditor();
 
@@ -35,9 +34,9 @@ namespace VRF
         public BuilderViewEditor()
         {
             builderViewData = ScriptableObject.CreateInstance<BuilderViewData>();
-            builderViewData.parameterName = settingsService.parameterName;
-            builderViewData.parameterStartValue = settingsService.parameterStartValue;
-            builderViewData.outputDirectory = settingsService.outputDirectory;
+            builderViewData.parameterName = SettingsService.Instance.parameterName;
+            builderViewData.parameterStartValue = SettingsService.Instance.parameterStartValue;
+            builderViewData.outputDirectory = SettingsService.Instance.outputDirectory;
 
             CuteResources.LoadView("BuilderView").CloneTree(this);
             this.Bind(new SerializedObject(builderViewData));
@@ -75,17 +74,19 @@ namespace VRF
                     dance.selected = noneSelected || !allSelected;
                 }
             }
-            settingsService.SaveFromSelectedDances(builderViewData.dances);
+            SettingsService.Instance.SaveFromSelectedDances(builderViewData.dances);
         }
 
         private void BrowseOutputDirectory()
         {
             string path = EditorUtility.OpenFolderPanel("Browse output directory", Path.GetDirectoryName(builderViewData.outputDirectory), "");
-            log.LogDebug($"Selected directory {Application.dataPath}");
             if (path.Contains("Assets"))
             {
+                log.LogDebug($"Selected directory {Application.dataPath}");
                 builderViewData.outputDirectory = path.Substring(path.IndexOf("Assets"));
-            } else {
+            }
+            else if (path != "")
+            {
                 log.LogError("Selected directory must be within Assets directory!");
             }
         }

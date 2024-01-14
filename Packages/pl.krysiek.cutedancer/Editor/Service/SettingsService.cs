@@ -26,8 +26,7 @@ namespace VRF
 
             try
             {
-                JsonUtility.FromJsonOverwrite(File.ReadAllText(SETTINGS_FILE_PATH), this);
-                Logger.CurrentLevel = (Logger.LogLevel) this.logLevel;
+                Load();
             }
             catch
             {
@@ -55,10 +54,17 @@ namespace VRF
         public string customDancesDirectory = Path.Combine("Assets", "CuteDancer", "Dances");
         public int logLevel = 1;
 
+        public void Load()
+        {
+            JsonUtility.FromJsonOverwrite(File.ReadAllText(SETTINGS_FILE_PATH), this);
+            Logger.CurrentLevel = (Logger.LogLevel)this.logLevel;
+            log.LogDebug("Settings loaded");
+        }
+
         public void Save()
         {
-            log.LogDebug("Settings saved");
             File.WriteAllText(SETTINGS_FILE_PATH, JsonUtility.ToJson(this, true));
+            log.LogDebug("Settings saved");
         }
 
         public void SaveFromSettingsBuilderData(SettingsBuilderData builderData)

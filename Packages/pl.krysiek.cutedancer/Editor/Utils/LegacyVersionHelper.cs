@@ -17,7 +17,7 @@ namespace VRF
 
             string actualOldPath = AssetDatabase.GUIDToAssetPath(OLD_MAIN_DIR_GUID);
 
-            if (AssetDatabase.IsValidFolder(actualOldPath))
+            if (AssetDatabase.IsValidFolder(actualOldPath) && !actualOldPath.EndsWith("Legacy"))
             {
                 // workaround to force Unity to not use old GUID for any new directory created at the same path
                 string tempRemovePath = actualOldPath + "Legacy";
