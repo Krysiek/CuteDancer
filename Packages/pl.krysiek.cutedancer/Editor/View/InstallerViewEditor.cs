@@ -10,6 +10,7 @@ using AvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
 using VRC.SDK3.Avatars.ScriptableObjects;
 using UnityEditor.Animations;
 using System.Linq;
+using System.Collections.Generic;
 
 
 namespace VRF
@@ -57,6 +58,7 @@ namespace VRF
             buildInfoEditor = this.Q<BuildInfoEditor>("BuildInfo");
 
             this.RegisterCallback<ChangeEvent<UnityEngine.Object>>((changeEvent) => Validate());
+            this.RegisterCallback<AttachToPanelEvent>((attachEvent) => SelectDefaultBuild());
 
             Validate();
         }
@@ -75,6 +77,17 @@ namespace VRF
                 ShowButton(Buttons.AvatarRemoveBtn, false, viewData.avatar);
             }
             ShowButton(Buttons.AvatarUpdateBtn, false);
+        }
+
+        private void SelectDefaultBuild()
+        {
+            string[] lastBuild = AssetDatabase.FindAssets("t:BuildInfoData", new string[] { SettingsService.Instance.outputDirectory });
+            if (lastBuild.Length != 0)
+            {
+                BuildInfoData lastBuild2 = AssetDatabase.LoadAssetAtPath<BuildInfoData>(AssetDatabase.GUIDToAssetPath(lastBuild[0]));
+                viewData.build = lastBuild2;
+            }
+
         }
 
         private void RegisterButtonClick(Buttons btn, Action<EventBase> action)

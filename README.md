@@ -17,9 +17,9 @@ It uses [Contacts Components](https://creators.vrchat.com/avatars/avatar-dynamic
 
 ### What's new in v4.0?
 
-- VRChat Creator Companion Support
+- VRChat Creator Companion support
 - Completely rewritten setup script with dance selector
-- Simplified adding of custom animations
+- Support for adding custom animations
 - Other small improvements and fixes
 
 ## Installation
@@ -38,7 +38,7 @@ There are two tabs: `Builder` and `Installer`.
 
 ### Builder
 
-This tab allows you to prepare CuteDancer files with selected dances, enable or disable audio and specify additional parameters. Your avatar on the scene won't be touched yet.
+This tab allows you to prepare CuteDancer prefab with selected dances, include or exclude audio and specify additional parameters. Your avatar on the scene won't be touched yet.
 
 1. Select dances which you want to be included.
 2. Click on the audio icon to include or exclude audio for the specific dance. This will save audio sources slots later on your avatar.
