@@ -18,7 +18,7 @@ namespace VRF
         AnimFxOnBuilder animFxOnBuilder = new AnimFxOnBuilder();
         ActionControllerBuilder actionControllerBuilder = new ActionControllerBuilder();
         FxControllerBuilder fxControllerBuilder = new FxControllerBuilder();
-        BuildInfoBuidler buildInfoBuidler = new BuildInfoBuidler();
+        BuildInfoBuilder buildInfoBuilder = new BuildInfoBuilder();
 
         public void Build(SettingsBuilderData settings)
         {
@@ -40,7 +40,7 @@ namespace VRF
             animFxOnBuilder.Build(settings);
             actionControllerBuilder.Build(settings);
             fxControllerBuilder.Build(settings);
-            buildInfoBuidler.Build(settings);
+            buildInfoBuilder.Build(settings);
 
             AssetDatabase.Refresh();
 
@@ -51,7 +51,7 @@ namespace VRF
 
         public void Rebuild(SettingsBuilderData settings)
         {
-            BuildInfoData oldBuildInfo = buildInfoBuidler.GetBuildInfoData(settings.outputDirectory);
+            BuildInfoData oldBuildInfo = buildInfoBuilder.GetBuildInfoData(settings.outputDirectory);
             List<BuildInfoData.FilePathGuid> oldFileInfos = oldBuildInfo?.filePathUuids;
 
             if (oldBuildInfo)
@@ -68,7 +68,7 @@ namespace VRF
             if (oldFileInfos != null)
             {
                 log.LogDebug("Restoring GUIDs of previous build.");
-                buildInfoBuidler.RestoreGuids(settings.outputDirectory, oldFileInfos);
+                buildInfoBuilder.RestoreGuids(settings.outputDirectory, oldFileInfos);
             }
         }
     }

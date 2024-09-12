@@ -30,16 +30,20 @@ namespace VRF
             installerBtn = this.Q<Button>("InstallerBtn");
             aboutBtn = this.Q<Button>("AboutBtn");
 
-            List<Button> buttonsList = new List<Button>();
-            buttonsList.Add(builderBtn);
-            buttonsList.Add(installerBtn);
-            buttonsList.Add(aboutBtn);
+            List<Button> buttonsList = new List<Button>
+            {
+                builderBtn,
+                installerBtn,
+                aboutBtn
+            };
             buttons = buttonsList.ToArray();
 
-            List<VisualElement> viewsList = new List<VisualElement>();
-            viewsList.Add(new BuilderViewEditor());
-            viewsList.Add(new InstallerViewEditor());
-            viewsList.Add(new AboutView());
+            List<VisualElement> viewsList = new List<VisualElement>
+            {
+                new BuilderViewEditor(),
+                new InstallerViewEditor(),
+                new AboutView()
+            };
             views = viewsList.ToArray();
 
             viewContent = this.Q<VisualElement>("ViewContent");

@@ -7,12 +7,13 @@ using UnityEngine;
 
 namespace VRF
 {
-    public class BuildInfoBuidler : BuilderInterface
+    public class BuildInfoBuilder : BuilderInterface
     {
         static string INFO_FILENAME = "CuteDancer-BuildInfo.asset";
 
         public void Build(SettingsBuilderData settings)
         {
+            // TODO check Unity warn
             BuildInfoData buildInfoData = new BuildInfoData
             {
                 BuildDate = DateTime.Now,
