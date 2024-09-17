@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 
 namespace VRF
 {
@@ -16,7 +17,7 @@ namespace VRF
         {
             SettingsBuilderData builderSettingsData = new SettingsBuilderData
             {
-                outputDirectory = data.outputDirectory,
+                outputDirectory = Path.Combine(SettingsService.Instance.BuildDirectory, data.buildName),
                 parameterName = data.parameterName,
                 parameterStartValue = data.parameterStartValue,
                 dances = new List<DanceBuilderData>()

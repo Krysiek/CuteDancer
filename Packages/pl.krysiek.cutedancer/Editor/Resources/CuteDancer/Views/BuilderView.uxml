@@ -1,6 +1,6 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Packages/pl.krysiek.cutedancer/Editor/Resources/CuteDancer/Views/CommonStyles.uss?fileID=7433441132597879392&amp;guid=36e287f94f9d34047a51d795ccd4c13b&amp;type=3#CommonStyles" />
     <ui:VisualElement style="justify-content: flex-start; align-items: stretch; flex-direction: column; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px; flex-grow: 1;">
-        <Style src="CommonStyles.uss" />
         <ui:Label text="CuteDancer builder" style="white-space: normal; padding-bottom: 8px; -unity-font-style: italic; font-size: 15px;" />
         <ui:Label text="Here you can build prefabs, animators, menu and parameter files. None of your avatars on scene will be touched yet." style="white-space: normal;" />
         <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-top: 2px; margin-bottom: 2px;">
@@ -16,12 +16,9 @@
             <ui:VisualElement name="DancesList" style="flex-direction: row; flex-wrap: wrap;" />
         </ui:ScrollView>
         <ui:Foldout text="Build configuration" value="true" class="with-top-separator" style="flex-shrink: 0;">
-            <ui:TextField picking-mode="Ignore" label="Parameter name" binding-path="parameterName" class="field-first" />
-            <uie:IntegerField label="Parameter start value" binding-path="parameterStartValue" class="config-field field" />
-            <ui:VisualElement style="flex-direction: row;">
-                <ui:TextField picking-mode="Ignore" label="Output directory" binding-path="outputDirectory" class="field-last" style="padding-top: 2px; padding-bottom: 4px; flex-grow: 1; flex-shrink: 1;" />
-                <ui:Button text="Browse" name="BrowseBtn" style="height: 18px; margin-top: 3px;" />
-            </ui:VisualElement>
+            <ui:TextField picking-mode="Ignore" label="Name" binding-path="buildName" name="BuildName" class="field-first" />
+            <ui:TextField picking-mode="Ignore" label="Parameter name" binding-path="parameterName" class="field" />
+            <uie:IntegerField label="Parameter start value" binding-path="parameterStartValue" class="config-field field-last" />
         </ui:Foldout>
         <ui:Button text="Generate files" name="BuildBtn" class="big-button">
             <ui:VisualElement style="background-image: resource(&apos;CuteDancer/Images/screwdriver-wrench-solid&apos;); width: 32px; height: 32px;">

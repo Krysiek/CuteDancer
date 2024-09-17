@@ -81,11 +81,10 @@ namespace VRF
 
         private void SelectDefaultBuild()
         {
-            string[] lastBuild = AssetDatabase.FindAssets("t:BuildInfoData", new string[] { SettingsService.Instance.outputDirectory });
+            string[] lastBuild = AssetDatabase.FindAssets("t:BuildInfoData", new string[] { Path.Combine(SettingsService.Instance.BuildDirectory, SettingsService.Instance.buildName) });
             if (lastBuild.Length != 0)
             {
-                BuildInfoData lastBuild2 = AssetDatabase.LoadAssetAtPath<BuildInfoData>(AssetDatabase.GUIDToAssetPath(lastBuild[0]));
-                viewData.build = lastBuild2;
+                viewData.build = AssetDatabase.LoadAssetAtPath<BuildInfoData>(AssetDatabase.GUIDToAssetPath(lastBuild[0])); ;
             }
 
         }

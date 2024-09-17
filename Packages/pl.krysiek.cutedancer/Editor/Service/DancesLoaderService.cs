@@ -26,9 +26,9 @@ namespace VRF
                 dancesPaths.AddRange(dancesInPackage);
             }
 
-            if (Directory.Exists(SettingsService.Instance.customDancesDirectory))
+            if (Directory.Exists(SettingsService.Instance.CustomDancesDirectory))
             {
-                string[] assetsDancesPaths = Directory.GetDirectories(SettingsService.Instance.customDancesDirectory);
+                string[] assetsDancesPaths = Directory.GetDirectories(SettingsService.Instance.CustomDancesDirectory);
                 dancesPaths.AddRange(assetsDancesPaths);
             }
 

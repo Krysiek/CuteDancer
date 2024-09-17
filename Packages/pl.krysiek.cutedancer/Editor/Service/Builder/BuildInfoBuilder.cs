@@ -13,11 +13,8 @@ namespace VRF
 
         public void Build(SettingsBuilderData settings)
         {
-            // TODO check Unity warn
-            BuildInfoData buildInfoData = new BuildInfoData
-            {
-                BuildDate = DateTime.Now,
-            };
+            BuildInfoData buildInfoData = ScriptableObject.CreateInstance<BuildInfoData>();
+            buildInfoData.BuildDate = DateTime.Now;
 
             AssetDatabase.CreateAsset(buildInfoData, Path.Combine(settings.outputDirectory, INFO_FILENAME));
 

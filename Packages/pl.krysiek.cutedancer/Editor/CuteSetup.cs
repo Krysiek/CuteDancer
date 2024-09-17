@@ -21,8 +21,8 @@ namespace VRF
         [MenuItem("Tools/CuteDancer/Create Dance Template", false, 20)]
         public static void GenerateTemplate()
         {
-            danceTemplateService.CreateTemplate(SettingsService.Instance.customDancesDirectory);
-            EditorUtility.DisplayDialog("Create Dance Template", $"Dance template created in {SettingsService.Instance.customDancesDirectory}\n\nYou can modify it to your like.", "OK");
+            danceTemplateService.CreateTemplate(SettingsService.Instance.CustomDancesDirectory);
+            EditorUtility.DisplayDialog("Create Dance Template", $"Dance template created in {SettingsService.Instance.CustomDancesDirectory}\n\nYou can modify it to your like.", "OK");
         }
 
         [MenuItem("Assets/CuteTools/Cleanup animator", true)]

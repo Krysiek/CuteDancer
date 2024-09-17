@@ -18,11 +18,11 @@ namespace VRF
             string avatarNameSafe = Regex.Replace(avatarName, "\\W", "");
             string newFilename = $"{avatarNameSafe}_{Path.ChangeExtension(filename, null)}_backup_{date}{ext}";
 
-            string backupPath = Path.Join(SettingsService.Instance.backupDirectory, newFilename);
+            string backupPath = Path.Join(SettingsService.Instance.BackupDirectory, newFilename);
 
-            if (!Directory.Exists(SettingsService.Instance.backupDirectory))
+            if (!Directory.Exists(SettingsService.Instance.BackupDirectory))
             {
-                Directory.CreateDirectory(SettingsService.Instance.backupDirectory);
+                Directory.CreateDirectory(SettingsService.Instance.BackupDirectory);
             }
 
             if (!File.Exists(backupPath))

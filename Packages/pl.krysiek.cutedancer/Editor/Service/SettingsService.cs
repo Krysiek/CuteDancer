@@ -49,14 +49,46 @@ namespace VRF
         public string[] musicDisabledDances = Array.Empty<string>();
         public string parameterName = "VRCEmote";
         public int parameterStartValue = 128;
-        public string outputDirectory = Path.Combine("Assets", "CuteDancer", "Build");
-        public string backupDirectory = Path.Combine("Assets", "CuteDancer", "Backup");
-        public string customDancesDirectory = Path.Combine("Assets", "CuteDancer", "Dances");
+        public string workingDirectory = "";
+        public string buildName = "Default";
+
+        public string BuildDirectory
+        {
+            get
+            {
+                return Path.Combine(AssetDatabase.GUIDToAssetPath(this.workingDirectory), "Builds");
+            }
+        }
+        public string BackupDirectory
+        {
+            get
+            {
+                return Path.Combine(AssetDatabase.GUIDToAssetPath(this.workingDirectory), "Backup");
+            }
+        }
+        public string CustomDancesDirectory
+        {
+            get
+            {
+                return Path.Combine(AssetDatabase.GUIDToAssetPath(this.workingDirectory), "Dances");
+            }
+        }
         public int logLevel = 1;
 
         public void Load()
         {
             JsonUtility.FromJsonOverwrite(File.ReadAllText(SETTINGS_FILE_PATH), this);
+            if (AssetDatabase.GUIDToAssetPath(this.workingDirectory) == "")
+            {
+                log.LogDebug("GUID of working directory in settings invalid. Looking at default path: Assets/CuteDancer");
+                this.workingDirectory = AssetDatabase.AssetPathToGUID(Path.Combine("Assets", "CuteDancer"));
+                if (this.workingDirectory == "")
+                {
+                    log.LogDebug("Directory at default path does not exist, creating the new one.");
+                    this.workingDirectory = AssetDatabase.CreateFolder("Assets", "CuteDancer");
+                }
+            }
+            log.LogDebug($"Working directory set to: {AssetDatabase.GUIDToAssetPath(this.workingDirectory)}");
             Logger.CurrentLevel = (Logger.LogLevel)this.logLevel;
             log.LogDebug("Settings loaded");
         }
@@ -73,7 +105,6 @@ namespace VRF
             musicDisabledDances = builderData.dances.FindAll(dance => dance.audio == null).ConvertAll(dance => dance._name).ToArray();
             parameterName = builderData.parameterName;
             parameterStartValue = builderData.parameterStartValue;
-            outputDirectory = builderData.outputDirectory;
         }
 
         public void SaveFromSelectedDances(Dictionary<string, List<DanceViewData>> dances)

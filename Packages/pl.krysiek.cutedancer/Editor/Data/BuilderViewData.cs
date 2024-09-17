@@ -12,10 +12,10 @@ namespace VRF
         [NonSerialized]
         public Dictionary<string, List<DanceViewData>> dances;
 
+        public string buildName;
+        
         public string parameterName;
 
         public int parameterStartValue;
-
-        public string outputDirectory;
     }
 }

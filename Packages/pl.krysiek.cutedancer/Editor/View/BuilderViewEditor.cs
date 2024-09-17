@@ -20,8 +20,7 @@ namespace VRF
             SelectAllBtn,
             RefreshBtn,
             BuildBtn,
-            RebuildBtn,
-            BrowseBtn
+            RebuildBtn
         }
 
         private readonly DancesLoaderService dancesLoaderService = new DancesLoaderService();
@@ -36,7 +35,7 @@ namespace VRF
             builderViewData = ScriptableObject.CreateInstance<BuilderViewData>();
             builderViewData.parameterName = SettingsService.Instance.parameterName;
             builderViewData.parameterStartValue = SettingsService.Instance.parameterStartValue;
-            builderViewData.outputDirectory = SettingsService.Instance.outputDirectory;
+            builderViewData.buildName = SettingsService.Instance.buildName;
 
             CuteResources.LoadView("BuilderView").CloneTree(this);
             this.Bind(new SerializedObject(builderViewData));
@@ -45,14 +44,14 @@ namespace VRF
 
             RegisterButtonClick(Buttons.SelectAllBtn, e => ToggleSelectedDances());
             RegisterButtonClick(Buttons.RefreshBtn, e => LoadDances());
-            RegisterButtonClick(Buttons.BrowseBtn, e => BrowseOutputDirectory());
-            RegisterButtonClick(Buttons.BuildBtn, e => builderService.Build(builderViewData));
-            RegisterButtonClick(Buttons.RebuildBtn, e => builderService.Rebuild(builderViewData));
+            RegisterButtonClick(Buttons.BuildBtn, e => Build());
+            RegisterButtonClick(Buttons.RebuildBtn, e => Rebuild());
 
             LoadDances();
 
             this.RegisterCallback<ChangeEvent<bool>>((changeEvent) => Validate());
             this.RegisterCallback<ChangeEvent<string>>((changeEvent) => Validate());
+            this.Q("BuildName").RegisterCallback<ChangeEvent<string>>((changeEvent) => SaveBuildName());
 
             Validate();
         }
@@ -61,6 +60,22 @@ namespace VRF
         {
             builderViewData.dances = dancesLoaderService.LoadDances();
             dancesBrowserView.Collections = builderViewData.dances;
+        }
+
+        private void SaveBuildName()
+        {
+            SettingsService.Instance.buildName = builderViewData.buildName;
+        }
+
+        private void Build()
+        {
+            builderService.Build(builderViewData);
+            Validate();
+        }
+        private void Rebuild()
+        {
+            builderService.Rebuild(builderViewData);
+            Validate();
         }
 
         private void ToggleSelectedDances()
@@ -77,24 +92,11 @@ namespace VRF
             SettingsService.Instance.SaveFromSelectedDances(builderViewData.dances);
         }
 
-        private void BrowseOutputDirectory()
-        {
-            string path = EditorUtility.OpenFolderPanel("Browse output directory", Path.GetDirectoryName(builderViewData.outputDirectory), "");
-            if (path.Contains("Assets"))
-            {
-                log.LogDebug($"Selected directory {Application.dataPath}");
-                builderViewData.outputDirectory = path.Substring(path.IndexOf("Assets"));
-            }
-            else if (path != "")
-            {
-                log.LogError("Selected directory must be within Assets directory!");
-            }
-        }
-
         public void Validate()
         {
-            ShowButton(Buttons.BuildBtn, !Directory.Exists(builderViewData.outputDirectory));
-            ShowButton(Buttons.RebuildBtn, Directory.Exists(builderViewData.outputDirectory));
+            string buildPath = Path.Combine(SettingsService.Instance.BuildDirectory, builderViewData.buildName);
+            ShowButton(Buttons.BuildBtn, !Directory.Exists(buildPath));
+            ShowButton(Buttons.RebuildBtn, Directory.Exists(buildPath));
         }
 
         private void RegisterButtonClick(Buttons btn, Action<EventBase> action)
