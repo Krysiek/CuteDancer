@@ -54,17 +54,17 @@ public class AvatarApplyService
         log.LogInfo("AddToAvatar complete");
     }
 
-    public void RemoveFromAvatar()
+    public void RemoveFromAvatar(bool isUpdate = false)
     {
         cutePrefab.HandleRemove();
         cuteParams.HandleRemove();
         cuteSubmenu.HandleRemove();
-        cuteLayers.HandleRemove();
+        cuteLayers.HandleRemove(isUpdate);
         log.LogInfo("RemoveFromAvatar complete");
     }
 
     // TODO temporary validation, return true if installed, false if not
-    public bool Validate()
+    public bool ValidateIsAdded()
     {
         return cutePrefab.GetStatus() != ApplyStatus.ADD
             || cuteParams.GetStatus() != ApplyStatus.ADD

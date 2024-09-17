@@ -1,5 +1,3 @@
-using AvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
-
 namespace VRF
 {
     public enum ApplyStatus {
@@ -13,7 +11,7 @@ namespace VRF
     interface AvatarApplierInterface
     {
         void HandleAdd();
-        void HandleRemove();
+        void HandleRemove(bool silent = false);
         ApplyStatus GetStatus();
     }
 

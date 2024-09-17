@@ -9,9 +9,6 @@ using UnityEngine.UIElements;
 using AvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
 using VRC.SDK3.Avatars.ScriptableObjects;
 using UnityEditor.Animations;
-using System.Linq;
-using System.Collections.Generic;
-
 
 namespace VRF
 {
@@ -39,7 +36,7 @@ namespace VRF
             CuteResources.LoadView("InstallerView").CloneTree(this);
             this.Bind(new SerializedObject(viewData));
 
-            // assign types - that cannot be done in UXML (at least in Unity 2019)
+            // TODO check if can be done in UXML in Unity 2023
             this.Q<ObjectField>("Build").objectType = typeof(BuildInfoData);
             this.Q<ObjectField>("Avatar").objectType = typeof(AvatarDescriptor);
             this.Q<ObjectField>("AvatarGameObject").objectType = typeof(GameObject);
@@ -53,7 +50,7 @@ namespace VRF
 
             RegisterButtonClick(Buttons.AvatarApplyBtn, e => { avatarApplyService.AddToAvatar(); Validate(); });
             RegisterButtonClick(Buttons.AvatarRemoveBtn, e => { avatarApplyService.RemoveFromAvatar(); Validate(); });
-            RegisterButtonClick(Buttons.AvatarUpdateBtn, e => log.LogError("not implemented"));
+            RegisterButtonClick(Buttons.AvatarUpdateBtn, e => { avatarApplyService.RemoveFromAvatar(); avatarApplyService.AddToAvatar(); Validate(); });
 
             buildInfoEditor = this.Q<BuildInfoEditor>("BuildInfo");
 
@@ -66,17 +63,18 @@ namespace VRF
         public void Validate()
         {
             // TODO do complex validation for the avatar
-            if (avatarApplyService.Validate())
+            if (avatarApplyService.ValidateIsAdded())
             {
                 ShowButton(Buttons.AvatarApplyBtn, false, viewData.avatar);
                 ShowButton(Buttons.AvatarRemoveBtn, true, viewData.avatar);
+                ShowButton(Buttons.AvatarUpdateBtn, true, viewData.avatar);
             }
             else
             {
                 ShowButton(Buttons.AvatarApplyBtn, true, viewData.avatar);
                 ShowButton(Buttons.AvatarRemoveBtn, false, viewData.avatar);
+                ShowButton(Buttons.AvatarUpdateBtn, false, viewData.avatar);
             }
-            ShowButton(Buttons.AvatarUpdateBtn, false);
         }
 
         private void SelectDefaultBuild()

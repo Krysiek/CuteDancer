@@ -95,7 +95,7 @@ namespace VRF
             }
         }
 
-        public void HandleRemove()
+        public void HandleRemove(bool silent = false)
         {
             Transform musicInstance = avatar.transform.Find("CuteDancer-Music");
             Transform contactInstance = avatar.transform.Find("CuteDancer-Contacts");
@@ -110,13 +110,6 @@ namespace VRF
             }
 
             EditorUtility.SetDirty(avatar);
-        }
-
-        void HandleUpdate()
-        {
-            // yolo
-            HandleRemove();
-            HandleAdd();
         }
     }
 }

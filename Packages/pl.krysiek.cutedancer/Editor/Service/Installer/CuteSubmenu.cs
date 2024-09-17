@@ -89,7 +89,7 @@ namespace VRF
             AssetDatabase.Refresh();
         }
 
-        public void HandleRemove()
+        public void HandleRemove(bool silent = false)
         {
             DoBackup();
 

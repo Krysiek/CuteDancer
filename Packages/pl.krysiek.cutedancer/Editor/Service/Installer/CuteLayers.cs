@@ -107,12 +107,7 @@ namespace VRF
             CuteAnimators.UpdateVrcAnimatorLayerControlAfterClone(actionCtrl, !ActionWD);
         }
 
-        public void HandleRemove()
-        {
-            HandleRemove(false);
-        }
-
-        void HandleRemove(bool silent = false)
+        public void HandleRemove(bool silent = false)
         {
             DoBackup();
 
@@ -150,13 +145,6 @@ namespace VRF
                     Avatar = avatar;
                 }
             }
-        }
-
-        void HandleUpdate()
-        {
-            // yolo
-            HandleRemove(true);
-            HandleAdd(true);
         }
 
         void RemoveLayer(AnimatorController controller, string name)

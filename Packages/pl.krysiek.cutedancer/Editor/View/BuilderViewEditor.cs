@@ -25,9 +25,7 @@ namespace VRF
 
         private readonly DancesLoaderService dancesLoaderService = new DancesLoaderService();
         private readonly BuilderService builderService = new BuilderService();
-
         private readonly DancesListViewEditor dancesBrowserView = new DancesListViewEditor();
-
         private readonly BuilderViewData builderViewData;
 
         public BuilderViewEditor()
