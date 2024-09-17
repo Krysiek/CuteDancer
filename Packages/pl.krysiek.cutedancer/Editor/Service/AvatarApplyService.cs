@@ -66,7 +66,10 @@ public class AvatarApplyService
     // TODO temporary validation, return true if installed, false if not
     public bool Validate()
     {
-        return cuteLayers.GetStatus() != ApplyStatus.ADD;
+        return cutePrefab.GetStatus() != ApplyStatus.ADD
+            || cuteParams.GetStatus() != ApplyStatus.ADD
+            || cuteSubmenu.GetStatus() != ApplyStatus.ADD
+            || cuteLayers.GetStatus() != ApplyStatus.ADD;
     }
 
 }

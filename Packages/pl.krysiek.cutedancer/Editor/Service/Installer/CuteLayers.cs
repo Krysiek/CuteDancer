@@ -114,14 +114,6 @@ namespace VRF
 
         void HandleRemove(bool silent = false)
         {
-            if (GetStatus() == ApplyStatus.BLOCKED)
-            {
-                if (!EditorUtility.DisplayDialog("CuteScript", "The script will try to remove CuteDance layers from your animators if any exists.\n\nThey are matched by name though, so it may not help.", "Let's try", "Cancel"))
-                {
-                    return;
-                }
-            }
-
             DoBackup();
 
             AnimatorController srcActionCtrl = AssetDatabase.LoadAssetAtPath(ActionCtrlPath, typeof(AnimatorController)) as AnimatorController;

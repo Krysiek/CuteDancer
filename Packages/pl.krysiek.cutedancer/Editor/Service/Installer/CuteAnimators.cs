@@ -80,12 +80,14 @@ namespace VRF
 
         public static CustomAnimLayer CreateCustomAnimLayer(AnimLayerType type, AnimatorController animator = null)
         {
-            CustomAnimLayer animLayer = new CustomAnimLayer();
-            animLayer.isEnabled = !!animator;
-            animLayer.type = type;
-            animLayer.animatorController = animator;
-            animLayer.mask = null;
-            animLayer.isDefault = !animator;
+            CustomAnimLayer animLayer = new CustomAnimLayer
+            {
+                isEnabled = !!animator,
+                type = type,
+                animatorController = animator,
+                mask = null,
+                isDefault = !animator
+            };
 
             return animLayer;
         }
