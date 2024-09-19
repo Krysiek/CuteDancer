@@ -62,8 +62,7 @@ namespace VRF
 
         public void Validate()
         {
-            // TODO do complex validation for the avatar
-            if (avatarApplyService.ValidateIsAdded())
+            if (viewData.avatar != null && avatarApplyService.ValidateIsAdded())
             {
                 ShowButton(Buttons.AvatarApplyBtn, false, viewData.avatar);
                 ShowButton(Buttons.AvatarRemoveBtn, true, viewData.avatar);
