@@ -97,19 +97,21 @@ namespace VRF
 
         public void HandleRemove(bool silent = false)
         {
-            Transform musicInstance = avatar.transform.Find("CuteDancer-Music");
-            Transform contactInstance = avatar.transform.Find("CuteDancer-Contacts");
-
-            if (musicInstance)
-            {
-                UnityEngine.Object.DestroyImmediate(musicInstance.gameObject);
-            }
-            if (contactInstance)
-            {
-                UnityEngine.Object.DestroyImmediate(contactInstance.gameObject);
-            }
+            RemoveByName("CuteDancer-Music");
+            RemoveByName("CuteDancer-Contacts");
+            // legacy names:
+            RemoveByName("CuteDancerMusic");
+            RemoveByName("CuteDancerContacts");
 
             EditorUtility.SetDirty(avatar);
+        }
+
+        private void RemoveByName(string name) {
+            Transform prefab = avatar.transform.Find(name);
+            if (prefab)
+            {
+                UnityEngine.Object.DestroyImmediate(prefab.gameObject);
+            }
         }
     }
 }
