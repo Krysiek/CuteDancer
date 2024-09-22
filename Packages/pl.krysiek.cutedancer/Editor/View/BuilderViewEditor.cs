@@ -18,6 +18,7 @@ namespace VRF
         public enum Buttons
         {
             SelectAllBtn,
+            ToggleAudioBtn,
             RefreshBtn,
             BuildBtn,
             RebuildBtn
@@ -41,6 +42,7 @@ namespace VRF
             this.Q("DancesList").Add(dancesBrowserView.GetEl());
 
             RegisterButtonClick(Buttons.SelectAllBtn, e => ToggleSelectedDances());
+            RegisterButtonClick(Buttons.ToggleAudioBtn, e => ToggleAudio());
             RegisterButtonClick(Buttons.RefreshBtn, e => LoadDances());
             RegisterButtonClick(Buttons.BuildBtn, e => Build());
             RegisterButtonClick(Buttons.RebuildBtn, e => Rebuild());
@@ -85,6 +87,30 @@ namespace VRF
                 foreach (var dance in danceCollection)
                 {
                     dance.selected = noneSelected || !allSelected;
+                }
+            }
+            SettingsService.Instance.SaveFromSelectedDances(builderViewData.dances);
+        }
+
+        private void ToggleAudio()
+        {
+            bool allAudioEnabled = builderViewData.dances.Where(dances => dances.Value.All(dance => dance.audio)).All(dances => dances.Value.All(dance => dance.audioEnabled));
+            log.LogDebug("allAudioEnabled: " + allAudioEnabled);
+            foreach (var danceCollection in builderViewData.dances.Values)
+            {
+                foreach (var dance in danceCollection)
+                {
+                    if (dance.audio)
+                    {
+                        if (allAudioEnabled)
+                        {
+                            dance.audioEnabled = false;
+                        }
+                        else
+                        {
+                            dance.audioEnabled = true;
+                        }
+                    }
                 }
             }
             SettingsService.Instance.SaveFromSelectedDances(builderViewData.dances);

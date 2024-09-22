@@ -8,6 +8,9 @@
             <ui:Button name="SelectAllBtn" tooltip="Toggle selection" style="margin-left: 0; margin-right: 5px; margin-top: 0; margin-bottom: 0; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; width: 28px; height: 28px;">
                 <ui:VisualElement style="background-image: resource(&apos;CuteDancer/Images/square-check-multi&apos;); width: 16px; height: 16px; -unity-background-scale-mode: scale-to-fit;" />
             </ui:Button>
+            <ui:Button name="ToggleAudioBtn" tooltip="Toggle selection" style="margin-left: 0; margin-right: 5px; margin-top: 0; margin-bottom: 0; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; width: 28px; height: 28px;">
+                <ui:VisualElement style="background-image: resource(&apos;CuteDancer/Images/volume-toggle&apos;); width: 16px; height: 16px; -unity-background-scale-mode: scale-to-fit;" />
+            </ui:Button>
             <ui:Button name="RefreshBtn" tooltip="Reload dances" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; width: 28px; height: 28px;">
                 <ui:VisualElement style="background-image: resource(&apos;CuteDancer/Images/rotate-solid&apos;); width: 16px; height: 16px; -unity-background-scale-mode: scale-to-fit;" />
             </ui:Button>

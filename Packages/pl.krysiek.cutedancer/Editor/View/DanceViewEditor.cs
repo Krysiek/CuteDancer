@@ -1,6 +1,7 @@
 #if VRC_SDK_VRCSDK3
 using UnityEditor;
 using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace VRF
@@ -24,6 +25,7 @@ namespace VRF
         {
             VisualTreeAsset danceView = CuteResources.LoadView("DanceView");
             danceView.CloneTree(this);
+            this.Q<Toggle>("AudioToggle").RegisterCallback<ChangeEvent<bool>>(ev => DrawMusicBtn());
         }
 
         private void DrawGui()
