@@ -50,7 +50,7 @@ namespace VRF
 
             RegisterButtonClick(Buttons.AvatarApplyBtn, e => { avatarApplyService.AddToAvatar(); Validate(); });
             RegisterButtonClick(Buttons.AvatarRemoveBtn, e => { avatarApplyService.RemoveFromAvatar(); Validate(); });
-            RegisterButtonClick(Buttons.AvatarUpdateBtn, e => { avatarApplyService.RemoveFromAvatar(); avatarApplyService.AddToAvatar(); Validate(); });
+            RegisterButtonClick(Buttons.AvatarUpdateBtn, e => { avatarApplyService.UpdateAvatar(); Validate(); });
 
             buildInfoEditor = this.Q<BuildInfoEditor>("BuildInfo");
 
@@ -62,7 +62,7 @@ namespace VRF
 
         public void Validate()
         {
-            if (viewData.avatar != null && avatarApplyService.ValidateIsAdded())
+            if (viewData.avatar && avatarApplyService.ValidateIsAdded())
             {
                 ShowButton(Buttons.AvatarApplyBtn, false, viewData.avatar);
                 ShowButton(Buttons.AvatarRemoveBtn, true, viewData.avatar);
@@ -74,6 +74,8 @@ namespace VRF
                 ShowButton(Buttons.AvatarRemoveBtn, false, viewData.avatar);
                 ShowButton(Buttons.AvatarUpdateBtn, false, viewData.avatar);
             }
+
+            UpdateAvatarComponents();
         }
 
         private void SelectDefaultBuild()
@@ -83,7 +85,6 @@ namespace VRF
             {
                 viewData.build = AssetDatabase.LoadAssetAtPath<BuildInfoData>(AssetDatabase.GUIDToAssetPath(lastBuild[0])); ;
             }
-
         }
 
         private void RegisterButtonClick(Buttons btn, Action<EventBase> action)
@@ -107,11 +108,15 @@ namespace VRF
 
         private void HandleAvatarSelect(ChangeEvent<UnityEngine.Object> evt)
         {
-            AvatarDescriptor avatar = (AvatarDescriptor)evt.newValue;
-            avatarApplyService.Avatar = avatar;
+            avatarApplyService.Avatar = (AvatarDescriptor)evt.newValue;
+            UpdateAvatarComponents();
+        }
+
+        private void UpdateAvatarComponents()
+        {
+            AvatarDescriptor avatar = viewData.avatar;
             if (avatar)
             {
-
                 this.Q<ObjectField>("AvatarGameObject").value = avatar.gameObject;
                 this.Q<ObjectField>("AvatarExpressionParameters").value = avatar.expressionParameters;
                 this.Q<ObjectField>("AvatarExpressionsMenu").value = avatar.expressionsMenu;

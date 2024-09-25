@@ -69,12 +69,7 @@ namespace VRF
             FxWD = false;
         }
 
-        public void HandleAdd()
-        {
-            HandleAdd(false); // TODO differentiate for updates
-        }
-
-        void HandleAdd(bool silent = false)
+        public void HandleAdd(bool silent = false)
         {
             if (!actionCtrl && !CreateController(AnimLayerType.Action, $"{avatar.name}-Action", silent))
             {
@@ -114,14 +109,20 @@ namespace VRF
             AnimatorController srcActionCtrl = AssetDatabase.LoadAssetAtPath(ActionCtrlPath, typeof(AnimatorController)) as AnimatorController;
             AnimatorController srcFxCtrl = AssetDatabase.LoadAssetAtPath(FxCtrlPath, typeof(AnimatorController)) as AnimatorController;
 
-            for (int i = 0; i < srcActionCtrl.layers.Length; i++)
+            if (actionCtrl)
             {
-                this.RemoveLayer(actionCtrl, srcActionCtrl.layers[i].name);
+                for (int i = 0; i < srcActionCtrl.layers.Length; i++)
+                {
+                    this.RemoveLayer(actionCtrl, srcActionCtrl.layers[i].name);
+                }
             }
 
-            for (int i = 0; i < srcFxCtrl.layers.Length; i++)
+            if (fxCtrl)
             {
-                this.RemoveLayer(fxCtrl, srcFxCtrl.layers[i].name);
+                for (int i = 0; i < srcFxCtrl.layers.Length; i++)
+                {
+                    this.RemoveLayer(fxCtrl, srcFxCtrl.layers[i].name);
+                }
             }
 
             bool actionCtrlEmpty = CuteAnimators.IsAnimatorEmpty(AnimLayerType.Action, actionCtrl);

@@ -76,7 +76,7 @@ namespace VRF
             return false;
         }
 
-        public void HandleAdd()
+        public void HandleAdd(bool silent = false)
         {
             Transform musicInstance = avatar.transform.Find("CuteDancer-Music");
             if (!musicInstance)

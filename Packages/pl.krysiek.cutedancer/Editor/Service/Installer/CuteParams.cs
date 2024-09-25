@@ -35,7 +35,7 @@ namespace VRF
             }
         }
 
-        public void HandleAdd()
+        public void HandleAdd(bool silent = false)
         {
             if (!expressionParams && !CreateExpressionParams())
             {

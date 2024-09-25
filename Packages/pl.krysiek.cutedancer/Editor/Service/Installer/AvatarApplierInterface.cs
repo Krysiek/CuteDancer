@@ -10,7 +10,7 @@ namespace VRF
 
     interface AvatarApplierInterface
     {
-        void HandleAdd();
+        void HandleAdd(bool silent = false);
         void HandleRemove(bool silent = false);
         ApplyStatus GetStatus();
     }

@@ -45,12 +45,12 @@ public class AvatarApplyService
         }
     }
 
-    public void AddToAvatar()
+    public void AddToAvatar(bool isUpdate = false)
     {
         cutePrefab.HandleAdd();
         cuteParams.HandleAdd();
         cuteSubmenu.HandleAdd();
-        cuteLayers.HandleAdd();
+        cuteLayers.HandleAdd(isUpdate);
         log.LogInfo("AddToAvatar complete");
     }
 
@@ -60,6 +60,13 @@ public class AvatarApplyService
         cuteParams.HandleRemove();
         cuteSubmenu.HandleRemove();
         cuteLayers.HandleRemove(isUpdate);
+        log.LogInfo("RemoveFromAvatar complete");
+    }
+
+    public void UpdateAvatar()
+    {
+        RemoveFromAvatar(true);
+        AddToAvatar(true);
         log.LogInfo("RemoveFromAvatar complete");
     }
 

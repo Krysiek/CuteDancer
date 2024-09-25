@@ -36,6 +36,10 @@ namespace VRF
 
         public static bool IsAnimatorEmpty(AnimLayerType type, AnimatorController animator)
         {
+            if (!animator) {
+                return true;
+            }
+
             if (animator.layers.Length == 1)
             {
                 var baseLayer = animator.layers[0];

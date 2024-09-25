@@ -63,7 +63,7 @@ namespace VRF
             return ApplyStatus.ADD;
         }
 
-        public void HandleAdd()
+        public void HandleAdd(bool silent = false)
         {
             if (!expressionMenu && !CreateExpressionMenu())
             {
