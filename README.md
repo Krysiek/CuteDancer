@@ -47,9 +47,9 @@ This tab allows you to prepare CuteDancer prefab with selected dances, include o
 <details>
 <summary>Advanced settings</summary>
 
+- `Name` - you can create multiple builds by changing its name (e.g. one for PC and one for Quest version).
 - `Parameter name` - name of the parameter used for the dances. Change it if you have problem with non working animations, stuck (e.g. GoGo Loco).
 - `Parameter start value` - indicates the start
-- `Output directory` - you can create multiple builds by changing this directory (e.g. one for PC and one for Quest version).
 
 </details>
 
@@ -57,15 +57,15 @@ This tab allows you to prepare CuteDancer prefab with selected dances, include o
 
 This tab allows you to apply generated files above on your avatar.
 
-1. In `CuteDancer build` you can change which generated pack will applied to the avatar. It should be set to the most recent one automatically.
-2. In `Avatar` field select your avatar from the scene.
+1. In `CuteDancer build` you can change which build will be applied to the avatar.
+2. In `Avatar` field select your avatar from the scene. Fields with specific avatar components should be filled automatically.
 3. Click `Apply to avatar` button
 
 ## Custom animation support
 
 Select from top bar `Tools` -> `CuteDancer` -> `Create Dance Template`
 
-The template dance will be created in `Assets/CuteDancer/Dances/MySuperDance` directory. Now you can edit it by renaming and replacing included files. It is recommended to rename files in Unity, otherwise you have to keep renaming both, asset file and corresponding `.meta` file. Replacing files is recommended outside of Unity.
+The template dance will be created in `Assets/CuteDancer/Dances/MySuperDance` directory. Now you can edit it by renaming and replacing included files. It is recommended to rename the files in Unity, otherwise you have to keep renaming both, asset file and corresponding `.meta` file. Replacing the files is recommended outside of Unity.
 
 <details>
 <summary>Description of the info.json properties</summary>
