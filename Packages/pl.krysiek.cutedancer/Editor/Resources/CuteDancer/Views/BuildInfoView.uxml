@@ -1,0 +1,17 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement class="build-info-group">
+        <Style src="BuildInfoView.uss" />
+        <ui:Label text="Location" class="label-description" />
+        <ui:Label text="-" binding-path="location" name="Location" />
+    </ui:VisualElement>
+    <ui:VisualElement class="build-info-group">
+        <Style src="BuildInfoView.uss" />
+        <ui:Label text="Date" class="label-description" />
+        <ui:Label binding-path="buildDate" text="-" name="BuildDate" />
+    </ui:VisualElement>
+    <ui:VisualElement class="build-info-group">
+        <Style src="BuildInfoView.uss" />
+        <ui:Label text="Version" class="label-description" />
+        <ui:Label text="-" binding-path="version" name="Version" />
+    </ui:VisualElement>
+</ui:UXML>

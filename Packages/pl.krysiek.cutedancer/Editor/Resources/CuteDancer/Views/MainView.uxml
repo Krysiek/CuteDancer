@@ -1,0 +1,17 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement style="flex-grow: 1; width: 100%; max-width: 720px; min-width: 400px; margin-left: auto; margin-right: auto;">
+        <Style src="MainView.uss" />
+        <ui:VisualElement style="justify-content: flex-start; align-items: center; flex-direction: column; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 3px;">
+            <ui:VisualElement name="CuteBanner" class="banner">
+                <ui:Label text="CuteDancer Setup" style="font-size: 28px; color: rgb(255, 255, 255); -unity-font-style: bold-and-italic; -unity-text-align: upper-left; margin-left: 20px;" />
+                <ui:Label text="0.0.0-dev" style="margin-left: 20px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-direction: row; padding-left: 5px; padding-right: 5px; padding-top: 0; padding-bottom: 5px;">
+            <ui:Button text="Builder" name="BuilderBtn" class="banner-button" />
+            <ui:Button text="Installer" name="InstallerBtn" class="banner-button" />
+            <ui:Button text="About" name="AboutBtn" class="banner-button" />
+        </ui:VisualElement>
+        <ui:VisualElement name="ViewContent" style="flex-grow: 1;" />
+    </ui:VisualElement>
+</ui:UXML>

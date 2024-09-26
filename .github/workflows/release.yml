@@ -25,12 +25,11 @@ jobs:
           sed -i -e "s/0.0.0-dev/$GITHUB_REF_NAME/g" "${{ env.packageFolder }}/package.json"
           sed -i -e "s/0.0.0-dev/$GITHUB_REF_NAME/g" "${{ env.packageFolder }}/README.txt"
           sed -i -e "s/0.0.0-dev/$GITHUB_REF_NAME/g" "${{ env.packageFolder }}/Editor/Resources/CuteDancer/Views/MainView.uxml"
-        with:
-          include-files: metaList
+          sed -i -e "s/0.0.0-dev/$GITHUB_REF_NAME/g" "${{ env.packageFolder }}/Editor/Data/BuildInfoData.cs"
 
       - name: Get version
         id: version
-        uses: notiz-dev/github-action-json-property@7c8cf5cc36eb85d8d287a8086a39dac59628eb31
+        uses: notiz-dev/github-action-json-property@v0.2.0
         with: 
             path: "Packages/${{env.packageName}}/package.json"
             prop_path: "version"
@@ -41,7 +40,7 @@ jobs:
           echo "unityPackage=${{ env.packageName }}-${{ steps.version.outputs.prop }}.unitypackage" >> $GITHUB_ENV
         
       - name: Create Zip
-        uses: thedoctor0/zip-release@09336613be18a8208dfa66bd57efafd9e2685657
+        uses: TheDoctor0/zip-release@0.7.1
         with:
           type: "zip"
           directory: "Packages/${{env.packageName}}/"
@@ -50,13 +49,13 @@ jobs:
       - run: find "Packages/${{env.packageName}}/" -name \*.meta >> metaList
           
       - name: Create UnityPackage
-        uses: pCYSl5EDgo/create-unitypackage@cfcd3cf0391a5ef1306342794866a9897c32af0b
+        uses: pCYSl5EDgo/create-unitypackage@v1.1.1
         with:
           package-path: ${{ env.unityPackage }}
           include-files: metaList
         
       - name: Make Release
-        uses: softprops/action-gh-release@1e07f4398721186383de40550babbdf2b84acfc5
+        uses: softprops/action-gh-release@v0.1.15
         with:
           tag_name: ${{ steps.version.outputs.prop }}
           files: |

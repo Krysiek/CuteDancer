@@ -1,79 +1,85 @@
-# **CuteDancer**
+# ✨🕺 CuteDancer v4.0 🕺✨
 
-_Animations, package: [Krysiek](https://github.com/Krysiek)  
-Sender/Receiver config, support and tests: [Luc4r](https://github.com/Luc4r)  
-Animators optimization, tests: [Jack'lul](https://github.com/jacklul)_
+### [Add to VRChat Creator Companion](https://krysiek.github.io/CuteDancer/)
+▶️ https://krysiek.github.io/CuteDancer/ ◀️
 
-[🇵🇱 Język Polski - kliknij tutaj](/README.pl.md)
+---
 
-## About CuteDancer
+CuteDancer is a package dedicated to use on [VRChat](https://hello.vrchat.com/) avatars. It contains dance animations that can be played in sync together with other players who have the package installed on their avatars. You can use it for syncing animations for video recording, making funny public avatars or just for fun!
 
-CuteDancer is a .unitypackage dedicated to use on [VRChat](https://hello.vrchat.com/) avatars. It contains dance animations that can be played in sync together with other players who have the package installed on their avatars. [You can try it on public avatars here.](https://vrchat.com/home/world/wrld_deb6ff93-c907-4d16-92d0-911758135c70)
+👉 [You can try it on public avatars here.](https://vrchat.com/home/world/wrld_deb6ff93-c907-4d16-92d0-911758135c70)
 
 ![promo anim](docs/images/cutedancer.gif)
 
 ### How does it work?
 
-It uses new contacts components added recently to VRChat. When one avatar starts dancing, the sender component is activated and receivers on other avatars play that animation as well. It is possible to disable contacts if needed.
+It uses [Contacts Components](https://creators.vrchat.com/avatars/avatar-dynamics/contacts/). When one avatar starts dancing, the sender component is activated and receivers on other avatars play that animation as well.
 
-### Included dances
+### What's new in v4.0?
 
-At the moment the package contains 5 dances:
-- SAR Dance - default dance from [Super Animal Royale](https://animalroyale.com/) game
-- Coincidance - shoulder shake meme dance
-- Badger badger - simple badger dance
-- Zufolo Impazzito - dance based on [this meme](https://www.reddit.com/r/doodoofard/comments/w6lhnl/dance/)
-- Distraction Dance - [stickman meme dance](https://www.youtube.com/watch?v=6XK4S8OQPuU) (animation by Spooki Boy)
-
-All above dance animations were created from scratch by [Krysiek](https://github.com/Krysiek) or Spooki Boy using [Cascadeur](https://cascadeur.com/) or [Blender](https://www.blender.org/).
-
-## Download
-
-[Download the newest version here](https://github.com/Krysiek/CuteDancer/releases)
+- VRChat Creator Companion support
+- Completely rewritten setup script with dance selector
+- Support for adding custom animations
+- Other small improvements and fixes
 
 ## Installation
 
-The video shows installation process for 3 typical scenarios. Detailed instructions are below the video.
+You have to use [VRChat Creator Companion](https://vcc.docs.vrchat.com/) for your Unity VRChat project.
 
-https://user-images.githubusercontent.com/54168895/182499824-b87969a1-47ed-4541-a98c-be268e594142.mp4
+Add the listing from https://krysiek.github.io/CuteDancer/
 
-### 1. **Import package to [Unity](https://unity.com/)**
+Install CuteDancer package by clicking `Manage Project` next to the desired avatar project and then choose the newest version available next to the CuteDancer package.
 
-Drag & drop `CuteDancer.unitypackage` file to Unity editor or select from Unity's top menu: `Assets` -> `Import package` -> `Custom package...`.
+## Basic usage
 
-### 2. **Open CuteDancer Setup window**
+Open the setup by selecting from top bar `Tools` -> `CuteDancer` -> `CuteDancer Setup`
 
-Select (from Unity's top menu): `Tools` -> `CuteDancer Setup`.
+There are two tabs: `Builder` and `Installer`.
 
-The `CuteDancer Script` will help you automate some boring setup and will verify if everything is installed correctly.\*
+### Builder
 
-___
-_\* If you don't want to use a "magic tool" you can still use it for checking installation status. For manual installation description for advanced users [click here](docs/README.old.md)._
-___
+This tab allows you to prepare CuteDancer prefab with selected dances, include or exclude audio and specify additional parameters. Your avatar on the scene won't be touched yet.
 
-### 3. **Select your avatar in the `CuteDancer Script` window**
+1. Select dances which you want to be included.
+2. Click on the audio icon to include or exclude audio for the specific dance. This will save audio sources slots later on your avatar.
+3. Click on the `Generate files` button.
 
-Drag & drop your avatar from Scene or click the circle button on the right side of the field and choose your avatar from the list.
+<details>
+<summary>Advanced settings</summary>
 
-### 4. **Click `Add` button in each section**
+- `Name` - you can create multiple builds by changing its name (e.g. one for PC and one for Quest version).
+- `Parameter name` - name of the parameter used for the dances. Change it if you have problem with non working animations, stuck (e.g. GoGo Loco).
+- `Parameter start value` - indicates the start
 
-Click accordingly:
-- `Add prefabs`
-- `Add expression parameters`
-- `Add expression submenu`
-- `Add animator layers`
-___
-ℹ️ If your avatar does not have an expression parameters, expression menu or playable layers configured, you will see a prompt to create the missing asset. In this case click `Create it` and remember to save the project. ℹ️
-___
-ℹ️ Backup note: each operation creates one backup file per day. You can find them next to the original modified files. ℹ️
-___
+</details>
 
-### 5. **Finished!**
+### Installer
 
-Upload the avatar and enjoy dancing with your friends :)
+This tab allows you to apply generated files above on your avatar.
 
-## Updating package
+1. In `CuteDancer build` you can change which build will be applied to the avatar.
+2. In `Avatar` field select your avatar from the scene. Fields with specific avatar components should be filled automatically.
+3. Click `Apply to avatar` button
 
-ONLY if you are updating `CuteDancer` **from version 1.1 and earlier**, remove the `CuteDancer` directory from `Assets`. Remove all missing prefabs from avatar. Then install the new package and proceed with installation instructions above.
+## Custom animation support
 
-If you are updating from version 1.2 or newer, just install the new unitypackage file and click `Update animator layers` in the installation window.
+Select from top bar `Tools` -> `CuteDancer` -> `Create Dance Template`
+
+The template dance will be created in `Assets/CuteDancer/Dances/MySuperDance` directory. Now you can edit it by renaming and replacing included files. It is recommended to rename the files in Unity, otherwise you have to keep renaming both, asset file and corresponding `.meta` file. Replacing the files is recommended outside of Unity.
+
+<details>
+<summary>Description of the info.json properties</summary>
+
+- `name` - Used for internal parameters names, should be unique without spaces.
+- `displayName` - Used for displaying in Builder and avatar's Action Menu.
+- `collection` - Name of a category for the builder.
+- `author` - Name of the author of the animation.
+- `order` - Display order in the builder.
+
+</details>
+
+## Contributors
+
+_Default animations, package: [Krysiek](https://github.com/Krysiek)  
+Sender/Receiver config, support and tests: [Luc4r](https://github.com/Luc4r)  
+Animators optimization, tests: [Jack'lul](https://github.com/jacklul)_

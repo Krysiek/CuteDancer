@@ -1,0 +1,41 @@
+.banner {
+    background-image: resource('CuteDancer/Images/top-banner');
+    height: 84px;
+    width: 100%;
+    -unity-background-scale-mode: scale-and-crop;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgb(43, 26, 77);
+    border-right-color: rgb(43, 26, 77);
+    border-top-color: rgb(43, 26, 77);
+    border-bottom-color: rgb(43, 26, 77);
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.banner-button {
+    flex-basis: 100px;
+    flex-grow: 1;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.banner-button-active {
+    background-color: rgba(132, 132, 132, 255);
+    color: rgba(250, 250, 250, 255);
+}

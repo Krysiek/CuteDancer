@@ -1,0 +1,40 @@
+.with-top-separator {
+    border-left-color: rgba(0, 0, 0, 0.31);
+    border-right-color: rgba(0, 0, 0, 0.31);
+    border-top-color: rgba(0, 0, 0, 0.31);
+    border-bottom-color: rgba(0, 0, 0, 0.31);
+    border-top-width: 2px;
+    margin-top: 10px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 10px;
+    padding-bottom: 0;
+    margin-bottom: 4px;
+}
+
+.big-button {
+    flex-direction: row;
+    flex-basis: auto;
+    -unity-text-align: middle-center;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 2px;
+    margin-bottom: 0;
+    font-size: 16px;
+}
+
+.field {
+    padding: 2px 0 2px 0;
+}
+
+.field-first {
+    padding: 4px 0 2px 0;
+}
+
+.field-last {
+    padding: 2px 0 4px 0;
+}
