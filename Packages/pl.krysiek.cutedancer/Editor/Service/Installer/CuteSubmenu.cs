@@ -95,6 +95,11 @@ namespace VRF
 
             Texture2D cuteIcon = AssetDatabase.LoadAssetAtPath<Texture2D>(DANCE_ICON);
             int ix = expressionMenu.controls.FindIndex(menuEntry => menuEntry.icon == cuteIcon);
+            if (ix == -1)
+            {
+                log.LogDebug("Expression menu not found by icon, searching by name.");
+                ix = expressionMenu.controls.FindIndex(menuEntry => menuEntry.name == "CuteDancer" && menuEntry.subMenu == null);
+            }
 
             if (ix > -1)
             {
