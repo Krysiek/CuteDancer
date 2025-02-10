@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.Animations;
 using System.Collections.Generic;
+using VRC.SDK3.Avatars.Components;
+using HarmonyLib;
 
 namespace VRF
 {
@@ -36,6 +38,8 @@ namespace VRF
             ChildAnimatorState templateState = Array.Find(rootStateMachine.states, state => state.state.name.Contains("{DANCE}"));
             AnimatorState beforeState = Array.Find(rootStateMachine.states, state => state.state.name == "Sending dance").state;
             AnimatorStateTransition templateInTransition = Array.Find(beforeState.transitions, t => t.destinationState == templateState.state);
+
+            VRCAnimatorPlayAudio audioPlayerTemplate = (VRCAnimatorPlayAudio) templateState.state.behaviours[0];
 
             // replace FX OFF animation
             AnimationClip animFxOff = AssetDatabase.LoadAssetAtPath<AnimationClip>(animFxOffPath);
@@ -107,6 +111,16 @@ namespace VRF
                             condition.parameter
                         );
                     }
+                }
+
+                if (dance.audio) {
+                    VRCAnimatorPlayAudio audioPlayer = senderState.AddStateMachineBehaviour<VRCAnimatorPlayAudio>();
+                    audioPlayer.SourcePath = audioPlayerTemplate.SourcePath;
+                    audioPlayer.Clips = new[] { dance.audio };
+                    audioPlayer.PlayOnEnter = audioPlayerTemplate.PlayOnEnter;
+                    audioPlayer.PlayOnExit = audioPlayerTemplate.PlayOnExit;
+                    audioPlayer.StopOnEnter = audioPlayerTemplate.StopOnEnter;
+                    audioPlayer.StopOnExit = audioPlayerTemplate.StopOnExit;
                 }
 
                 nodeY += 50;

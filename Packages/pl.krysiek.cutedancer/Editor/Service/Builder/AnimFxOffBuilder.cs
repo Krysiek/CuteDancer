@@ -17,7 +17,7 @@ namespace VRF
                 AssetDatabase.CreateFolder(settings.outputDirectory, "FX");
             }
 
-            string sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateFX_OFF.anim");
+            string sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateDanceFX_OFF.anim");
             string outputPath = Path.Combine(settings.outputDirectory, "FX", "CuteDancer-FX_OFF.anim");
 
             if (!AssetDatabase.CopyAsset(sourcePath, outputPath))
@@ -29,10 +29,8 @@ namespace VRF
 
             EditorCurveBinding[] bindings = AnimationUtility.GetCurveBindings(animation);
 
-            EditorCurveBinding musicBindingTemplate = Array.Find(bindings, (binding) => binding.path == "CuteDancer-Music/{DANCE}Music");
             EditorCurveBinding senderBindingTemplate = Array.Find(bindings, (binding) => binding.path == "CuteDancer-Contacts/{DANCE}Sender");
 
-            AnimationCurve musicCurveTemplate = AnimationUtility.GetEditorCurve(animation, musicBindingTemplate);
             AnimationCurve senderCurveTemplate = AnimationUtility.GetEditorCurve(animation, senderBindingTemplate);
 
             foreach (DanceBuilderData dance in settings.dances)
@@ -44,22 +42,10 @@ namespace VRF
                     propertyName = senderBindingTemplate.propertyName,
                     type = senderBindingTemplate.type
                 };
-                AnimationUtility.SetEditorCurve(animation, senderBinding, musicCurveTemplate);
-
-                if (dance.audio != null)
-                {
-                    EditorCurveBinding musicBinding = new EditorCurveBinding
-                    {
-                        path = musicBindingTemplate.path.Replace("{DANCE}", dance._name),
-                        propertyName = musicBindingTemplate.propertyName,
-                        type = musicBindingTemplate.type
-                    };
-                    AnimationUtility.SetEditorCurve(animation, musicBinding, musicCurveTemplate);
-                }
+                AnimationUtility.SetEditorCurve(animation, senderBinding, senderCurveTemplate);
             }
 
             // clear template bindings
-            AnimationUtility.SetEditorCurve(animation, musicBindingTemplate, null);
             AnimationUtility.SetEditorCurve(animation, senderBindingTemplate, null);
 
             log.LogInfo("Save file [name = " + outputPath + "]");

@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.Animations;
 using AvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
 using System.IO;
 
@@ -13,8 +9,7 @@ namespace VRF
     {
         private static Logger log = new Logger("CutePrefab");
 
-        static string MUSIC_PREFAB_FILENAME = Path.Combine("CuteDancer-Music.prefab");
-        static string CONTACT_PREFAB_FILENAME = Path.Combine("CuteDancer-Contacts.prefab");
+        static string PREFAB_FILENAME = Path.Combine("CuteDancer.prefab");
 
         enum Status
         {
@@ -27,8 +22,7 @@ namespace VRF
             set => buildPath = value;
         }
 
-        private string MusicPrefabPath => Path.Combine(buildPath, MUSIC_PREFAB_FILENAME);
-        private string ContactPrefabPath => Path.Combine(buildPath, CONTACT_PREFAB_FILENAME);
+        private string PrefabPath => Path.Combine(buildPath, PREFAB_FILENAME);
 
         private GameObject avatar;
         public AvatarDescriptor Avatar
@@ -43,12 +37,11 @@ namespace VRF
                 return ApplyStatus.EMPTY;
             }
 
-            Transform musicInstance = avatar.transform.Find("CuteDancer-Music");
-            Transform contactInstance = avatar.transform.Find("CuteDancer-Contacts");
+            Transform prefabInstance = avatar.transform.Find("CuteDancer");
 
-            if (musicInstance && contactInstance)
+            if (prefabInstance)
             {
-                if (IsPrefabModified(musicInstance.gameObject) || IsPrefabModified(contactInstance.gameObject))
+                if (IsPrefabModified(prefabInstance.gameObject))
                 {
                     return ApplyStatus.UPDATE;
                 }
@@ -56,7 +49,7 @@ namespace VRF
                 return ApplyStatus.REMOVE;
             }
 
-            if (!musicInstance && !contactInstance)
+            if (!prefabInstance)
             {
                 return ApplyStatus.ADD;
             }
@@ -78,30 +71,23 @@ namespace VRF
 
         public void HandleAdd(bool silent = false)
         {
-            Transform musicInstance = avatar.transform.Find("CuteDancer-Music");
-            if (!musicInstance)
+            Transform existingInstance = avatar.transform.Find("CuteDancer");
+            if (!existingInstance)
             {
-                var musicPrefab = AssetDatabase.LoadAssetAtPath(MusicPrefabPath, typeof(GameObject));
-                var musicPrefabInstance = PrefabUtility.InstantiatePrefab(musicPrefab, avatar.transform);
-                EditorUtility.SetDirty(musicPrefabInstance);
-            }
-
-            Transform contactInstance = avatar.transform.Find("CuteDancer-Contacts");
-            if (!contactInstance)
-            {
-                var contactPrefab = AssetDatabase.LoadAssetAtPath(ContactPrefabPath, typeof(GameObject));
-                var contactPrefabInstance = PrefabUtility.InstantiatePrefab(contactPrefab, avatar.transform);
-                EditorUtility.SetDirty(contactPrefabInstance);
+                var prefab = AssetDatabase.LoadAssetAtPath(PrefabPath, typeof(GameObject));
+                var prefabInstance = PrefabUtility.InstantiatePrefab(prefab, avatar.transform);
+                EditorUtility.SetDirty(prefabInstance);
             }
         }
 
         public void HandleRemove(bool silent = false)
         {
-            RemoveByName("CuteDancer-Music");
-            RemoveByName("CuteDancer-Contacts");
+            RemoveByName("CuteDancer");
             // legacy names:
             RemoveByName("CuteDancerMusic");
             RemoveByName("CuteDancerContacts");
+            RemoveByName("CuteDancer-Music");
+            RemoveByName("CuteDancer-Contacts");
 
             EditorUtility.SetDirty(avatar);
         }

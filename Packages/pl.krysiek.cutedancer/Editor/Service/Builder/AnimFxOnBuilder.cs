@@ -34,16 +34,6 @@ namespace VRF
                 EditorCurveBinding senderBinding = Array.Find(bindings, (binding) => binding.path == "CuteDancer-Contacts/{DANCE}Sender");
                 RenameBinding(animation, senderBinding, dance._name);
 
-                EditorCurveBinding musicBinding = Array.Find(bindings, (binding) => binding.path == "CuteDancer-Music/{DANCE}Music");
-                if (dance.audio != null)
-                {
-                    RenameBinding(animation, musicBinding, dance._name);
-                }
-                else
-                {
-                    AnimationUtility.SetEditorCurve(animation, musicBinding, null);
-                }
-
                 log.LogInfo("Save file [name = " + outputPath + "]");
                 EditorUtility.SetDirty(animation);
             }
@@ -51,12 +41,12 @@ namespace VRF
             AssetDatabase.SaveAssets();
         }
 
-        private void RenameBinding(AnimationClip animation, EditorCurveBinding musicBinding, string danceName)
+        private void RenameBinding(AnimationClip animation, EditorCurveBinding binding, string danceName)
         {
-            var curve = AnimationUtility.GetEditorCurve(animation, musicBinding);
-            AnimationUtility.SetEditorCurve(animation, musicBinding, null);
-            musicBinding.path = musicBinding.path.Replace("{DANCE}", danceName);
-            AnimationUtility.SetEditorCurve(animation, musicBinding, curve);
+            var curve = AnimationUtility.GetEditorCurve(animation, binding);
+            AnimationUtility.SetEditorCurve(animation, binding, null);
+            binding.path = binding.path.Replace("{DANCE}", danceName);
+            AnimationUtility.SetEditorCurve(animation, binding, curve);
         }
     }
 }

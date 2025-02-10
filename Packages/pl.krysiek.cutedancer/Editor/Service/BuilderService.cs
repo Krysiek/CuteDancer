@@ -12,7 +12,6 @@ namespace VRF
 
         ParameterBuilder parameterBuilder = new ParameterBuilder();
         MenuBuilder menuBuilder = new MenuBuilder();
-        MusicPrefabBuilder musicPrefabBuilder = new MusicPrefabBuilder();
         ContactsPrefabBuilder contactsPrefabBuilder = new ContactsPrefabBuilder();
         AnimFxOffBuilder animFxOffBuilder = new AnimFxOffBuilder();
         AnimFxOnBuilder animFxOnBuilder = new AnimFxOnBuilder();
@@ -34,7 +33,6 @@ namespace VRF
 
             parameterBuilder.Build(settings);
             menuBuilder.Build(settings);
-            musicPrefabBuilder.Build(settings);
             contactsPrefabBuilder.Build(settings);
             animFxOffBuilder.Build(settings);
             animFxOnBuilder.Build(settings);

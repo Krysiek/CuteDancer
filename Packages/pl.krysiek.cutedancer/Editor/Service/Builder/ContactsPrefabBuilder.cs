@@ -13,12 +13,12 @@ namespace VRF
 
         public void Build(SettingsBuilderData settings)
         {
-            string sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplateContacts.prefab");
-            string outputPath = Path.Combine(settings.outputDirectory, "CuteDancer-Contacts.prefab");
+            string sourcePath = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "TemplatePrefab.prefab");
+            string outputPath = Path.Combine(settings.outputDirectory, "CuteDancer.prefab");
 
             if (!AssetDatabase.CopyAsset(sourcePath, outputPath))
             {
-                throw new Exception("Error copying template: Contacts Prefab");
+                throw new Exception("Error copying template: Prefab");
             }
 
             GameObject prefab = PrefabUtility.LoadPrefabContents(outputPath);
