@@ -29,7 +29,7 @@ namespace VRF
 
             EditorCurveBinding[] bindings = AnimationUtility.GetCurveBindings(animation);
 
-            EditorCurveBinding senderBindingTemplate = Array.Find(bindings, (binding) => binding.path == "CuteDancer/{DANCE}Sender");
+            EditorCurveBinding senderBindingTemplate = Array.Find(bindings, (binding) => binding.path == "CuteDancer/Senders/{DANCE}Sender");
 
             AnimationCurve senderCurveTemplate = AnimationUtility.GetEditorCurve(animation, senderBindingTemplate);
 

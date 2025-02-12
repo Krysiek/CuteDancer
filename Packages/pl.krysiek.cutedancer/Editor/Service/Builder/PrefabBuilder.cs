@@ -25,7 +25,8 @@ namespace VRF
 
             Transform receiversGroup = prefab.transform.Find("Receivers");
             Transform templateReceiver = receiversGroup.Find("{DANCE}Receiver");
-            Transform templateSender = prefab.transform.Find("{DANCE}Sender");
+            Transform sendersGroup =  prefab.transform.Find("Senders");
+            Transform templateSender = sendersGroup.Find("{DANCE}Sender");
 
             VRCContactReceiver multiReceiver = prefab.transform.Find("CuteDancerMultiReceiver").GetComponent<VRCContactReceiver>();
 
@@ -50,7 +51,7 @@ namespace VRF
                 receiver.parameter = dance._name;
                 receiver.name = templateReceiver.name.Replace("{DANCE}", dance._name);
 
-                VRCContactSender sender = UnityEngine.Object.Instantiate(templateSender, prefab.transform).GetComponent<VRCContactSender>();
+                VRCContactSender sender = UnityEngine.Object.Instantiate(templateSender, sendersGroup).GetComponent<VRCContactSender>();
                 sender.collisionTags[0] = dance._name;
                 sender.name = templateSender.name.Replace("{DANCE}", dance._name);
 

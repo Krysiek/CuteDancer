@@ -31,7 +31,7 @@ namespace VRF
 
                 EditorCurveBinding[] bindings = AnimationUtility.GetCurveBindings(animation);
 
-                EditorCurveBinding senderBinding = Array.Find(bindings, (binding) => binding.path == "CuteDancer/{DANCE}Sender");
+                EditorCurveBinding senderBinding = Array.Find(bindings, (binding) => binding.path == "CuteDancer/Senders/{DANCE}Sender");
                 RenameBinding(animation, senderBinding, dance._name);
 
                 log.LogInfo("Save file [name = " + outputPath + "]");
