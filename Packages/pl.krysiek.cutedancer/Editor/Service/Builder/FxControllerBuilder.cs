@@ -121,6 +121,7 @@ namespace VRF
                     audioPlayer.PlayOnExit = audioPlayerTemplate.PlayOnExit;
                     audioPlayer.StopOnEnter = audioPlayerTemplate.StopOnEnter;
                     audioPlayer.StopOnExit = audioPlayerTemplate.StopOnExit;
+                    audioPlayer.Loop = audioPlayerTemplate.Loop;
                 }
 
                 nodeY += 50;
