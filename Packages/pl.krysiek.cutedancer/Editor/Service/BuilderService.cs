@@ -12,7 +12,7 @@ namespace VRF
 
         ParameterBuilder parameterBuilder = new ParameterBuilder();
         MenuBuilder menuBuilder = new MenuBuilder();
-        ContactsPrefabBuilder contactsPrefabBuilder = new ContactsPrefabBuilder();
+        PrefabBuilder contactsPrefabBuilder = new PrefabBuilder();
         AnimFxOffBuilder animFxOffBuilder = new AnimFxOffBuilder();
         AnimFxOnBuilder animFxOnBuilder = new AnimFxOnBuilder();
         ActionControllerBuilder actionControllerBuilder = new ActionControllerBuilder();

@@ -7,7 +7,7 @@ using VRC.SDK3.Dynamics.Contact.Components;
 
 namespace VRF
 {
-    public class ContactsPrefabBuilder : BuilderInterface
+    public class PrefabBuilder : BuilderInterface
     {
         private static Logger log = new Logger("ContactsPrefabBuilder");
 
@@ -31,6 +31,8 @@ namespace VRF
 
             int multiReceiversCount = 1;
 
+            bool hasAudio = false;
+
             foreach (DanceBuilderData dance in settings.dances)
             {
                 if (multiReceiver.collisionTags.Count >= 16)
@@ -51,9 +53,17 @@ namespace VRF
                 VRCContactSender sender = UnityEngine.Object.Instantiate(templateSender, prefab.transform).GetComponent<VRCContactSender>();
                 sender.collisionTags[0] = dance._name;
                 sender.name = templateSender.name.Replace("{DANCE}", dance._name);
+
+                if (dance.audio) {
+                    hasAudio = true;
+                }
             }
 
-            templateReceiver.parent = prefab.transform; // need this before nulling, otherwise obejct spawns in scene
+            if (!hasAudio) {
+                GameObject.DestroyImmediate(prefab.transform.Find("Music").gameObject);
+            }
+
+            templateReceiver.parent = prefab.transform; // need this before nulling, otherwise object spawns in scene
             templateReceiver.parent = null;
             templateSender.parent = null;
 
