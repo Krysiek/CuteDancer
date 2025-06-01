@@ -12,7 +12,7 @@
     "url": "https://krysiek.pl"
   },
   "vpmDependencies": {
-    "com.vrchat.avatars": "3.7.x"
+    "com.vrchat.avatars": ">=3.7.0 <3.9.0"
   },
   "legacyFolders": {
     "Assets\\CuteDancer\\Editor": "2a10978ed782c174e8c86fadbda492d0"
