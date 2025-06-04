@@ -4,7 +4,6 @@
 
 // TODO consider add package as a dependency and use original class
 
-#if VRC_SDK_VRCSDK3
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -611,5 +610,3 @@ namespace VRF.VRLabs.AV3Manager
         }
     }
 }
-
-#endif

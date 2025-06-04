@@ -1,4 +1,3 @@
-#if VRC_SDK_VRCSDK3
 using System;
 using System.IO;
 using UnityEngine;
@@ -43,7 +42,7 @@ namespace VRF
             int paramValue = settings.parameterStartValue;
             int paramValueMin = paramValue - 1;
             int paramValueMax = paramValue + settings.dances.Count;
-            
+
             AnimatorControllerUtil.UpdateMinMaxTransitions(rootStateMachine, settings.parameterName, paramValueMin, paramValueMax);
 
             foreach (DanceBuilderData dance in settings.dances)
@@ -203,4 +202,3 @@ namespace VRF
         }
     }
 }
-#endif

@@ -1,5 +1,4 @@
-﻿#if VRC_SDK_VRCSDK3
-using System;
+﻿using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
@@ -108,5 +107,3 @@ namespace VRF
         }
     }
 }
-
-#endif

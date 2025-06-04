@@ -1,4 +1,3 @@
-#if VRC_SDK_VRCSDK3
 using System;
 using System.IO;
 using UnityEngine;
@@ -161,4 +160,3 @@ namespace VRF
         }
     }
 }
-#endif

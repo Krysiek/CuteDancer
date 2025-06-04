@@ -1,5 +1,4 @@
-﻿#if VRC_SDK_VRCSDK3
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 using UnityEditor.Animations;
 
@@ -62,4 +61,3 @@ namespace VRF
         }
     }
 }
-#endif

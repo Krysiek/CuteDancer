@@ -1,4 +1,3 @@
-#if VRC_SDK_VRCSDK3
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -57,5 +56,3 @@ namespace VRF
 
     }
 }
-
-#endif
