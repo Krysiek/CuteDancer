@@ -30,6 +30,6 @@ namespace VRF
         }
 
         [SerializeField]
-        public List<FilePathGuid> filePathUuids = new List<FilePathGuid>();
+        public List<FilePathGuid> restoreGuids = new();
     }
 }

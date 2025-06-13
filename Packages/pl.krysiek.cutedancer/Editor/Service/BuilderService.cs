@@ -2,6 +2,7 @@ using System.IO;
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using System;
 
 namespace VRF
 {
@@ -9,14 +10,15 @@ namespace VRF
     {
         private static Logger log = new Logger("BuilderService");
 
-        ParameterBuilder parameterBuilder = new ParameterBuilder();
-        MenuBuilder menuBuilder = new MenuBuilder();
-        PrefabBuilder contactsPrefabBuilder = new PrefabBuilder();
-        AnimFxOffBuilder animFxOffBuilder = new AnimFxOffBuilder();
-        AnimFxOnBuilder animFxOnBuilder = new AnimFxOnBuilder();
-        ActionControllerBuilder actionControllerBuilder = new ActionControllerBuilder();
-        FxControllerBuilder fxControllerBuilder = new FxControllerBuilder();
-        BuildInfoBuilder buildInfoBuilder = new BuildInfoBuilder();
+        ParameterBuilder parameterBuilder = new();
+        MenuBuilder menuBuilder = new();
+        PrefabBuilder contactsPrefabBuilder = new();
+        AnimFxOffBuilder animFxOffBuilder = new();
+        AnimFxOnBuilder animFxOnBuilder = new();
+        ActionControllerBuilder actionControllerBuilder = new();
+        FxControllerBuilder fxControllerBuilder = new();
+        BuildInfoBuilder buildInfoBuilder = new();
+        FuryComponentBuilder furyComponentBuilder = new();
 
         public void Build(SettingsBuilderData settings)
         {
@@ -37,6 +39,7 @@ namespace VRF
             animFxOnBuilder.Build(settings);
             actionControllerBuilder.Build(settings);
             fxControllerBuilder.Build(settings);
+            furyComponentBuilder.Build(settings);
             buildInfoBuilder.Build(settings);
 
             AssetDatabase.Refresh();
@@ -49,19 +52,21 @@ namespace VRF
         public void Rebuild(SettingsBuilderData settings)
         {
             BuildInfoData oldBuildInfo = buildInfoBuilder.GetBuildInfoData(settings.outputDirectory);
-            List<BuildInfoData.FilePathGuid> oldFileInfos = oldBuildInfo?.filePathUuids;
+            List<BuildInfoData.FilePathGuid> oldFileInfos = oldBuildInfo?.restoreGuids;
 
             if (oldBuildInfo)
             {
-                foreach (var fileInfo in oldBuildInfo.filePathUuids)
+                string[] metasPaths = Directory.GetFiles(settings.outputDirectory, "*.meta", SearchOption.TopDirectoryOnly);
+                string[] assetsPaths = Array.ConvertAll(metasPaths, meta => Path.ChangeExtension(meta, null));
+                foreach (string assetPath in assetsPaths)
                 {
-                    log.LogDebug($"Delete asset [{fileInfo.path}]");
-                    AssetDatabase.DeleteAsset(fileInfo.path);
+                    log.LogDebug($"Delete asset [{assetPath}]");
+                    AssetDatabase.DeleteAsset(assetPath);
                 }
             }
 
             Build(settings);
-            
+
             if (oldFileInfos != null)
             {
                 log.LogDebug("Restoring GUIDs of previous build.");

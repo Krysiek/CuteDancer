@@ -18,17 +18,12 @@ namespace VRF
 
             AssetDatabase.CreateAsset(buildInfoData, Path.Combine(settings.outputDirectory, INFO_FILENAME));
 
-            string[] metas = Directory.GetFiles(settings.outputDirectory, "*.meta", SearchOption.TopDirectoryOnly);
-
-            foreach (string meta in metas)
+            string meta = Path.Combine(settings.outputDirectory, "CuteDancer.prefab.meta");
+            buildInfoData.restoreGuids.Add(new BuildInfoData.FilePathGuid()
             {
-                buildInfoData.filePathUuids.Add(new BuildInfoData.FilePathGuid()
-                {
-                    path = Path.ChangeExtension(meta, null),
-                    guid = AssetDatabase.AssetPathToGUID(Path.ChangeExtension(meta, null))
-                });
-
-            }
+                path = Path.ChangeExtension(meta, null),
+                guid = AssetDatabase.AssetPathToGUID(Path.ChangeExtension(meta, null))
+            });
 
             EditorUtility.SetDirty(buildInfoData);
             AssetDatabase.SaveAssets();
@@ -39,13 +34,13 @@ namespace VRF
             return AssetDatabase.LoadAssetAtPath<BuildInfoData>(Path.Combine(outputDirectory, INFO_FILENAME));
         }
 
-        internal void RestoreGuids(string outputDirectory, List<BuildInfoData.FilePathGuid> oldBuildFiles)
+        internal void RestoreGuids(string outputDirectory, List<BuildInfoData.FilePathGuid> restoreGuidFiles)
         {
             BuildInfoData newBuildInfo = AssetDatabase.LoadAssetAtPath<BuildInfoData>(Path.Combine(outputDirectory, INFO_FILENAME));
 
-            foreach (var fileInfo in newBuildInfo.filePathUuids)
+            foreach (var fileInfo in newBuildInfo.restoreGuids)
             {
-                var oldFileInfo = oldBuildFiles.Find(fi => fi.path == fileInfo.path);
+                var oldFileInfo = restoreGuidFiles.Find(fi => fi.path == fileInfo.path);
 
                 if (oldFileInfo != null && !oldFileInfo.path.Contains("VRCMenu-more"))
                 {

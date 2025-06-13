@@ -1,6 +1,9 @@
 {
     "name": "pl.krysiek.cutedancer.Editor",
-    "references": [],
+    "rootNamespace": "",
+    "references": [
+        "com.vrcfury.api"
+    ],
     "includePlatforms": [
         "Editor"
     ],
@@ -10,6 +13,12 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.vrcfury.vrcfury",
+            "expression": "1.1158.0",
+            "define": "VRCFURY_API_AVAILABLE"
+        }
+    ],
     "noEngineReferences": false
 }

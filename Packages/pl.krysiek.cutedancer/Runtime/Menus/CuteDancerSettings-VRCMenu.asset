@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: -340790334, guid: 67cc4cb7839cd3741b63733d5adf0442, type: 3}
   m_Name: CuteDancerSettings-VRCMenu
   m_EditorClassIdentifier: 
+  Parameters: {fileID: 0}
   controls:
   - name: Disable Contact
     icon: {fileID: 2800000, guid: 326b7503ee2a4f34eb314f964fb24dad, type: 3}
