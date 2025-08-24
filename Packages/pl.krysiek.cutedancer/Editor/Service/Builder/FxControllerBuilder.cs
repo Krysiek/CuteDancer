@@ -5,7 +5,6 @@ using UnityEditor;
 using UnityEditor.Animations;
 using System.Collections.Generic;
 using VRC.SDK3.Avatars.Components;
-using HarmonyLib;
 
 namespace VRF
 {

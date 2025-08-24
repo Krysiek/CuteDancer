@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using UnityEngine;
 using UnityEditor;
 using ExpressionsMenu = VRC.SDK3.Avatars.ScriptableObjects.VRCExpressionsMenu;
 

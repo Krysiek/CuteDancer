@@ -1,14 +1,7 @@
-using System;
 using System.IO;
-using UnityEngine;
 
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine.UIElements;
-using AvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
-using VRC.SDK3.Avatars.ScriptableObjects;
-using UnityEditor.Animations;
-using System.Linq;
 
 
 namespace VRF

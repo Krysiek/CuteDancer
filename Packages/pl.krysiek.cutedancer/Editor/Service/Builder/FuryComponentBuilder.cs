@@ -1,5 +1,4 @@
 #if VRCFURY_API_AVAILABLE
-using System;
 using System.IO;
 using UnityEngine;
 using UnityEditor;
