@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using UnityEditor;
+using UnityEngine;
 using VRF;
 using AvatarDescriptor = VRC.SDK3.Avatars.Components.VRCAvatarDescriptor;
 
@@ -12,10 +13,16 @@ public class AvatarApplyService
     CuteSubmenu cuteSubmenu = new CuteSubmenu();
     CuteLayers cuteLayers = new CuteLayers();
 
+    private bool usingVRCFury = false;
+
     public BuildInfoData BuildInfo
     {
         set
         {
+            if (!value)
+            {
+                return;
+            }
             string buildPath = AssetDatabase.GetAssetPath(value);
             if (buildPath != "")
             {
@@ -25,6 +32,7 @@ public class AvatarApplyService
             cuteParams.BuildPath = buildPath;
             cuteSubmenu.BuildPath = buildPath;
             cuteLayers.BuildPath = buildPath;
+            usingVRCFury = value.UsingVRCFury;
         }
     }
 
@@ -44,9 +52,16 @@ public class AvatarApplyService
     public void AddToAvatar(bool isUpdate = false)
     {
         cutePrefab.HandleAdd();
-        cuteParams.HandleAdd();
-        cuteSubmenu.HandleAdd();
-        cuteLayers.HandleAdd(isUpdate);
+        if (usingVRCFury)
+        {
+            log.LogInfo("VRCFury component detected, skipping adding parameters, menu and animator layers");
+        }
+        else
+        {
+            cuteParams.HandleAdd();
+            cuteSubmenu.HandleAdd();
+            cuteLayers.HandleAdd(isUpdate);
+        }
         log.LogInfo("AddToAvatar complete");
     }
 

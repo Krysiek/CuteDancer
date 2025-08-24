@@ -25,6 +25,10 @@ namespace VRF
                 guid = AssetDatabase.AssetPathToGUID(Path.ChangeExtension(meta, null))
             });
 
+#if VRCFURY_API_AVAILABLE
+            buildInfoData.UsingVRCFury = true;
+#endif
+
             EditorUtility.SetDirty(buildInfoData);
             AssetDatabase.SaveAssets();
         }

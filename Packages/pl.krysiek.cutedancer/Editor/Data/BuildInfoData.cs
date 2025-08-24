@@ -31,5 +31,13 @@ namespace VRF
 
         [SerializeField]
         public List<FilePathGuid> restoreGuids = new();
+
+        [SerializeField]
+        private bool usingVRCFury = false;
+        public bool UsingVRCFury
+        {
+            set => usingVRCFury = value;
+            get => usingVRCFury;
+        }
     }
 }
