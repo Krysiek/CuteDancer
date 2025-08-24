@@ -47,9 +47,9 @@ This tab allows you to prepare CuteDancer prefab with selected dances, include o
 <details>
 <summary>Advanced settings</summary>
 
-- `Name` - you can create multiple builds by changing its name (e.g. one for PC and one for Quest version).
-- `Parameter name` - name of the parameter used for the dances. Change it if you have problem with non working animations, stuck (e.g. GoGo Loco).
-- `Parameter start value` - indicates the start
+- `Name` - You can create multiple builds by changing its name and use them as "presets" on the installer tab.
+- `Parameter name` - Name of the parameter used for the dances. If you have problems with non-working animations, stuck poses, etc., you may change it to something unique.
+- `Parameter start value` - The minimum numeric value that will be used for the parameter to trigger the dances (e.g., if you set it to 100, it will use 100 for the first dance, 101 for the next, and so on).
 
 </details>
 
