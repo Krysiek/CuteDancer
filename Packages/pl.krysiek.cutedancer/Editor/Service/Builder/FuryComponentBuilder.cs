@@ -32,6 +32,24 @@ namespace VRF
             component.AddMenu(AssetDatabase.LoadAssetAtPath<VRCExpressionsMenu>(menuPath), "CuteDancer");
             component.AddParams(AssetDatabase.LoadAssetAtPath<VRCExpressionParameters>(paramsPath));
 
+            string menuIconPrefab = Path.Combine(CuteResources.CUTEDANCER_RUNTIME, "Menus", "CuteDancerVRCFuryIcon.prefab");
+
+            GameObject menuIconPrefabInstance = PrefabUtility.LoadPrefabContents(menuIconPrefab);
+            Component[] componentsToAdd = menuIconPrefabInstance.GetComponents<Component>();
+
+            foreach (Component c in componentsToAdd)
+            {
+                if (c is Transform)
+                {
+                    continue;
+                }
+
+                Component newComponent = prefab.AddComponent(c.GetType());
+                EditorUtility.CopySerialized(c, newComponent);
+            }
+
+            PrefabUtility.UnloadPrefabContents(menuIconPrefabInstance);
+
             PrefabUtility.SaveAsPrefabAsset(prefab, prefabPath);
             PrefabUtility.UnloadPrefabContents(prefab);
 #endif
